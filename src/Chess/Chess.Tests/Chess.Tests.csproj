@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="PieceFixtures\BishopFixture.cs" />
     <Compile Include="PieceFixtures\BlackPawnFixture.cs" />
+    <Compile Include="PieceFixtures\KingFixture.cs" />
+    <Compile Include="PieceFixtures\QueenFixture.cs" />
     <Compile Include="PieceFixtures\RookFixture.cs" />
     <Compile Include="PieceFixtures\WhitePawnFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

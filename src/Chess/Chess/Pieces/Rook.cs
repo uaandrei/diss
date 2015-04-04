@@ -13,8 +13,7 @@ namespace Chess.Pieces
 
         public override bool CanMove(Position p)
         {
-            return PositionCalculator.GetXDistance(_curPosition, p) == 0
-                || PositionCalculator.GetYDistance(_curPosition, p) == 0;
+            return PositionCalculator.AreOrthogonal(_curPosition, p);
         }
     }
 }

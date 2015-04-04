@@ -17,7 +17,7 @@ namespace Chess.Tests.PieceFixtures
         [InlineData(2, 2)]
         [InlineData(6, 2)]
         [InlineData(2, 6)]
-        public void Should_MoveOnlyDiagonaly(int x, int y)
+        public void Should_MoveDiagonaly(int x, int y)
         {
             // arrange
             var diagonalPosition = new Position(x, y);

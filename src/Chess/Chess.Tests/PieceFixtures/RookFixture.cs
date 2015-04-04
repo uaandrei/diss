@@ -15,7 +15,7 @@ namespace Chess.Tests.PieceFixtures
         [Theory]
         [InlineData(1, 4)]
         [InlineData(4, 7)]
-        public void Should_MoveOnlyHorizontalAndVertical(int x, int y)
+        public void Should_MoveOrthogonaly(int x, int y)
         {
             // arrange
             var goodPosition = new Position(x, y);

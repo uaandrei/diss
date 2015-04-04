@@ -13,7 +13,7 @@ namespace Chess.Pieces
 
         public override bool CanMove(Position p)
         {
-            return PositionCalculator.AreOnSameDiagonal(_curPosition, p);
+            return PositionCalculator.AreDiagonal(_curPosition, p);
         }
     }
 }
