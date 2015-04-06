@@ -1,4 +1,6 @@
-﻿namespace Chess.Pieces
+﻿using System.Collections.Generic;
+
+namespace Chess.Pieces
 {
     public abstract class BasePiece : IPiece
     {
@@ -16,12 +18,9 @@
 
         public bool Move(Position newPosition)
         {
-            if (!CanMove(newPosition))
-                return false;
-            _curPosition = newPosition;
-            return true;
+            throw new System.NotImplementedException();
         }
 
-        public abstract bool CanMove(Position p);
+        public abstract IList<Position> GetAvailableMoves(int[,] matrix);
     }
 }

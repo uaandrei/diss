@@ -1,4 +1,5 @@
 ﻿using Chess.Helpers;
+using System.Collections.Generic;
 
 namespace Chess.Pieces
 {
@@ -11,9 +12,19 @@ namespace Chess.Pieces
         {
         }
 
-        public override bool CanMove(Position p)
+        public override IList<Position> GetAvailableMoves(int[,] matrix)
         {
-            return PositionCalculator.AreOrthogonal(_curPosition, p);
+            return GetOrthogonalMoves(matrix);
+        }
+
+        private IList<Position> GetOrthogonalMoves(int[,] matrix)
+        {
+            var positions = new List<Position>();
+            positions.AddRange(this.GeneratePositions(matrix, xOffset: -1));
+            positions.AddRange(this.GeneratePositions(matrix, xOffset: 1));
+            positions.AddRange(this.GeneratePositions(matrix, yOffset: -1));
+            positions.AddRange(this.GeneratePositions(matrix, yOffset: 1));
+            return positions;
         }
     }
 }

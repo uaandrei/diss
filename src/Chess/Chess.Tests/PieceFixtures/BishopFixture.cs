@@ -3,10 +3,8 @@ using Xunit;
 
 namespace Chess.Tests.PieceFixtures
 {
-    public class BishopFixture
+    public class BishopFixture : BasePieceFixture
     {
-        private Bishop _sut;
-
         public BishopFixture()
         {
             _sut = new Bishop(new Position(4, 4), PieceColor.Black);
@@ -17,19 +15,31 @@ namespace Chess.Tests.PieceFixtures
         [InlineData(2, 2)]
         [InlineData(6, 2)]
         [InlineData(2, 6)]
-        public void Should_MoveDiagonaly(int x, int y)
+        public void GetAvailableMoves_ShouldReturnDiagonalMoves_WhenSpacesAreNotOccupied(int x, int y)
         {
             // arrange
             var diagonalPosition = new Position(x, y);
-            var wrongPosition = new Position(x - 2, y - 1);
 
             // act
-            var canMoveToDiagonalPosition = _sut.CanMove(diagonalPosition);
-            var canMoveToWrongPosition = _sut.CanMove(wrongPosition);
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.True(canMoveToDiagonalPosition);
-            Assert.False(canMoveToWrongPosition);
+            Assert.Contains(diagonalPosition, moves);
+        }
+
+        [Fact]
+        public void GetAvailableMoves_ShouldReturnDiagonalMovesUntilOccupiedSpaces()
+        {
+            // arrange
+            _chessMatrix[2, 2] = (int)PieceType.King;
+            _chessMatrix[6, 2] = (int)PieceType.Pawn;
+
+            // act
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
+
+            // assert
+            Assert.DoesNotContain(new Position(2, 2),moves);
+            Assert.DoesNotContain(new Position(6, 2),moves);
         }
 
         [Fact]

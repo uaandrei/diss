@@ -3,10 +3,8 @@ using Chess.Pieces;
 
 namespace Chess.Tests.PieceFixtures
 {
-    public class QueenFixture
+    public class QueenFixture : BasePieceFixture
     {
-        private Queen _sut;
-
         public QueenFixture()
         {
             _sut = new Queen(new Position(4, 4), PieceColor.Black);
@@ -17,39 +15,61 @@ namespace Chess.Tests.PieceFixtures
         [InlineData(2, 2)]
         [InlineData(6, 2)]
         [InlineData(2, 6)]
-        public void Should_MoveDiagonaly(int x, int y)
+        public void GetAvailableMoves_ShouldReturnDiagonalMoves_WhenSpacesAreNotOccupied(int x, int y)
         {
             // arrange
             var diagonalPosition = new Position(x, y);
-            var wrongPosition = new Position(7, 3);
 
             // act
-            var canMoveToDiagonalPosition = _sut.CanMove(diagonalPosition);
-            var canMoveToWrongPosition = _sut.CanMove(wrongPosition);
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.True(canMoveToDiagonalPosition);
-            Assert.False(canMoveToWrongPosition);
+            Assert.Contains(diagonalPosition, moves);
+        }
+
+        [Fact]
+        public void GetAvailableMoves_ShouldReturnDiagonalMovesUntilOccupiedSpaces()
+        {
+            // arrange
+            _chessMatrix[2, 2] = (int)PieceType.King;
+            _chessMatrix[6, 2] = (int)PieceType.Pawn;
+
+            // act
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
+
+            // assert
+            Assert.DoesNotContain(new Position(2, 2), moves);
+            Assert.DoesNotContain(new Position(6, 2), moves);
         }
 
         [Theory]
-        [InlineData(6, 4)]
-        [InlineData(2, 4)]
-        [InlineData(4, 2)]
-        [InlineData(4, 6)]
-        public void Should_MoveOrthogonaly(int x, int y)
+        [InlineData(1, 4)]
+        [InlineData(4, 7)]
+        public void GetAvailableMoves_ShouldReturnOrthogonalMoves_WhenSpacesAreNotOccupied(int x, int y)
         {
             // arrange
             var orthogonalPosition = new Position(x, y);
-            var wrongPosition = new Position(7, 3);
 
             // act
-            var canMoveToOrthogonalPosition = _sut.CanMove(orthogonalPosition);
-            var canMoveToWrongPosition = _sut.CanMove(wrongPosition);
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.True(canMoveToOrthogonalPosition);
-            Assert.False(canMoveToWrongPosition);
+            Assert.Contains(orthogonalPosition, moves);
+        }
+
+        [Fact]
+        public void GetAvailableMoves_ShouldReturnOrthogonalMovesUntilOccupiedSpaces()
+        {
+            // arrange
+            _chessMatrix[1, 4] = (int)PieceType.King;
+            _chessMatrix[4, 7] = (int)PieceType.Pawn;
+
+            // act
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
+
+            // assert
+            Assert.DoesNotContain(new Position(1, 4), moves);
+            Assert.DoesNotContain(new Position(4, 7), moves);
         }
 
         [Fact]

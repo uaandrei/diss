@@ -45,6 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PieceFixtures\BasePieceFixture.cs" />
     <Compile Include="PieceFixtures\BishopFixture.cs" />
     <Compile Include="PieceFixtures\BlackPawnFixture.cs" />
     <Compile Include="PieceFixtures\KingFixture.cs" />

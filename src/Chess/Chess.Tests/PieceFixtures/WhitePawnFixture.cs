@@ -3,29 +3,38 @@ using Xunit;
 
 namespace Chess.Tests.PieceFixtures
 {
-    public class WhitePawnFixture
+    public class WhitePawnFixture : BasePieceFixture
     {
-        private Pawn _sut;
-
         public WhitePawnFixture()
         {
-            _sut = new Pawn(new Position(0, 0), PieceColor.White);
+            _sut = new Pawn(new Position(1, 1), PieceColor.White);
         }
 
         [Fact]
-        public void Should_MoveOnlyOneUnitForward()//_When_ThereAreEmptySpaces()
+        public void GetAvaibleMoves_ShouldReturnOneUnitForwardPosition_WhenSpaceNotOccupied()
         {
             // arrange
-            var wrongPosition = new Position(0, 3);
-            var goodPosition = new Position(0, 1);
+            var forwardPosition = new Position(1, 2);
 
             // act
-            var canMoveToWrongPosition = _sut.CanMove(wrongPosition);
-            var canMoveToGoodPosition = _sut.CanMove(goodPosition);
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.False(canMoveToWrongPosition);
-            Assert.True(canMoveToGoodPosition);
+            Assert.Equal(1, moves.Count);
+            Assert.Contains(forwardPosition, moves);
+        }
+
+        [Fact]
+        public void GetAvaibleMoves_ShouldReturnNoPosition_WhenSpaceIsOccupied()
+        {
+            // arrange
+            _chessMatrix[1, 2] = (int)PieceType.Rook;
+
+            // act
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
+
+            // assert
+            Assert.Empty(moves);
         }
 
         [Fact]

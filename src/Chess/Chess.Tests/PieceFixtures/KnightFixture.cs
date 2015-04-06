@@ -3,10 +3,8 @@ using Xunit;
 
 namespace Chess.Tests.PieceFixtures
 {
-    public class KnightFixture
+    public class KnightFixture : BasePieceFixture
     {
-        private Knight _sut;
-
         public KnightFixture()
         {
             _sut = new Knight(new Position(3, 3), PieceColor.Black);
@@ -21,19 +19,31 @@ namespace Chess.Tests.PieceFixtures
         [InlineData(4, 5)]
         [InlineData(4, 1)]
         [InlineData(2, 1)]
-        public void Should_MoveInL(int x, int y)
+        public void GetAvailableMoves_ShouldReturnLMoves_WhenSpacesAreNotOccupied(int x, int y)
         {
             // arrange
             var LPosition = new Position(x, y);
-            var wrongPosition = new Position(x - 2, y - 2);
 
             // act
-            var canMoveToLPosition = _sut.CanMove(LPosition);
-            var canMoveToWrongPosition = _sut.CanMove(wrongPosition);
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.True(canMoveToLPosition);
-            Assert.False(canMoveToWrongPosition);
+            Assert.Contains(LPosition, moves);
+        }
+
+        [Fact]
+        public void GetAvailableMoves_ShouldReturnDiagonalMovesUntilOccupiedSpaces()
+        {
+            // arrange
+            _chessMatrix[5, 2] = (int)PieceType.King;
+            _chessMatrix[4, 1] = (int)PieceType.Pawn;
+
+            // act
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
+
+            // assert
+            Assert.DoesNotContain(new Position(5, 2),moves);
+            Assert.DoesNotContain(new Position(4, 1),moves);
         }
 
         [Fact]

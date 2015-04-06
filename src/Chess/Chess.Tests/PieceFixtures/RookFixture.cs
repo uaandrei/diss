@@ -3,10 +3,8 @@ using Xunit;
 
 namespace Chess.Tests.PieceFixtures
 {
-    public class RookFixture
+    public class RookFixture : BasePieceFixture
     {
-        private Rook _sut;
-
         public RookFixture()
         {
             _sut = new Rook(new Position(4, 4), PieceColor.White);
@@ -15,19 +13,31 @@ namespace Chess.Tests.PieceFixtures
         [Theory]
         [InlineData(1, 4)]
         [InlineData(4, 7)]
-        public void Should_MoveOrthogonaly(int x, int y)
+        public void GetAvailableMoves_ShouldReturnOrthogonalMoves_WhenSpacesAreNotOccupied(int x, int y)
         {
             // arrange
-            var goodPosition = new Position(x, y);
-            var wrongPosition = new Position(x - 1, y - 1);
+            var orthogonalPosition = new Position(x, y);
 
             // act
-            var canMoveToGoodPosition = _sut.CanMove(goodPosition);
-            var canMoveToWrongPosition = _sut.CanMove(wrongPosition);
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.True(canMoveToGoodPosition);
-            Assert.False(canMoveToWrongPosition);
+            Assert.Contains(orthogonalPosition, moves);
+        }
+
+        [Fact]
+        public void GetAvailableMoves_ShouldReturnOrthogonalMovesUntilOccupiedSpaces()
+        {
+            // arrange
+            _chessMatrix[1, 4] = (int)PieceType.King;
+            _chessMatrix[4, 7] = (int)PieceType.Pawn;
+
+            // act
+            var moves = _sut.GetAvailableMoves(_chessMatrix);
+
+            // assert
+            Assert.DoesNotContain(new Position(1, 4), moves);
+            Assert.DoesNotContain(new Position(4, 7), moves);
         }
 
         [Fact]

@@ -1,9 +1,7 @@
-﻿
-namespace Chess
+﻿namespace Chess
 {
     public class Position
     {
-        //TODO: piece property
         public int X { get; set; }
         public int Y { get; set; }
 
@@ -23,6 +21,21 @@ namespace Chess
         {
             X = 0;
             Y = 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var position = obj as Position;
+            if(position==null)
+                return base.Equals(obj);
+
+            return position.X == X
+                && position.Y == Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

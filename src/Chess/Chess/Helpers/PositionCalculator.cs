@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chess.Pieces;
+using System;
+using System.Collections.Generic;
 
 namespace Chess.Helpers
 {
@@ -23,8 +25,26 @@ namespace Chess.Helpers
 
         public static bool AreOrthogonal(Position p1, Position p2)
         {
-           return GetXDistance(p1, p2) == 0
-                || GetYDistance(p1, p2) == 0;
+            return GetXDistance(p1, p2) == 0
+                 || GetYDistance(p1, p2) == 0;
+        }
+
+        public static IList<Position> GeneratePositions(this IPiece rook, int[,] matrix, int xOffset = 0, int yOffset = 0)
+        {
+            var positions = new List<Position>();
+            var x = rook.CurrentPosition.X + xOffset;
+            var y = rook.CurrentPosition.Y + yOffset;
+
+            while (x >= 0 && x <= 7 && y >= 0 && y <= 7)
+            {
+                if (matrix[x, y] == (int)PieceType.Empty)
+                    positions.Add(new Position(x, y));
+                else
+                    break;
+                x += xOffset;
+                y += yOffset;
+            }
+            return positions;
         }
     }
 }
