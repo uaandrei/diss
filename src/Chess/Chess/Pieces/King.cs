@@ -18,14 +18,12 @@ namespace Chess.Pieces
             var moves = GetOffsets();
             for (int i = 0; i < 8; i++)
             {
-                var x = _curPosition.X;
-                var y = _curPosition.Y;
-                x += moves[i, 0];
-                y += moves[i, 1];
-                if (x >= 0 && y >= 0 &&
-                    x <= 7 && y <= 7 && matrix[x, y] == (int)PieceType.Empty)
+                var x = _curPosition.X + moves[i, 0];
+                var y = _curPosition.Y + moves[i, 1];
+
+                if (x >= 0 && y >= 0 && x <= 7 && y <= 7)
                     positions.Add(new Position(x, y));
-                else
+                if (matrix[x, y] != (int)PieceType.Empty)
                     break;
             }
             return positions;

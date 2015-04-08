@@ -10,31 +10,35 @@ namespace Chess.Tests.PieceFixtures
             _sut = new Pawn(new Position(1, 1), PieceColor.White);
         }
 
-        [Fact]
-        public void GetAvaibleMoves_ShouldReturnOneUnitForwardPosition_WhenSpaceNotOccupied()
+        [Theory]
+        [InlineData(0, 2, true)]
+        [InlineData(1, 2, false)]
+        public void GetAvailableMoves_ShouldContainAttackMove(int x, int y, bool shouldContain)
         {
             // arrange
-            var forwardPosition = new Position(1, 2);
+            _chessMatrix[1, 2] = (int)PieceType.Queen;
+            _chessMatrix[0, 2] = (int)PieceType.Queen;
+            var testMove = new Position(x, y);
 
             // act
             var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.Equal(1, moves.Count);
-            Assert.Contains(forwardPosition, moves);
+            AssertPosition(testMove, moves, shouldContain);
         }
 
-        [Fact]
-        public void GetAvaibleMoves_ShouldReturnNoPosition_WhenSpaceIsOccupied()
+        [Theory]
+        [InlineData(1, 2, true)]
+        public void GetAvailableMoves(int x, int y, bool shouldContain)
         {
             // arrange
-            _chessMatrix[1, 2] = (int)PieceType.Rook;
+            var testMove = new Position(x, y);
 
             // act
             var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.Empty(moves);
+            AssertPosition(testMove, moves, shouldContain);
         }
 
         [Fact]

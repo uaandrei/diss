@@ -19,6 +19,7 @@ namespace Chess.Tests.PieceFixtures
         [InlineData(4, 5)]
         [InlineData(4, 1)]
         [InlineData(2, 1)]
+        // Todo: refactor this to include 3rd param for assert type: TRUE => Contains, FALSE => DoesNotContain
         public void GetAvailableMoves_ShouldReturnLMoves_WhenSpacesAreNotOccupied(int x, int y)
         {
             // arrange
@@ -32,7 +33,7 @@ namespace Chess.Tests.PieceFixtures
         }
 
         [Fact]
-        public void GetAvailableMoves_ShouldReturnDiagonalMovesUntilOccupiedSpaces()
+        public void GetAvailableMoves_ShouldIncludeOccupiedSpaces()
         {
             // arrange
             _chessMatrix[5, 2] = (int)PieceType.King;

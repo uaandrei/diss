@@ -1,4 +1,5 @@
-﻿namespace Chess
+﻿using System.Collections.Generic;
+namespace Chess
 {
     public class Position
     {
@@ -36,6 +37,14 @@
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+    }
+
+    public static class PositionExtensions
+    {
+        public static void Add(this List<Position> list, int x, int y)
+        {
+            list.Add(new Position(x,y));
         }
     }
 }

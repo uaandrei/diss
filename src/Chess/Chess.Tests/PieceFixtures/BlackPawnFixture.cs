@@ -5,42 +5,43 @@ using Chess;
 
 namespace Chess.Tests.PieceFixtures
 {
-    public class BlackPawnFixture
+    public class BlackPawnFixture : BasePieceFixture
     {
-        private Pawn _sut;
-        private int[,] _chessMatrix;
-
         public BlackPawnFixture()
         {
             _sut = new Pawn(new Position(1, 6), PieceColor.Black);
             _chessMatrix = Helper.GetEmptyChessMatrix();
         }
 
-        [Fact]
-        public void GetAvaibleMoves_Should_ReturnOneUnitForwardPosition_WhenSpaceNotOccupied()
+        [Theory]
+        [InlineData(0, 5, true)]
+        [InlineData(1, 5, false)]
+        public void GetAvailableMoves_ShouldContainAttackMove(int x, int y, bool shouldContain)
         {
             // arrange
-            var forwardPosition = new Position(1, 5);
+            _chessMatrix[1, 5] = (int)PieceType.Queen;
+            _chessMatrix[0, 5] = (int)PieceType.Queen;
+            var testMove = new Position(x, y);
 
             // act
             var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.Equal(1, moves.Count);
-            Assert.Contains(forwardPosition, moves);
+            AssertPosition(testMove, moves, shouldContain);
         }
 
-        [Fact]
-        public void GetAvaibleMoves_Should_ReturnNoPosition_WhenSpaceIsOccupied()
+        [Theory]
+        [InlineData(1, 5, true)]
+        public void GetAvailableMoves(int x, int y, bool shouldContain)
         {
             // arrange
-            _chessMatrix[1, 5] = (int)PieceType.Rook;
+            var testMove = new Position(x, y);
 
             // act
             var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.Empty(moves);
+            AssertPosition(testMove, moves, shouldContain);
         }
 
         [Fact]

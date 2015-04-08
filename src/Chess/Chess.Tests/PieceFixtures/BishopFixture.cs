@@ -28,7 +28,7 @@ namespace Chess.Tests.PieceFixtures
         }
 
         [Fact]
-        public void GetAvailableMoves_ShouldReturnDiagonalMovesUntilOccupiedSpaces()
+        public void GetAvailableMoves_ShouldIncludeOccupiedSpaces()
         {
             // arrange
             _chessMatrix[2, 2] = (int)PieceType.King;
@@ -38,8 +38,10 @@ namespace Chess.Tests.PieceFixtures
             var moves = _sut.GetAvailableMoves(_chessMatrix);
 
             // assert
-            Assert.DoesNotContain(new Position(2, 2),moves);
-            Assert.DoesNotContain(new Position(6, 2),moves);
+            Assert.Contains(new Position(2,2), moves);
+            Assert.Contains(new Position(6,2), moves);
+            Assert.DoesNotContain(new Position(1, 1),moves);
+            Assert.DoesNotContain(new Position(7, 3),moves);
         }
 
         [Fact]

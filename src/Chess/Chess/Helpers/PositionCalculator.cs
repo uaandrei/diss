@@ -15,9 +15,8 @@ namespace Chess.Helpers
 
             while (x >= 0 && x <= 7 && y >= 0 && y <= 7)
             {
-                if (matrix[x, y] == (int)PieceType.Empty)
-                    positions.Add(new Position(x, y));
-                else
+                positions.Add(new Position(x, y));
+                if (matrix[x, y] != (int)PieceType.Empty)
                     break;
                 x += xOffset;
                 y += yOffset;
