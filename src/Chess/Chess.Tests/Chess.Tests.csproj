@@ -48,6 +48,7 @@
     <Compile Include="Helper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MoveFixtures\WhitePawnMoveFixture.cs" />
     <Compile Include="PieceFixtures\BasePieceFixture.cs" />
     <Compile Include="PieceFixtures\BishopFixture.cs" />
     <Compile Include="PieceFixtures\BlackPawnFixture.cs" />

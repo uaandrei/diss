@@ -13,6 +13,11 @@ namespace Chess.Pieces
         {
         }
 
+        public Knight(int x, int y, PieceColor color)
+            : base(x, y, color)
+        {
+        }
+
         public override IList<Position> GetAvailableMoves(int[,] matrix)
         {
             var positions = new List<Position>();

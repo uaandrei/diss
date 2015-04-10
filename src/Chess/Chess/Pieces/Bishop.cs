@@ -11,6 +11,10 @@ namespace Chess.Pieces
             : base(p, color)
         {
         }
+        public Bishop(int x, int y, PieceColor color)
+            : base(x, y, color)
+        {
+        }
 
         public override IList<Position> GetAvailableMoves(int[,] matrix)
         {

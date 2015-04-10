@@ -12,6 +12,11 @@ namespace Chess.Pieces
         {
         }
 
+        public Rook(int x, int y, PieceColor color)
+            : base(x, y, color)
+        {
+        }
+
         public override IList<Position> GetAvailableMoves(int[,] matrix)
         {
             return GetOrthogonalMoves(matrix);

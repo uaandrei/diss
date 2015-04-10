@@ -34,6 +34,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\PositionCalculator.cs" />
+    <Compile Include="Moves\IMoveStrategy.cs" />
+    <Compile Include="Moves\PawnMove.cs" />
     <Compile Include="PieceColor.cs" />
     <Compile Include="Pieces\BasePiece.cs" />
     <Compile Include="Pieces\Bishop.cs" />

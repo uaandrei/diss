@@ -16,6 +16,11 @@ namespace Chess.Pieces
             _color = color;
         }
 
+        public BasePiece(int x, int y, PieceColor color)
+            : this(new Position(x, x), color)
+        {
+        }
+
         public bool Move(Position newPosition)
         {
             throw new System.NotImplementedException();

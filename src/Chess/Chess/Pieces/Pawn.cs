@@ -12,26 +12,14 @@ namespace Chess.Pieces
         {
         }
 
-        public override IList<Position> GetAvailableMoves(int[,] matrix)
+        public Pawn(int x, int y, PieceColor color)
+            : base(x, y, color)
         {
-            var positions = new List<Position>();
-            
-            var yDirection = GetYDirection();
-            var x = _curPosition.X;
-            var y = _curPosition.Y + yDirection;
-            if (matrix[x, y] == (int)PieceType.Empty)
-                positions.Add(x, y);
-            if (matrix[x - 1, y] != (int)PieceType.Empty)
-                positions.Add(x - 1, y);
-            if (matrix[x + 1, y] != (int)PieceType.Empty)
-                positions.Add(x + 1, y);
-            
-            return positions;
         }
 
-        private int GetYDirection()
+        public override IList<Position> GetAvailableMoves(int[,] matrix)
         {
-            return _color == PieceColor.Black ? -1 : 1;
+            throw new System.NotImplementedException();
         }
     }
 }

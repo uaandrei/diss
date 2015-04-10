@@ -24,10 +24,16 @@ namespace Chess
             Y = 0;
         }
 
+        public bool IsInBounds()
+        {
+            return X >= 0 && X <= 7
+                && Y >= 0 && Y <= 7;
+        }
+
         public override bool Equals(object obj)
         {
             var position = obj as Position;
-            if(position==null)
+            if (position == null)
                 return base.Equals(obj);
 
             return position.X == X
@@ -44,7 +50,7 @@ namespace Chess
     {
         public static void Add(this List<Position> list, int x, int y)
         {
-            list.Add(new Position(x,y));
+            list.Add(new Position(x, y));
         }
     }
 }

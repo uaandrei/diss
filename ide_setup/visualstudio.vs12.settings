@@ -41,7 +41,6 @@
       <ToolsOptionsSubCategory name="ProjectsAndSolution" RegisteredName="ProjectsAndSolution" PackageName="Visual Studio Environment Package">
         <PropertyValue name="ProjectsLocation">%vsspv_visualstudio_dir%\Projects</PropertyValue>
         <PropertyValue name="PromptForRenameSymbol">true</PropertyValue>
-        <PropertyValue name="TrackFileSelectionInExplorer">false</PropertyValue>
         <PropertyValue name="ShowOutputWindowBeforeBuild">true</PropertyValue>
         <PropertyValue name="OnRunWhenErrors">4</PropertyValue>
         <PropertyValue name="OnRunWhenOutOfDate">4</PropertyValue>
@@ -1295,7 +1294,7 @@
       <PropertyValue name="ErrorListShowsMessages">true</PropertyValue>
       <PropertyValue name="ErrorListScopeFilteringActive">false</PropertyValue>
       <PropertyValue name="ErrorListFilterScope">3</PropertyValue>
-      <PropertyValue name="ActiveProvider">{7E5BB8D2-57E5-4FA9-9542-3870395C16A1}</PropertyValue>
+      <PropertyValue name="ActiveProvider">{00000000-0000-0000-0000-000000000000}</PropertyValue>
       <TaskProviders>
         <Provider GUID="{7E5BB8D2-57E5-4FA9-9542-3870395C16A1}">
           <Columns>
