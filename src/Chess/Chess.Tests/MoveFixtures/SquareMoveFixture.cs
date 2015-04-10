@@ -11,7 +11,7 @@ namespace Chess.Tests.MoveFixtures
         public SquareMoveFixture()
         {
             _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new SquareMove(_matrix, new Position(0, 0));
+            _sut = new SquareMove(_matrix);
         }
 
         [Theory]
@@ -24,7 +24,7 @@ namespace Chess.Tests.MoveFixtures
             var move = new Position(x, y);
 
             // act
-            var moves = _sut.GetMoves();
+            var moves = _sut.GetMoves(new Position(0, 0));
 
             // assert
             Assert.Contains(move, moves);
@@ -41,7 +41,7 @@ namespace Chess.Tests.MoveFixtures
             var move = new Position(x, y);
 
             // act
-            var attacks = _sut.GetAttacks();
+            var attacks = _sut.GetAttacks(new Position(0, 0));
 
             // assert
             Assert.Contains(move, attacks);

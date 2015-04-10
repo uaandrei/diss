@@ -6,13 +6,13 @@ namespace Chess.Tests.MoveFixtures
 {
     public class WhitePawnMoveFixture
     {
-        private PawnMove _sut;
+        private WhitePawnMove _sut;
         private int[,] _matrix;
 
         public WhitePawnMoveFixture()
         {
             _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new PawnMove(_matrix, new Position(1, 0), PieceColor.White);
+            _sut = new WhitePawnMove(_matrix);
         }
 
         [Fact]
@@ -21,7 +21,7 @@ namespace Chess.Tests.MoveFixtures
             // arrange
 
             // act
-            var moves = _sut.GetMoves();
+            var moves = _sut.GetMoves(new Position(1, 0));
 
             // assert
             Assert.Single(moves);
@@ -36,7 +36,7 @@ namespace Chess.Tests.MoveFixtures
             _matrix[2, 1] = 1;
 
             // act
-            var attacks = _sut.GetAttacks();
+            var attacks = _sut.GetAttacks(new Position(1, 0));
 
             // assert
             Assert.Equal(2, attacks.Count);

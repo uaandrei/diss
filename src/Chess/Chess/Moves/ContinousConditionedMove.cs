@@ -3,21 +3,19 @@
     public abstract class ContinousConditionedMove : IMoveStrategy
     {
         protected int[,] _matrix;
-        protected Position _position;
 
-        public ContinousConditionedMove(int[,] matrix, Position position)
+        public ContinousConditionedMove(int[,] matrix)
         {
             _matrix = matrix;
-            _position = position;
         }
 
-        public abstract System.Collections.Generic.IList<Position> GetMoves();
-        public abstract System.Collections.Generic.IList<Position> GetAttacks();
+        public abstract System.Collections.Generic.IList<Position> GetMoves(Position position);
+        public abstract System.Collections.Generic.IList<Position> GetAttacks(Position position);
 
-        protected System.Collections.Generic.IList<Position> GeneratePositions(System.Func<int, bool> addCondition, int xOffset = 0, int yOffset = 0)
+        protected System.Collections.Generic.IList<Position> GeneratePositions(System.Func<int, bool> addCondition, Position position, int xOffset = 0, int yOffset = 0)
         {
             var positions = new System.Collections.Generic.List<Position>();
-            var posiblePosition = new Position(_position.X + xOffset, _position.Y + yOffset);
+            var posiblePosition = new Position(position.X + xOffset, position.Y + yOffset);
 
             while (posiblePosition.IsInBounds())
             {

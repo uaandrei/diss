@@ -1,28 +1,27 @@
 ﻿using Chess.Moves;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Chess.Tests.MoveFixtures
 {
-    public class LMoveFixture
+    public class CompositeMoveFixture
     {
+        private CompositeMove _sut;
         private int[,] _matrix;
-        private LMove _sut;
 
-        public LMoveFixture()
+        public CompositeMoveFixture()
         {
             _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new LMove(_matrix);
+            _sut = new CompositeMove(new DiagonalMove(_matrix), new OrthogonalMove(_matrix));
         }
 
         [Theory]
-        [InlineData(2, 3)]
-        [InlineData(2, 5)]
-        [InlineData(3, 2)]
-        [InlineData(3, 6)]
-        [InlineData(5, 2)]
-        [InlineData(5, 6)]
-        [InlineData(6, 3)]
-        [InlineData(6, 5)]
+        [InlineData(4, 5)][InlineData(4, 6)][InlineData(4, 7)][InlineData(5, 4)][InlineData(6, 4)][InlineData(7, 4)]
+        [InlineData(5, 5)][InlineData(6, 6)][InlineData(7, 7)][InlineData(5, 3)][InlineData(6, 2)][InlineData(7, 1)]
         public void GetMoves_ShouldReturnPositions(int x, int y)
         {
             // arrange
@@ -32,14 +31,12 @@ namespace Chess.Tests.MoveFixtures
             var moves = _sut.GetMoves(new Position(4, 4));
 
             // assert
-            Assert.Equal(8, moves.Count);
+            Assert.Equal(27, moves.Count);
             Assert.Contains(move, moves);
         }
 
         [Theory]
-        [InlineData(2, 3)]
-        [InlineData(5, 2)]
-        [InlineData(6, 3)]
+        [InlineData(6, 4)][InlineData(4, 2)][InlineData(2, 2)][InlineData(2, 6)][InlineData(6, 6)]
         public void GetAttacks_ShouldReturnPositions(int x, int y)
         {
             // arrange
@@ -50,7 +47,7 @@ namespace Chess.Tests.MoveFixtures
             var attacks = _sut.GetAttacks(new Position(4, 4));
 
             // assert
-            Assert.Single(attacks);
+            Assert.Equal(1, attacks.Count);
             Assert.Contains(move, attacks);
         }
     }

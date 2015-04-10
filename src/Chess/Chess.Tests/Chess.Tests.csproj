@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="xunit.abstractions">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
@@ -45,23 +48,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChessPieces\ChessPieceFixture.cs" />
+    <Compile Include="ChessPieces\ChessPieceMoveIntegrationFixture.cs" />
     <Compile Include="Helper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MoveFixtures\BlackPawnMoveFixture.cs" />
+    <Compile Include="MoveFixtures\CompositeMoveFixture.cs" />
     <Compile Include="MoveFixtures\DiagonalMoveFixture.cs" />
     <Compile Include="MoveFixtures\LMoveFixture.cs" />
-    <Compile Include="MoveFixtures\OrtogonalMoveFixture.cs" />
+    <Compile Include="MoveFixtures\OrthogonalMoveFixture.cs" />
     <Compile Include="MoveFixtures\SquareMoveFixture.cs" />
     <Compile Include="MoveFixtures\WhitePawnMoveFixture.cs" />
-    <Compile Include="PieceFixtures\BasePieceFixture.cs" />
-    <Compile Include="PieceFixtures\BishopFixture.cs" />
-    <Compile Include="PieceFixtures\BlackPawnFixture.cs" />
-    <Compile Include="PieceFixtures\KingFixture.cs" />
-    <Compile Include="PieceFixtures\KnightFixture.cs" />
-    <Compile Include="PieceFixtures\QueenFixture.cs" />
-    <Compile Include="PieceFixtures\RookFixture.cs" />
-    <Compile Include="PieceFixtures\WhitePawnFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

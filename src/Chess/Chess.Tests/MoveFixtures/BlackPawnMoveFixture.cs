@@ -5,13 +5,13 @@ namespace Chess.Tests.MoveFixtures
 {
     public class BlackPawnMoveFixture
     {
-        private PawnMove _sut;
+        private BlackPawnMove _sut;
         private int[,] _matrix;
 
         public BlackPawnMoveFixture()
         {
             _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new PawnMove(_matrix, new Position(1, 7), PieceColor.Black);
+            _sut = new BlackPawnMove(_matrix);
         }
 
         [Fact]
@@ -20,7 +20,7 @@ namespace Chess.Tests.MoveFixtures
             // arrange
 
             // act
-            var moves = _sut.GetMoves();
+            var moves = _sut.GetMoves(new Position(1, 7));
 
             // assert
             Assert.Single(moves);
@@ -35,7 +35,7 @@ namespace Chess.Tests.MoveFixtures
             _matrix[2, 6] = 1;
 
             // act
-            var attacks = _sut.GetAttacks();
+            var attacks = _sut.GetAttacks(new Position(1, 7));
 
             // assert
             Assert.Equal(2, attacks.Count);

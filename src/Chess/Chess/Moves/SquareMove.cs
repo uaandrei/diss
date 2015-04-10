@@ -5,32 +5,30 @@ namespace Chess.Moves
 {
     public class SquareMove : IMoveStrategy
     {
-        private Position _position;
         private int[,] _matrix;
 
-        public SquareMove(int[,] matrix, Position position)
+        public SquareMove(int[,] matrix)
         {
-            _position = position;
             _matrix = matrix;
         }
 
-        public IList<Position> GetMoves()
+        public IList<Position> GetMoves(Position position)
         {
-            return GetAvailableMoves(v => v == 0);
+            return GetAvailableMoves(v => v == 0,position);
         }
 
-        public IList<Position> GetAttacks()
+        public IList<Position> GetAttacks(Position position)
         {
-            return GetAvailableMoves(v => v != 0);
+            return GetAvailableMoves(v => v != 0,position);
         }
 
-        private IList<Position> GetAvailableMoves(Func<int, bool> condition)
+        private IList<Position> GetAvailableMoves(Func<int, bool> condition,Position position)
         {
             var positions = new List<Position>();
             var moves = GetOffsets();
             for (int i = 0; i < 8; i++)
             {
-                var posiblePosition = new Position(_position.X + moves[i, 0], _position.Y + moves[i, 1]);
+                var posiblePosition = new Position(position.X + moves[i, 0], position.Y + moves[i, 1]);
 
                 if (posiblePosition.IsInBounds() && condition(_matrix[posiblePosition.X, posiblePosition.Y]))
                     positions.Add(posiblePosition);

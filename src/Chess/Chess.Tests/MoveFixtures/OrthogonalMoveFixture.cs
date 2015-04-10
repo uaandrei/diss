@@ -8,15 +8,15 @@ using Xunit;
 
 namespace Chess.Tests.MoveFixtures
 {
-    public class OrtogonalMoveFixture
+    public class OrthogonalMoveFixture
     {
         private int[,] _matrix;
-        private OrtogonalMove _sut;
+        private OrthogonalMove _sut;
 
-        public OrtogonalMoveFixture()
+        public OrthogonalMoveFixture()
         {
             _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new OrtogonalMove(_matrix, new Position(4, 4));
+            _sut = new OrthogonalMove(_matrix);
         }
 
         [Theory]
@@ -32,7 +32,7 @@ namespace Chess.Tests.MoveFixtures
             var move = new Position(x, y);
 
             // act
-            var moves = _sut.GetMoves();
+            var moves = _sut.GetMoves(new Position(4, 4));
 
             // assert
             Assert.Equal(14, moves.Count);
@@ -49,7 +49,7 @@ namespace Chess.Tests.MoveFixtures
             var move = new Position(x, y);
 
             // act
-            var attacks = _sut.GetAttacks();
+            var attacks = _sut.GetAttacks(new Position(4, 4));
 
             // assert
             Assert.Equal(1, attacks.Count);

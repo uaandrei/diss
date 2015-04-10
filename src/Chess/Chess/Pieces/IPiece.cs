@@ -4,10 +4,11 @@ namespace Chess.Pieces
 {
     public interface IPiece
     {
-        PieceType Type { get; }
         PieceColor Color { get; }
+        PieceType Type { get; }
         Position CurrentPosition { get; }
-        IList<Position> GetAvailableMoves(int[,] matrix);
+        IList<Position> GetAvailableMoves();
+        IList<Position> GetAvailableAttacks();
         bool Move(Position p);
     }
 }

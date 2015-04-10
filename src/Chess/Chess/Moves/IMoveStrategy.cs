@@ -4,7 +4,7 @@ namespace Chess.Moves
 {
     public interface IMoveStrategy
     {
-        IList<Position> GetMoves();
-        IList<Position> GetAttacks();
+        IList<Position> GetMoves(Position position);
+        IList<Position> GetAttacks(Position position);
     }
 }

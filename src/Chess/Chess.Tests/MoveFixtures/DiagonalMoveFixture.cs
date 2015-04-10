@@ -11,7 +11,7 @@ namespace Chess.Tests.MoveFixtures
         public DiagonalMoveFixture()
         {
             _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new DiagonalMove(_matrix, new Position(4, 4));
+            _sut = new DiagonalMove(_matrix);
         }
 
         [Theory]
@@ -27,7 +27,7 @@ namespace Chess.Tests.MoveFixtures
             var move = new Position(x, y);
 
             // act
-            var moves = _sut.GetMoves();
+            var moves = _sut.GetMoves(new Position(4, 4));
 
             // assert
             Assert.Equal(13, moves.Count);
@@ -45,7 +45,7 @@ namespace Chess.Tests.MoveFixtures
             var move = new Position(x, y);
 
             // act
-            var attacks = _sut.GetAttacks();
+            var attacks = _sut.GetAttacks(new Position(4, 4));
 
             // assert
             Assert.Single(attacks);
