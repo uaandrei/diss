@@ -1,5 +1,4 @@
-﻿using Chess.Helpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Chess.Pieces
 {
@@ -19,16 +18,7 @@ namespace Chess.Pieces
 
         public override IList<Position> GetAvailableMoves(int[,] matrix)
         {
-            var positions = new List<Position>();
-            positions.AddRange(this.GeneratePositions(matrix, 1, 1));
-            positions.AddRange(this.GeneratePositions(matrix, 1, -1));
-            positions.AddRange(this.GeneratePositions(matrix, -1, 1));
-            positions.AddRange(this.GeneratePositions(matrix, -1, -1));
-            positions.AddRange(this.GeneratePositions(matrix, xOffset: -1));
-            positions.AddRange(this.GeneratePositions(matrix, xOffset: 1));
-            positions.AddRange(this.GeneratePositions(matrix, yOffset: -1));
-            positions.AddRange(this.GeneratePositions(matrix, yOffset: 1));
-            return positions;
+            throw new System.NotImplementedException();
         }
     }
 }
