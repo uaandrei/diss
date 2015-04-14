@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess", "Chess\Chess.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Tests", "Chess.Tests\Chess.Tests.csproj", "{09000C1A-9FFE-4467-8AC6-3A9C98AB09E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Desktop", "Chess.Desktop\Chess.Desktop.csproj", "{22F67548-CAC4-4D53-9239-CB0062A4E486}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Infrastructure", "Chess.Infrastructure\Chess.Infrastructure.csproj", "{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{73D8E7AB-C045-4868-BD3E-9318F2820EA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Game", "GameModule\Chess.Game.csproj", "{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +29,23 @@ Global
 		{09000C1A-9FFE-4467-8AC6-3A9C98AB09E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09000C1A-9FFE-4467-8AC6-3A9C98AB09E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09000C1A-9FFE-4467-8AC6-3A9C98AB09E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22F67548-CAC4-4D53-9239-CB0062A4E486}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F67548-CAC4-4D53-9239-CB0062A4E486}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22F67548-CAC4-4D53-9239-CB0062A4E486}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22F67548-CAC4-4D53-9239-CB0062A4E486}.Release|Any CPU.Build.0 = Release|Any CPU
+		{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA} = {73D8E7AB-C045-4868-BD3E-9318F2820EA1}
 	EndGlobalSection
 EndGlobal
