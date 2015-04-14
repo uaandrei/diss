@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.Practices.Prism.Commands;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Chess.Game.ViewModels
 {
@@ -9,6 +11,12 @@ namespace Chess.Game.ViewModels
         public ChessTableViewModel()
         {
             Squares = new ObservableCollection<ChessSquareViewModel>();
+            SetupTable();
+        }
+
+        private void SetupTable()
+        {
+
             Squares.Add(new ChessSquareViewModel(0));
             Squares.Add(new ChessSquareViewModel(1));
             Squares.Add(new ChessSquareViewModel(2));

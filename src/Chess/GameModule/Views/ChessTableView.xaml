@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:Chess.Game.Converters"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
@@ -11,21 +12,27 @@
         <converters:IndexToBrushConverter x:Key="IndexToBrushConverter" />
     </UserControl.Resources>
     <Grid>
-        <ListView ItemsSource="{Binding Squares}"
-                  Width="410"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top"
-                  Height="410">
-            <ListView.ItemsPanel>
+        <ListBox ItemsSource="{Binding Squares}"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top">
+            <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="8"
                                  Columns="8" />
                 </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Height="60" BorderThickness="0"
+                            Width="60" Margin="-5"
+                            Background="{Binding Index, Converter={StaticResource IndexToBrushConverter} }"
+                            Command="{Binding SquareChangeCommand}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <!--<ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
                     <Setter Property="Background"
-                            Value="{Binding Index, Converter={StaticResource IndexToBrushConverter}}" />
+                            Value="{}" />
                     <Setter Property="Height"
                             Value="50" />
                     <Setter Property="Width"
@@ -33,7 +40,7 @@
                     <Setter Property="Content"
                             Value="" />
                 </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+            </ListBox.ItemContainerStyle>-->
+        </ListBox>
     </Grid>
 </UserControl>
