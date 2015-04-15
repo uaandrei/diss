@@ -98,6 +98,10 @@
       <Project>{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}</Project>
       <Name>Chess.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chess\Chess.csproj">
+      <Project>{D7085601-4205-408A-A04B-4FF046232F74}</Project>
+      <Name>Chess</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ChessTableView.xaml">

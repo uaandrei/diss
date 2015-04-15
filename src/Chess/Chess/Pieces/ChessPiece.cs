@@ -22,7 +22,7 @@ namespace Chess.Pieces
         }
 
         public ChessPiece(int x, int y, PieceColor color, PieceType type, IMoveStrategy moveStrategy)
-            : this(new Position(x, x), color, type, moveStrategy)
+            : this(new Position(x, y), color, type, moveStrategy)
         {
         }
 
@@ -42,6 +42,11 @@ namespace Chess.Pieces
         public IList<Position> GetAvailableAttacks()
         {
             return _moveStrategy.GetAttacks(_curPosition);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0}{1} {2}", _color, _type, _curPosition);
         }
     }
 }

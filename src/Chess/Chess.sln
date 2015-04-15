@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Tests", "Chess.Tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Desktop", "Chess.Desktop\Chess.Desktop.csproj", "{22F67548-CAC4-4D53-9239-CB0062A4E486}"
 	ProjectSection(ProjectDependencies) = postProject
+		{D7085601-4205-408A-A04B-4FF046232F74} = {D7085601-4205-408A-A04B-4FF046232F74}
 		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA} = {468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}
 	EndProjectSection
 EndProject

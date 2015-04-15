@@ -33,14 +33,14 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameFactory.cs" />
     <Compile Include="Moves\CompositeMove.cs" />
-    <Compile Include="Moves\WhitePawnMove.cs" />
     <Compile Include="Moves\ContinousConditionedMove.cs" />
     <Compile Include="Moves\DiagonalMove.cs" />
     <Compile Include="Moves\IMoveStrategy.cs" />
     <Compile Include="Moves\LMove.cs" />
     <Compile Include="Moves\OrthogonalMove.cs" />
-    <Compile Include="Moves\BlackPawnMove.cs" />
+    <Compile Include="Moves\PawnMove.cs" />
     <Compile Include="Moves\SquareMove.cs" />
     <Compile Include="PieceColor.cs" />
     <Compile Include="Pieces\ChessPiece.cs" />
@@ -50,6 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)Chess.dll" "$(SolutionDir)Chess.Desktop\bin\$(ConfigurationName)\" /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -25,22 +25,11 @@
                 <DataTemplate>
                     <Button Height="60" BorderThickness="0"
                             Width="60" Margin="-5"
+                            Content="{Binding Representation}"
                             Background="{Binding Index, Converter={StaticResource IndexToBrushConverter} }"
                             Command="{Binding SquareChangeCommand}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            <!--<ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Background"
-                            Value="{}" />
-                    <Setter Property="Height"
-                            Value="50" />
-                    <Setter Property="Width"
-                            Value="50" />
-                    <Setter Property="Content"
-                            Value="" />
-                </Style>
-            </ListBox.ItemContainerStyle>-->
         </ListBox>
     </Grid>
 </UserControl>
