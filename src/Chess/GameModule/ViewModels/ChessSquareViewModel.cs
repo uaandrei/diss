@@ -1,20 +1,35 @@
-﻿using Chess.Infrastructure;
+﻿using Chess.Infrastructure.Behaviours;
+using Chess.Infrastructure.Enums;
+using Chess.Infrastructure.Events;
 using Chess.Pieces;
 using Microsoft.Practices.Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Practices.Prism.Events;
+using Microsoft.Practices.Prism.PubSubEvents;
+using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
 using System.Windows.Input;
 
 namespace Chess.Game.ViewModels
 {
-    public class ChessSquareViewModel : ViewModelBase
+    public class ChessSquareViewModel : ViewModelBase, IChessSquareViewModel
     {
+        private IEventAggregator _eventAggregator;
         private IPiece _piece;
-        public int Index { get; private set; }
+        public IPiece Piece { get { return _piece; } }
         public string Representation { get { return _piece == null ? string.Empty : _piece.Type.ToString(); } }
+        public int Index { get; private set; }
+
+        private SquareStates _squareState;
+        public SquareStates SquareState
+        {
+            get { return _squareState; }
+            set
+            {
+                _squareState = value;
+                NotifyPropertyChanged();
+            }
+        }
+
 
         //TODO: Rename this command =>> SquareSelectedCommand || OnSelectCommand
         public ICommand SquareChangeCommand { get; set; }
@@ -24,11 +39,12 @@ namespace Chess.Game.ViewModels
             _piece = piece;
             Index = index;
             SquareChangeCommand = new DelegateCommand(ExecuteSquareChange);
-
+            _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
         }
 
         private void ExecuteSquareChange()
         {
+            _eventAggregator.GetEvent<SquareSelectedEvent>().Publish(this);
         }
 
         public override string ToString()

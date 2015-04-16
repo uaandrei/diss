@@ -1,4 +1,4 @@
-﻿namespace Chess.Infrastructure
+﻿namespace Chess.Infrastructure.Names
 {
     public static class RegionNames
     {

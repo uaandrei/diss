@@ -1,27 +1,31 @@
-﻿using Chess.Infrastructure;
+﻿using Chess.Game.ViewModels;
+using Chess.Infrastructure.Behaviours;
 using Microsoft.Practices.Prism.Modularity;
+using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace Chess.Game
 {
-    [Module(ModuleName = Chess.Infrastructure.ModuleNames.GameModule)]
+    [Module(ModuleName = Chess.Infrastructure.Names.ModuleNames.GameModule)]
     public class GameModule : IModule
     {
-        private IRegionManager _regionManager;
-
-        public GameModule(IRegionManager regionManager)
-        {
-            _regionManager = regionManager;
-        }
+        [Dependency]
+        public IRegionManager RegionManager { get; set; }
+        [Dependency]
+        public IUnityContainer Container { get; set; }
 
         public void Initialize()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(Views.ChessTableView));
+            RegisterTypes();
+            RegionManager.RegisterViewWithRegion(Chess.Infrastructure.Names.RegionNames.MainRegion, typeof(Views.ChessTableView));
+        }
+
+        private void RegisterTypes()
+        {
+            Container.RegisterType<IEventAggregator, EventAggregator>();
+            Container.RegisterType<IChessSquareViewModel, ChessSquareViewModel>();
+            Container.RegisterType<IChessTableViewModel, ChessTableViewModel>();
         }
     }
 }

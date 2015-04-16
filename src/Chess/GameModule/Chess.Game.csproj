@@ -80,6 +80,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\SquareStateToBorderColorConverter.cs" />
+    <Compile Include="Converters\SquareStateToBorderThicknessConverter.cs" />
     <Compile Include="Converters\IndexToBrushConverter.cs" />
     <Compile Include="GameModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

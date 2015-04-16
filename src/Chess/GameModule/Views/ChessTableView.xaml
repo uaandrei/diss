@@ -10,6 +10,8 @@
              d:DesignWidth="300">
     <UserControl.Resources>
         <converters:IndexToBrushConverter x:Key="IndexToBrushConverter" />
+        <converters:SquareStateToBorderThicknessConverter x:Key="SquareStateToBorderThicknessConverter" />
+        <converters:SquareStateToBorderColorConverter x:Key="SquareStateToBorderColorConverter" />
     </UserControl.Resources>
     <Grid>
         <ListBox ItemsSource="{Binding Squares}"
@@ -23,10 +25,13 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Height="60" BorderThickness="0"
-                            Width="60" Margin="-5"
+                    <Button Height="60"
+                            Width="60"
+                            Margin="-5"
                             Content="{Binding Representation}"
                             Background="{Binding Index, Converter={StaticResource IndexToBrushConverter} }"
+                            BorderThickness="{Binding SquareState, Converter={StaticResource SquareStateToBorderThicknessConverter}}"
+                            BorderBrush="{Binding SquareState, Converter={StaticResource SquareStateToBorderColorConverter}}"
                             Command="{Binding SquareChangeCommand}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>

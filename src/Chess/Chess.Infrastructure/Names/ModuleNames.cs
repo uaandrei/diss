@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chess.Infrastructure
+namespace Chess.Infrastructure.Names
 {
-    public enum Colors
+    public static class ModuleNames
     {
-        Black, White, Red, Yellow
+        public const string GameModule = "GameModule";
     }
 }

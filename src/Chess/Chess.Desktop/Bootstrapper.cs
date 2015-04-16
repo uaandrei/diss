@@ -7,7 +7,6 @@ namespace Chess.Desktop
 {
     public class Bootstrapper : UnityBootstrapper
     {
-
         protected override System.Windows.DependencyObject CreateShell()
         {
             return Container.Resolve<Shell>();
