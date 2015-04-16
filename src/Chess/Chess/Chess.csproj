@@ -33,7 +33,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameFactory.cs" />
+    <Compile Include="GameAnalyzer.cs" />
+    <Compile Include="GameTable.cs" />
+    <Compile Include="Pieces\PieceFactory.cs" />
     <Compile Include="Moves\CompositeMove.cs" />
     <Compile Include="Moves\ContinousConditionedMove.cs" />
     <Compile Include="Moves\DiagonalMove.cs" />
@@ -42,10 +44,10 @@
     <Compile Include="Moves\OrthogonalMove.cs" />
     <Compile Include="Moves\PawnMove.cs" />
     <Compile Include="Moves\SquareMove.cs" />
-    <Compile Include="PieceColor.cs" />
+    <Compile Include="Pieces\PieceColor.cs" />
     <Compile Include="Pieces\ChessPiece.cs" />
     <Compile Include="Pieces\IPiece.cs" />
-    <Compile Include="PieceType.cs" />
+    <Compile Include="Pieces\PieceType.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

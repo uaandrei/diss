@@ -1,4 +1,5 @@
 ﻿using Chess.Moves;
+using Chess.Pieces;
 using Xunit;
 
 namespace Chess.Tests.MoveFixtures

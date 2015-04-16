@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chess
+namespace Chess.Pieces
 {
-    public class GameFactory
+    public class PieceFactory
     {
         private int[,] _matrix;
         public List<IPiece> Pieces { get; private set; }
 
-        public GameFactory()
+        public PieceFactory()
         {
             InitializeTable();
         }

@@ -1,18 +1,16 @@
-﻿using System.Linq;
-using Microsoft.Practices.Prism.Commands;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.Collections.Generic;
-using Chess.Infrastructure.Behaviours;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Prism.PubSubEvents;
+﻿using Chess.Infrastructure.Behaviours;
 using Chess.Infrastructure.Enums;
+using Chess.Pieces;
+using Microsoft.Practices.Prism.PubSubEvents;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Chess.Game.ViewModels
 {
     public class ChessTableViewModel : ViewModelBase, IChessTableViewModel
     {
-        private GameFactory _gameFactory;
+        private PieceFactory _gameFactory;
         private Infrastructure.Events.SquareSelectedEvent _onSquareSelectedEvent;
         private Pieces.IPiece _selectedPiece;
         public ObservableCollection<IChessSquareViewModel> Squares { get; private set; }
@@ -21,7 +19,7 @@ namespace Chess.Game.ViewModels
         public ChessTableViewModel(IEventAggregator eventAggregator)
         {
             EventAggregator = eventAggregator;
-            _gameFactory = new GameFactory();
+            _gameFactory = new PieceFactory();
             _gameFactory.Initialize();
             SetupTable();
             InitializeEvents();
