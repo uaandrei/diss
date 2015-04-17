@@ -10,11 +10,9 @@ namespace Chess.Game.ViewModels
 
         protected void NotifyPropertyChanged([CallerMemberName] string memberName = null)
         {
-            // TODO: Test
             if (memberName == null)
                 throw new ArgumentNullException("memberName");
 
-            // TODO: Test
             var ev = PropertyChanged;
             if (ev != null)
             {

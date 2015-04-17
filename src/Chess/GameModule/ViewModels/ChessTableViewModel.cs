@@ -87,6 +87,5 @@ namespace Chess.Game.ViewModels
             }
         }
 
-        //TODO: unsubscribe if close [GENERAL]
     }
 }

@@ -31,7 +31,6 @@ namespace Chess.Game.ViewModels
         }
 
 
-        //TODO: Rename this command =>> SquareSelectedCommand || OnSelectCommand
         public ICommand SquareChangeCommand { get; set; }
 
         public ChessSquareViewModel(int index, IPiece piece = null)

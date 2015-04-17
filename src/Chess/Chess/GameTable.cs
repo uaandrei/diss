@@ -12,7 +12,6 @@ namespace Chess
 
         public GameTable()
         {
-            // TODO: add pieces here
             _matrix = new int[8, 8];
         }
     }
