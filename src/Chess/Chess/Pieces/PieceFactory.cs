@@ -23,7 +23,6 @@ namespace Chess.Pieces
         {
             InitializePieces(PieceColor.White, 7, 6);
             InitializePieces(PieceColor.Black, 0, 1);
-            SetupGame();
         }
 
         private void InitializePieces(PieceColor color, int firstLine, int secondLine)
@@ -49,10 +48,6 @@ namespace Chess.Pieces
                 Pieces.Add(new ChessPiece(i, secondLine, color, PieceType.Pawn, new PawnMove(_matrix, color)));
                 _matrix[i, secondLine] = 1;
             }
-        }
-
-        private void SetupGame()
-        {
         }
     }
 }

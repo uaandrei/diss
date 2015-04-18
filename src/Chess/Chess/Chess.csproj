@@ -36,6 +36,8 @@
     <Compile Include="Exceptions\PieceNotFoundException.cs" />
     <Compile Include="GameAnalyzer.cs" />
     <Compile Include="GameTable.cs" />
+    <Compile Include="Pieces\IPieceContainer.cs" />
+    <Compile Include="Pieces\PieceContainer.cs" />
     <Compile Include="Pieces\PieceFactory.cs" />
     <Compile Include="Moves\CompositeMove.cs" />
     <Compile Include="Moves\ContinousConditionedMove.cs" />

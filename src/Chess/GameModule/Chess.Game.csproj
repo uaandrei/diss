@@ -83,6 +83,7 @@
     <Compile Include="Converters\SquareStateToBorderColorConverter.cs" />
     <Compile Include="Converters\SquareStateToBorderThicknessConverter.cs" />
     <Compile Include="Converters\IndexToBrushConverter.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="GameModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableState.cs" />

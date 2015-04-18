@@ -6,13 +6,11 @@ using Chess.Exceptions;
 
 namespace Chess
 {
-    public class GameTable
+    public class GameTable : IEnumerable<IPiece>
     {
         private int[,] _matrix;
         private PieceFactory _factory;
-        private List<IPiece> _pieces;
-        public IList<IPiece> Pieces { get { return _pieces; } }
-        public event RemovePiece PieceAttacked;
+        public IPieceContainer PieceContainer { get; private set; }
 
         public GameTable()
         {
@@ -24,11 +22,8 @@ namespace Chess
         private void InitializeTable()
         {
             _factory.Initialize();
-            _pieces = _factory.Pieces;
-            foreach (var piece in _pieces)
-            {
-                piece.PieceMoving += OnPieceMoving;
-            }
+            PieceContainer = new PieceContainer(_factory.Pieces);
+            PieceContainer.ForEach(p => p.PieceMoving += OnPieceMoving);
         }
 
         private void OnPieceMoving(IPiece piece, Position newPosition)
@@ -36,14 +31,21 @@ namespace Chess
             if (_matrix[newPosition.X, newPosition.Y] != 0)
             {
                 //attack
-                var attackedPiece = _pieces.First(p => p.CurrentPosition == newPosition);
-                if (attackedPiece == null)
-                    throw new PieceNotFoundException(newPosition);
-
-                Pieces.Remove(attackedPiece);
+                var attackedPiece = PieceContainer.Single(p => p.CurrentPosition == newPosition);
+                PieceContainer.Remove(attackedPiece);
             }
             _matrix[piece.CurrentPosition.X, piece.CurrentPosition.Y] = 0;
             _matrix[newPosition.X, newPosition.Y] = (int)piece.Type;
+        }
+
+        public IEnumerator<IPiece> GetEnumerator()
+        {
+            return PieceContainer.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return PieceContainer.GetEnumerator();
         }
     }
 }
