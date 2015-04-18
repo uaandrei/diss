@@ -48,18 +48,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChessPieces\ChessPieceFixture.cs" />
-    <Compile Include="ChessPieces\ChessPieceMoveIntegrationFixture.cs" />
     <Compile Include="Helper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MoveFixtures\BlackPawnMoveFixture.cs" />
-    <Compile Include="MoveFixtures\CompositeMoveFixture.cs" />
-    <Compile Include="MoveFixtures\DiagonalMoveFixture.cs" />
-    <Compile Include="MoveFixtures\LMoveFixture.cs" />
-    <Compile Include="MoveFixtures\OrthogonalMoveFixture.cs" />
-    <Compile Include="MoveFixtures\SquareMoveFixture.cs" />
-    <Compile Include="MoveFixtures\WhitePawnMoveFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

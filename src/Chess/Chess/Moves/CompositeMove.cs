@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Chess.Pieces;
+using System.Collections.Generic;
 
 namespace Chess.Moves
 {

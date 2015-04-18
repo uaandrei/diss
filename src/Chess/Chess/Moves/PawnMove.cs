@@ -5,12 +5,12 @@ namespace Chess.Moves
 {
     public class PawnMove : IMoveStrategy
     {
-        private int[,] _matrix;
         private PieceColor _color;
+        private IPieceContainer _container;
 
-        public PawnMove(int[,] matrix, PieceColor color)
+        public PawnMove(IPieceContainer container, PieceColor color)
         {
-            _matrix = matrix;
+            _container = container;
             _color = color;
         }
 
@@ -22,7 +22,7 @@ namespace Chess.Moves
             var y = position.Y + GetDirection();
 
             var posibleMove = new Position(x, y);
-            if (posibleMove.IsInBounds() && _matrix[posibleMove.X, posibleMove.Y] == 0)
+            if (posibleMove.IsInBounds() && _container.IsFree(posibleMove))
                 positions.Add(posibleMove);
 
             return positions;
@@ -35,17 +35,31 @@ namespace Chess.Moves
             var x = position.X;
             var y = position.Y + GetDirection();
             var posibleAttack = new Position(x - 1, y);
-            if (posibleAttack.IsInBounds() && _matrix[posibleAttack.X, posibleAttack.Y] != 0)
-                positions.Add(posibleAttack);
+            if (!_container.IsFree(posibleAttack))
+                positions.AddPieceIfPossible(position, posibleAttack, _container);
             posibleAttack = new Position(x + 1, y);
-            if (posibleAttack.IsInBounds() && _matrix[posibleAttack.X, posibleAttack.Y] != 0)
-                positions.Add(posibleAttack);
+            if (!_container.IsFree(posibleAttack))
+                positions.AddPieceIfPossible(position, posibleAttack, _container);
             return positions;
         }
 
         private int GetDirection()
         {
             return _color == PieceColor.Black ? 1 : -1;
+        }
+    }
+
+    public static class MoveExtensions
+    {
+        public static void AddPieceIfPossible(this IList<Position> list, Position current, Position dest, IPieceContainer container)
+        {
+            if (!dest.IsInBounds())
+                return;
+
+            if (container[current].Color == container[dest].Color)
+                return;
+
+            list.Add(dest);
         }
     }
 }

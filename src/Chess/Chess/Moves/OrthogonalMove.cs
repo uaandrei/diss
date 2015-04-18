@@ -1,35 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Chess.Moves
 {
     public class OrthogonalMove : ContinousConditionedMove
     {
-        public OrthogonalMove(int[,] matrix)
-            : base(matrix)
+        public OrthogonalMove(Chess.Pieces.IPieceContainer container)
+            : base(container)
         {
         }
 
         public override IList<Position> GetMoves(Position position)
         {
             var positions = new List<Position>();
-            positions.AddRange(GeneratePositions(v => v == 0, position, xOffset: -1));
-            positions.AddRange(GeneratePositions(v => v == 0, position, xOffset: 1));
-            positions.AddRange(GeneratePositions(v => v == 0, position, yOffset: -1));
-            positions.AddRange(GeneratePositions(v => v == 0, position, yOffset: 1));
+            positions.AddRange(GeneratePositions((c, p) => c.IsFree(p), position, xOffset: -1));
+            positions.AddRange(GeneratePositions((c, p) => c.IsFree(p), position, xOffset: 1));
+            positions.AddRange(GeneratePositions((c, p) => c.IsFree(p), position, yOffset: -1));
+            positions.AddRange(GeneratePositions((c, p) => c.IsFree(p), position, yOffset: 1));
             return positions;
         }
 
         public override IList<Position> GetAttacks(Position position)
         {
             var positions = new List<Position>();
-            positions.AddRange(GeneratePositions(v => v != 0, position, xOffset: -1));
-            positions.AddRange(GeneratePositions(v => v != 0, position, xOffset: 1));
-            positions.AddRange(GeneratePositions(v => v != 0, position, yOffset: -1));
-            positions.AddRange(GeneratePositions(v => v != 0, position, yOffset: 1));
+            positions.AddRange(GeneratePositions((c, p) => !c.IsFree(p), position, xOffset: -1));
+            positions.AddRange(GeneratePositions((c, p) => !c.IsFree(p), position, xOffset: 1));
+            positions.AddRange(GeneratePositions((c, p) => !c.IsFree(p), position, yOffset: -1));
+            positions.AddRange(GeneratePositions((c, p) => !c.IsFree(p), position, yOffset: 1));
             return positions;
         }
     }

@@ -1,28 +1,29 @@
-﻿using System;
+﻿using Chess.Pieces;
+using System;
 using System.Collections.Generic;
 
 namespace Chess.Moves
 {
     public class LMove : IMoveStrategy
     {
-        private int[,] _matrix;
+        private IPieceContainer _container;
 
-        public LMove(int[,] matrix)
+        public LMove(IPieceContainer container)
         {
-            _matrix = matrix;
+            _container = container;
         }
 
         public IList<Position> GetMoves(Position position)
         {
-            return GetMoves(value => value == 0, position);
+            return GetMoves((c, p) => c.IsFree(p), position);
         }
 
         public IList<Position> GetAttacks(Position position)
         {
-            return GetMoves(value => value != 0, position);
+            return GetMoves((c, p) => !c.IsFree(p), position);
         }
 
-        private IList<Position> GetMoves(Func<int, bool> condition, Position position)
+        private IList<Position> GetMoves(Func<IPieceContainer, Position, bool> condition, Position position)
         {
 
             var positions = new List<Position>();
@@ -30,7 +31,7 @@ namespace Chess.Moves
             for (int i = 0; i < 8; i++)
             {
                 var posibleMove = new Position(position.X + moves[i, 0], position.Y + moves[i, 1]);
-                if (posibleMove.IsInBounds() && condition(_matrix[posibleMove.X, posibleMove.Y]))
+                if (posibleMove.IsInBounds() && condition(_container, posibleMove))
                     positions.Add(posibleMove);
             }
             return positions;

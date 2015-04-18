@@ -1,5 +1,6 @@
 ﻿using Chess.Moves;
 using Chess.Pieces;
+using Moq;
 using Xunit;
 
 namespace Chess.Tests.MoveFixtures
@@ -7,12 +8,12 @@ namespace Chess.Tests.MoveFixtures
     public class BlackPawnMoveFixture
     {
         private PawnMove _sut;
-        private int[,] _matrix;
+        private IPieceContainer _pieceContainer;
 
         public BlackPawnMoveFixture()
         {
-            _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new PawnMove(_matrix, PieceColor.Black);
+            _pieceContainer = Helper.GetEmptyContainer();
+            _sut = new PawnMove(_pieceContainer, PieceColor.Black);
         }
 
         [Fact]
@@ -32,8 +33,8 @@ namespace Chess.Tests.MoveFixtures
         public void GetAttacks_ShouldReturnPositions()
         {
             // arrange
-            _matrix[0, 1] = 1;
-            _matrix[2, 1] = 1;
+            _pieceContainer.Add(Helper.GetMockedPieceAt(0, 1));
+            _pieceContainer.Add(Helper.GetMockedPieceAt(2, 1));
 
             // act
             var attacks = _sut.GetAttacks(new Position(1, 0));

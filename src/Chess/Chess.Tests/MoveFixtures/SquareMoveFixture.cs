@@ -5,13 +5,11 @@ namespace Chess.Tests.MoveFixtures
 {
     public class SquareMoveFixture
     {
-        private int[,] _matrix;
         private SquareMove _sut;
 
         public SquareMoveFixture()
         {
-            _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new SquareMove(_matrix);
+            _sut = new SquareMove();
         }
 
         [Theory]

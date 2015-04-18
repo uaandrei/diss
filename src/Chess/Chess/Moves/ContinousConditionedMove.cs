@@ -1,27 +1,28 @@
-﻿namespace Chess.Moves
+﻿using Chess.Pieces;
+namespace Chess.Moves
 {
     public abstract class ContinousConditionedMove : IMoveStrategy
     {
-        protected int[,] _matrix;
+        private IPieceContainer _container;
 
-        public ContinousConditionedMove(int[,] matrix)
+        public ContinousConditionedMove(IPieceContainer container)
         {
-            _matrix = matrix;
+            _container = container;
         }
 
         public abstract System.Collections.Generic.IList<Position> GetMoves(Position position);
         public abstract System.Collections.Generic.IList<Position> GetAttacks(Position position);
 
-        protected System.Collections.Generic.IList<Position> GeneratePositions(System.Func<int, bool> addCondition, Position position, int xOffset = 0, int yOffset = 0)
+        protected System.Collections.Generic.IList<Position> GeneratePositions(System.Func<IPieceContainer, Position, bool> addCondition, Position position, int xOffset = 0, int yOffset = 0)
         {
             var positions = new System.Collections.Generic.List<Position>();
             var posiblePosition = new Position(position.X + xOffset, position.Y + yOffset);
 
             while (posiblePosition.IsInBounds())
             {
-                if (addCondition(_matrix[posiblePosition.X, posiblePosition.Y]))
+                if (addCondition(_container, posiblePosition))
                     positions.Add(posiblePosition);
-                if (_matrix[posiblePosition.X, posiblePosition.Y] != 0)
+                if (!_container.IsFree(posiblePosition))
                     break;
 
                 posiblePosition = new Position(posiblePosition.X + xOffset, posiblePosition.Y + yOffset);

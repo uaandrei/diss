@@ -1,28 +1,29 @@
-﻿using System;
+﻿using Chess.Pieces;
+using System;
 using System.Collections.Generic;
 
 namespace Chess.Moves
 {
     public class SquareMove : IMoveStrategy
     {
-        private int[,] _matrix;
+        private IPieceContainer _container;
 
-        public SquareMove(int[,] matrix)
+        public SquareMove(IPieceContainer container)
         {
-            _matrix = matrix;
+            _container = container;
         }
 
         public IList<Position> GetMoves(Position position)
         {
-            return GetAvailableMoves(v => v == 0,position);
+            return GetAvailableMoves((c, p) => c.IsFree(p), position);
         }
 
         public IList<Position> GetAttacks(Position position)
         {
-            return GetAvailableMoves(v => v != 0,position);
+            return GetAvailableMoves((c, p) => !c.IsFree(p), position);
         }
 
-        private IList<Position> GetAvailableMoves(Func<int, bool> condition,Position position)
+        private IList<Position> GetAvailableMoves(Func<IPieceContainer, Position, bool> condition, Position position)
         {
             var positions = new List<Position>();
             var moves = GetOffsets();
@@ -30,7 +31,7 @@ namespace Chess.Moves
             {
                 var posiblePosition = new Position(position.X + moves[i, 0], position.Y + moves[i, 1]);
 
-                if (posiblePosition.IsInBounds() && condition(_matrix[posiblePosition.X, posiblePosition.Y]))
+                if (posiblePosition.IsInBounds() && condition(_container, posiblePosition))
                     positions.Add(posiblePosition);
             }
             return positions;

@@ -37,6 +37,7 @@
     <Compile Include="GameAnalyzer.cs" />
     <Compile Include="GameTable.cs" />
     <Compile Include="Pieces\IPieceContainer.cs" />
+    <Compile Include="Pieces\IPieceFactory.cs" />
     <Compile Include="Pieces\PieceContainer.cs" />
     <Compile Include="Pieces\PieceFactory.cs" />
     <Compile Include="Moves\CompositeMove.cs" />

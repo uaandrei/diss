@@ -11,5 +11,10 @@ namespace Chess.Pieces
         void Add(IPiece piece);
         void Remove(IPiece piece);
         void ForEach(Action<IPiece> action);
+        bool IsFree(int x, int y);
+        bool IsFree(Position pos);
+        bool IsOccupied(int x, int y);
+        bool IsOccupied(Position pos);
+        IPiece this[Position pos] { get; }
     }
 }
