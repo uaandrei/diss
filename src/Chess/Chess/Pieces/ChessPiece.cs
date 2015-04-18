@@ -12,6 +12,7 @@ namespace Chess.Pieces
         public PieceColor Color { get { return _color; } }
         public Position CurrentPosition { get { return _curPosition; } }
         public PieceType Type { get { return _type; } }
+        public event PieceMove PieceMoving;
 
         public ChessPiece(Position p, PieceColor color, PieceType type, IMoveStrategy moveStrategy)
         {
@@ -28,6 +29,7 @@ namespace Chess.Pieces
 
         public bool Move(Position newPosition)
         {
+            RaisePieceMovingEvent(newPosition);
             _curPosition.X = newPosition.X;
             _curPosition.Y = newPosition.Y;
             return true;
@@ -47,6 +49,13 @@ namespace Chess.Pieces
         public override string ToString()
         {
             return string.Format("{0}{1} {2}", _color, _type, _curPosition);
+        }
+
+        private void RaisePieceMovingEvent(Position newPosition)
+        {
+            var eventHandler = PieceMoving;
+            if (eventHandler != null)
+                eventHandler(this, newPosition);
         }
     }
 }

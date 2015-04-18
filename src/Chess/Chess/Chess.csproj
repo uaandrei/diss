@@ -33,6 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\PieceNotFoundException.cs" />
     <Compile Include="GameAnalyzer.cs" />
     <Compile Include="GameTable.cs" />
     <Compile Include="Pieces\PieceFactory.cs" />

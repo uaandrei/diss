@@ -15,7 +15,15 @@ namespace Chess.Game.ViewModels
     {
         private IEventAggregator _eventAggregator;
         private IPiece _piece;
-        public IPiece Piece { get { return _piece; } }
+        public IPiece Piece
+        {
+            get { return _piece; }
+            set
+            {
+                _piece = value;
+                NotifyPropertyChanged();
+            }
+        }
         public string Representation { get { return _piece == null ? string.Empty : _piece.Type.ToString(); } }
         public int Index { get; private set; }
 

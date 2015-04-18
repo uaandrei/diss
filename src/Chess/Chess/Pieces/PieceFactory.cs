@@ -13,9 +13,10 @@ namespace Chess.Pieces
         private int[,] _matrix;
         public List<IPiece> Pieces { get; private set; }
 
-        public PieceFactory()
+        public PieceFactory(int[,] matrix)
         {
-            InitializeTable();
+            _matrix = matrix;
+            Pieces = new List<IPiece>();
         }
 
         public void Initialize()
@@ -23,12 +24,6 @@ namespace Chess.Pieces
             InitializePieces(PieceColor.White, 7, 6);
             InitializePieces(PieceColor.Black, 0, 1);
             SetupGame();
-        }
-
-        private void InitializeTable()
-        {
-            _matrix = new int[8, 8];
-            Pieces = new List<IPiece>();
         }
 
         private void InitializePieces(PieceColor color, int firstLine, int secondLine)

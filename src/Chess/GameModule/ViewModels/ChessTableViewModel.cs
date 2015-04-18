@@ -1,6 +1,5 @@
 ﻿using Chess.Infrastructure.Behaviours;
 using Chess.Infrastructure.Enums;
-using Chess.Pieces;
 using Microsoft.Practices.Prism.PubSubEvents;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,25 +9,26 @@ namespace Chess.Game.ViewModels
 {
     public class ChessTableViewModel : ViewModelBase, IChessTableViewModel
     {
-        private PieceFactory _gameFactory;
+        private GameTable _gameTable;
         private Infrastructure.Events.SquareSelectedEvent _onSquareSelectedEvent;
         private Pieces.IPiece _selectedPiece;
-        public ObservableCollection<IChessSquareViewModel> Squares { get; private set; }
         private IEventAggregator EventAggregator { get; set; }
+        private TableState _state;
+        public ObservableCollection<IChessSquareViewModel> Squares { get; private set; }
 
         public ChessTableViewModel(IEventAggregator eventAggregator)
         {
             EventAggregator = eventAggregator;
-            _gameFactory = new PieceFactory();
-            _gameFactory.Initialize();
+            _gameTable = new GameTable();
+            _state = TableState.PieceNotSelected;
             SetupTable();
             InitializeEvents();
         }
 
         private void SetupTable()
         {
-            var whitePieces = _gameFactory.Pieces.Take(16).ToList();
-            var blackPieces = _gameFactory.Pieces.Except(whitePieces).ToList();
+            var whitePieces = _gameTable.Pieces.Take(16).ToList();
+            var blackPieces = _gameTable.Pieces.Except(whitePieces).ToList();
             var squares = new List<IChessSquareViewModel>();
 
             foreach (var piece in whitePieces)
@@ -54,17 +54,36 @@ namespace Chess.Game.ViewModels
 
         private void OnSquareSelected(IChessSquareViewModel selectedSquare)
         {
+            if (_state == TableState.PieceSelected)
+            {
+                var selectedSquarePosisition = new Position(selectedSquare.Index % 8, selectedSquare.Index / 8);
+                _selectedPiece.Move(selectedSquarePosisition);
+                selectedSquare.Piece = _selectedPiece;
+                ClearSquares();
+                _state = TableState.PieceNotSelected;
+                return;
+            }
+            ClearSquares();
+            selectedSquare.SquareState = SquareStates.Selected;
+            _selectedPiece = selectedSquare.Piece;
+            if (selectedSquare.Piece == null)
+            {
+                _state = TableState.PieceNotSelected;
+                return;
+            }
+
+            _state = TableState.PieceSelected;
+            MarkPossibleAttacksForSelectedPiece();
+            MarkPossibleMovesForSelectedPiece();
+        }
+
+        private void ClearSquares()
+        {
+
             foreach (var square in Squares)
             {
                 square.SquareState = SquareStates.Empty;
             }
-            selectedSquare.SquareState = SquareStates.Selected;
-            _selectedPiece = selectedSquare.Piece;
-            if (selectedSquare.Piece == null)
-                return;
-
-            MarkPossibleAttacksForSelectedPiece();
-            MarkPossibleMovesForSelectedPiece();
         }
 
         private void MarkPossibleMovesForSelectedPiece()
