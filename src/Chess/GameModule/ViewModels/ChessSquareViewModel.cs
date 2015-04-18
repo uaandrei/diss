@@ -14,21 +14,11 @@ namespace Chess.Game.ViewModels
     public class ChessSquareViewModel : ViewModelBase, IChessSquareViewModel
     {
         private IEventAggregator _eventAggregator;
-        private IPiece _piece;
-        public IPiece Piece
-        {
-            get { return _piece; }
-            set
-            {
-                _piece = value;
-                NotifyPropertyChanged();
-            }
-        }
-        public string Representation { get { return _piece == null ? string.Empty : _piece.Type.ToString(); } }
-        public int Index { get; private set; }
+        public Position Position { get; private set; }
+        public int Index { get { return Position.Y * 8 + Position.X; } }
 
-        private SquareStates _squareState;
-        public SquareStates SquareState
+        private SquareState _squareState;
+        public SquareState SquareState
         {
             get { return _squareState; }
             set
@@ -38,25 +28,34 @@ namespace Chess.Game.ViewModels
             }
         }
 
-
-        public ICommand SquareChangeCommand { get; set; }
-
-        public ChessSquareViewModel(int index, IPiece piece = null)
+        private string _representation;
+        public string Representation
         {
-            _piece = piece;
-            Index = index;
-            SquareChangeCommand = new DelegateCommand(ExecuteSquareChange);
-            _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+            get { return _representation; }
+            set
+            {
+                _representation = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        private void ExecuteSquareChange()
+        public ICommand SquareSelectedCommand { get; set; }
+
+        public ChessSquareViewModel(Position position)
         {
-            _eventAggregator.GetEvent<SquareSelectedEvent>().Publish(this);
+            Position = position;
+            SquareSelectedCommand = new DelegateCommand(OnSquareSelected);
+            _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
         }
 
         public override string ToString()
         {
-            return string.Format("index:{0} {1}", Index, _piece);
+            return string.Format("{0}", Position);
+        }
+
+        private void OnSquareSelected()
+        {
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.SquareSelectedEvent>().Publish(this);
         }
     }
 }

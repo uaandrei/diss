@@ -74,8 +74,8 @@
   <ItemGroup>
     <Compile Include="Behaviours\IChessSquareViewModel.cs" />
     <Compile Include="Behaviours\IChessTableViewModel.cs" />
-    <Compile Include="Enums\Colors.cs" />
-    <Compile Include="Enums\SquareStates.cs" />
+    <Compile Include="Enums\MoveColor.cs" />
+    <Compile Include="Enums\SquareState.cs" />
     <Compile Include="Events\SquareSelectedEvent.cs" />
     <Compile Include="Names\ModuleNames.cs" />
     <Compile Include="Names\RegionNames.cs" />

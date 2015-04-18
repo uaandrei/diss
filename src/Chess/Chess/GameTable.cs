@@ -40,17 +40,10 @@ namespace Chess
                 if (attackedPiece == null)
                     throw new PieceNotFoundException(newPosition);
 
-                RaisePieceAttackedEvent(attackedPiece);
+                Pieces.Remove(attackedPiece);
             }
             _matrix[piece.CurrentPosition.X, piece.CurrentPosition.Y] = 0;
             _matrix[newPosition.X, newPosition.Y] = (int)piece.Type;
-        }
-
-        private void RaisePieceAttackedEvent(IPiece piece)
-        {
-            var handler = PieceAttacked;
-            if (handler != null)
-                PieceAttacked(piece);
         }
     }
 }

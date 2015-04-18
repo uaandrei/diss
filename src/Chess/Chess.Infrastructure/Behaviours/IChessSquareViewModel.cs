@@ -5,9 +5,8 @@ namespace Chess.Infrastructure.Behaviours
 {
     public interface IChessSquareViewModel
     {
-        string Representation { get; }
-        IPiece Piece { get; set;}
-        int Index { get; }
-        SquareStates SquareState { get; set; }
+        string Representation { get; set; }
+        SquareState SquareState { get; set; }
+        Position Position { get; }
     }
 }

@@ -8,10 +8,10 @@ namespace Chess.Game.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is SquareStates)
+            if (value is SquareState)
             {
-                var state = (SquareStates)value;
-                return state == SquareStates.Empty ? 0 : 10;
+                var state = (SquareState)value;
+                return state == SquareState.Empty ? 0 : 10;
             }
             return null;
         }

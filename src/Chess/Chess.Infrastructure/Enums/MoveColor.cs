@@ -1,6 +1,6 @@
 ﻿namespace Chess.Infrastructure.Enums
 {
-    public enum Colors
+    public enum MoveColor
     {
         Black, White, Red, Yellow
     }

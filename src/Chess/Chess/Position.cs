@@ -49,6 +49,20 @@ namespace Chess
         {
             return string.Format("({0},{1})", X, Y);
         }
+
+        public static bool operator ==(Position p1, Position p2)
+        {
+            if (p1 is Position && p2 is Position)
+                return p1.Equals(p2);
+            return false;
+        }
+
+        public static bool operator !=(Position p1, Position p2)
+        {
+            if (p1 is Position && p2 is Position)
+                return !p1.Equals(p2);
+            return false;
+        }
     }
 
     public static class PositionExtensions

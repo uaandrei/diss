@@ -32,7 +32,7 @@
                             Background="{Binding Index, Converter={StaticResource IndexToBrushConverter} }"
                             BorderThickness="{Binding SquareState, Converter={StaticResource SquareStateToBorderThicknessConverter}}"
                             BorderBrush="{Binding SquareState, Converter={StaticResource SquareStateToBorderColorConverter}}"
-                            Command="{Binding SquareChangeCommand}" />
+                            Command="{Binding SquareSelectedCommand}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

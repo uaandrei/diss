@@ -7,18 +7,18 @@ namespace Chess.Game.Converters
     {
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is SquareStates)
+            if (value is SquareState)
             {
-                var state = (SquareStates)value;
+                var state = (SquareState)value;
                 switch (state)
                 {
-                    case SquareStates.Empty:
+                    case SquareState.Empty:
                         break;
-                    case SquareStates.PosibleAttack:
+                    case SquareState.PosibleAttack:
                         return System.Windows.Media.Brushes.Red;
-                    case SquareStates.PosibleMove:
+                    case SquareState.PosibleMove:
                         return System.Windows.Media.Brushes.Yellow;
-                    case SquareStates.Selected:
+                    case SquareState.Selected:
                         return System.Windows.Media.Brushes.Green;
                     default:
                         break;
