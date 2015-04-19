@@ -6,16 +6,14 @@ using System.Collections.Generic;
 
 namespace Chess.Business.ImplementationA.Moves
 {
-    public class BlackPawnMove : IMoveStrategy
+    public class BlackPawnMove : MoveStrategyBase
     {
-        private IPieceContainer _container;
-
         public BlackPawnMove(IPieceContainer container)
+            : base(container)
         {
-            _container = container;
         }
 
-        public IList<Position> GetMoves(Position position)
+        public override IList<Position> GetMoves(Position position)
         {
             var positions = new List<Position>();
 
@@ -26,7 +24,7 @@ namespace Chess.Business.ImplementationA.Moves
             return positions;
         }
 
-        public IList<Position> GetAttacks(Position position)
+        protected override List<Position> GenerateAttacks(Position position)
         {
             var positions = new List<Position>();
 
@@ -34,10 +32,10 @@ namespace Chess.Business.ImplementationA.Moves
             var y = position.Y + 1;
             var posibleAttack = new Position(x - 1, y);
             if (!_container.IsFree(posibleAttack))
-                positions.AddPieceIfPossible(position, posibleAttack, _container);
+                positions.Add(posibleAttack);
             posibleAttack = new Position(x + 1, y);
             if (!_container.IsFree(posibleAttack))
-                positions.AddPieceIfPossible(position, posibleAttack, _container);
+                positions.Add(posibleAttack);
             return positions;
         }
     }

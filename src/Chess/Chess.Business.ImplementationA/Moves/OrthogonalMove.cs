@@ -21,7 +21,7 @@ namespace Chess.Business.ImplementationA.Moves
             return positions;
         }
 
-        public override IList<Position> GetAttacks(Position position)
+        protected override List<Position> GenerateAttacks(Position position)
         {
             var positions = new List<Position>();
             positions.AddRange(GeneratePositions((c, p) => !c.IsFree(p), position, xOffset: -1));

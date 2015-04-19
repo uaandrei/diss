@@ -6,26 +6,24 @@ using System.Collections.Generic;
 
 namespace Chess.Business.ImplementationA.Moves
 {
-    public class SquareMove : IMoveStrategy
+    public class SquareMove : MoveStrategyBase
     {
-        private IPieceContainer _container;
-
         public SquareMove(IPieceContainer container)
+            : base(container)
         {
-            _container = container;
         }
 
-        public IList<Position> GetMoves(Position position)
+        public override IList<Position> GetMoves(Position position)
         {
             return GetAvailableMoves((c, p) => c.IsFree(p), position);
         }
 
-        public IList<Position> GetAttacks(Position position)
+        protected override List<Position> GenerateAttacks(Position position)
         {
             return GetAvailableMoves((c, p) => !c.IsFree(p), position);
         }
 
-        private IList<Position> GetAvailableMoves(Func<IPieceContainer, Position, bool> condition, Position position)
+        private List<Position> GetAvailableMoves(Func<IPieceContainer, Position, bool> condition, Position position)
         {
             var positions = new List<Position>();
             var moves = GetOffsets();
@@ -34,7 +32,7 @@ namespace Chess.Business.ImplementationA.Moves
                 var posiblePosition = new Position(position.X + moves[i, 0], position.Y + moves[i, 1]);
 
                 if (condition(_container, posiblePosition))
-                    positions.AddPieceIfPossible(position, posiblePosition, _container);
+                    positions.Add(posiblePosition);
             }
             return positions;
         }

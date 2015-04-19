@@ -11,9 +11,9 @@ namespace Chess.Business.ImplementationA.Moves
     {
         private IEnumerable<IMoveStrategy> _moveStrategies;
 
-        public CompositeMove(IMoveStrategy strategy1, IMoveStrategy stragety2)
+        public CompositeMove(IMoveStrategy strategy1, IMoveStrategy strategy2)
         {
-            _moveStrategies = new [] {stragety2, stragety2};
+            _moveStrategies = new [] {strategy1, strategy2};
         }
 
         public IList<Position> GetMoves(Position position)

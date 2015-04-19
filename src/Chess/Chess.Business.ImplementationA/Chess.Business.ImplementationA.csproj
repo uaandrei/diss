@@ -84,6 +84,7 @@
     <Compile Include="Exceptions\PieceNotFoundException.cs" />
     <Compile Include="GameAnalyzer.cs" />
     <Compile Include="GameTable.cs" />
+    <Compile Include="Moves\MoveStrategyBase.cs" />
     <Compile Include="Moves\WhitePawnMove.cs" />
     <Compile Include="Pieces\PieceContainer.cs" />
     <Compile Include="Pieces\PieceFactory.cs" />
