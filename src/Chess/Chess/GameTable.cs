@@ -25,7 +25,6 @@ namespace Chess
         {
             if (PieceContainer.IsOccupied(newPosition))
             {
-                //attack
                 var attackedPiece = PieceContainer.Single(p => p.CurrentPosition == newPosition);
                 PieceContainer.Remove(attackedPiece);
             }
