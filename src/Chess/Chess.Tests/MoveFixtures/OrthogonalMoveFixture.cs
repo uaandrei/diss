@@ -1,4 +1,5 @@
 ﻿using Chess.Moves;
+using Chess.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,14 @@ namespace Chess.Tests.MoveFixtures
 {
     public class OrthogonalMoveFixture
     {
-        private int[,] _matrix;
         private OrthogonalMove _sut;
+        private IPieceContainer _pieceContainer;
 
         public OrthogonalMoveFixture()
         {
-            _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new OrthogonalMove(_matrix);
+            _pieceContainer = Helper.GetEmptyContainer();
+            _pieceContainer.Add(Helper.GetMockedPieceAt(4, 4, PieceColor.Black));
+            _sut = new OrthogonalMove(_pieceContainer);
         }
 
         [Theory]
@@ -45,15 +47,16 @@ namespace Chess.Tests.MoveFixtures
         public void GetAttacks_ShouldReturnPositions(int x, int y)
         {
             // arrange
-            _matrix[x, y] = 1;
+            _pieceContainer.Add(Helper.GetMockedPieceAt(4, 5, PieceColor.Black));
+            _pieceContainer.Add(Helper.GetMockedPieceAt(x, y, PieceColor.White));
             var move = new Position(x, y);
 
             // act
             var attacks = _sut.GetAttacks(new Position(4, 4));
 
             // assert
-            Assert.Equal(1, attacks.Count);
-            Assert.Contains(move, attacks);
+            Assert.Single(attacks, move);
+            Assert.DoesNotContain(new Position(4,5), attacks);
         }
     }
 }

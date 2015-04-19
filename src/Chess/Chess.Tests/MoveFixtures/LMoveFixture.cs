@@ -1,17 +1,19 @@
 ﻿using Chess.Moves;
+using Chess.Pieces;
 using Xunit;
 
 namespace Chess.Tests.MoveFixtures
 {
     public class LMoveFixture
     {
-        private int[,] _matrix;
         private LMove _sut;
+        private IPieceContainer _pieceContainer;
 
         public LMoveFixture()
         {
-            _matrix = Helper.GetEmptyChessMatrix();
-            _sut = new LMove(_matrix);
+            _pieceContainer = Helper.GetEmptyContainer();
+            _pieceContainer.Add(Helper.GetMockedPieceAt(4, 4, PieceColor.Black));
+            _sut = new LMove(_pieceContainer);
         }
 
         [Theory]
@@ -43,15 +45,16 @@ namespace Chess.Tests.MoveFixtures
         public void GetAttacks_ShouldReturnPositions(int x, int y)
         {
             // arrange
-            _matrix[x, y] = 1;
+            _pieceContainer.Add(Helper.GetMockedPieceAt(3, 6, PieceColor.Black));
+            _pieceContainer.Add(Helper.GetMockedPieceAt(x, y, PieceColor.White));
             var move = new Position(x, y);
 
             // act
             var attacks = _sut.GetAttacks(new Position(4, 4));
 
             // assert
-            Assert.Single(attacks);
-            Assert.Contains(move, attacks);
+            Assert.Single(attacks, move);
+            Assert.DoesNotContain(new Position(3,6), attacks);
         }
     }
 }

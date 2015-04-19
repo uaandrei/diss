@@ -48,18 +48,4 @@ namespace Chess.Moves
             return _color == PieceColor.Black ? 1 : -1;
         }
     }
-
-    public static class MoveExtensions
-    {
-        public static void AddPieceIfPossible(this IList<Position> list, Position current, Position dest, IPieceContainer container)
-        {
-            if (!dest.IsInBounds())
-                return;
-
-            if (container[current].Color == container[dest].Color)
-                return;
-
-            list.Add(dest);
-        }
-    }
 }

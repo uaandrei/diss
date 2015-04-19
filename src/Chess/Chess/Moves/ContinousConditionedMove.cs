@@ -21,7 +21,7 @@ namespace Chess.Moves
             while (posiblePosition.IsInBounds())
             {
                 if (addCondition(_container, posiblePosition))
-                    positions.Add(posiblePosition);
+                    positions.AddPieceIfPossible(position, posiblePosition, _container);
                 if (!_container.IsFree(posiblePosition))
                     break;
 

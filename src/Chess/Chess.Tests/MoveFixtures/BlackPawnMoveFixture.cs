@@ -13,6 +13,7 @@ namespace Chess.Tests.MoveFixtures
         public BlackPawnMoveFixture()
         {
             _pieceContainer = Helper.GetEmptyContainer();
+            _pieceContainer.Add(Helper.GetMockedPieceAt(1, 0, PieceColor.Black));
             _sut = new PawnMove(_pieceContainer, PieceColor.Black);
         }
 
@@ -33,8 +34,8 @@ namespace Chess.Tests.MoveFixtures
         public void GetAttacks_ShouldReturnPositions()
         {
             // arrange
-            _pieceContainer.Add(Helper.GetMockedPieceAt(0, 1));
-            _pieceContainer.Add(Helper.GetMockedPieceAt(2, 1));
+            _pieceContainer.Add(Helper.GetMockedPieceAt(0, 1, PieceColor.White));
+            _pieceContainer.Add(Helper.GetMockedPieceAt(2, 1, PieceColor.White));
 
             // act
             var attacks = _sut.GetAttacks(new Position(1, 0));

@@ -13,10 +13,13 @@ namespace Chess.Tests.ChessPieces
     public class ChessPieceMoveIntegrationFixture
     {
         private ChessPiece _sut;
+        private IPieceContainer _pieceContainer;
 
         public ChessPieceMoveIntegrationFixture()
         {
-            var moveStrategy = new LMove(Helper.GetEmptyChessMatrix());
+            _pieceContainer = Helper.GetEmptyContainer();
+            _pieceContainer.Add(Helper.GetMockedPieceAt(0, 0, PieceColor.Black));
+            var moveStrategy = new LMove(_pieceContainer);
             _sut = new ChessPiece(new Position(), PieceColor.Black, PieceType.Knight, moveStrategy);
         }
 

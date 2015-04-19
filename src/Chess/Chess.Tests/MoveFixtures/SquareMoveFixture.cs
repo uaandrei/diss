@@ -1,4 +1,5 @@
 ﻿using Chess.Moves;
+using Chess.Pieces;
 using Xunit;
 
 namespace Chess.Tests.MoveFixtures
@@ -6,10 +7,13 @@ namespace Chess.Tests.MoveFixtures
     public class SquareMoveFixture
     {
         private SquareMove _sut;
+        private IPieceContainer _pieceContainer;
 
         public SquareMoveFixture()
         {
-            _sut = new SquareMove();
+            _pieceContainer = Helper.GetEmptyContainer();
+            _pieceContainer.Add(Helper.GetMockedPieceAt(0, 0, PieceColor.Black));
+            _sut = new SquareMove(_pieceContainer);
         }
 
         [Theory]
@@ -29,13 +33,13 @@ namespace Chess.Tests.MoveFixtures
         }
 
         [Theory]
-        [InlineData(1, 1)]
         [InlineData(1, 0)]
         [InlineData(0, 1)]
         public void GetAttacks_ShouldReturnPositions(int x, int y)
         {
             // arrange
-            _matrix[x, y] = 1;
+            _pieceContainer.Add(Helper.GetMockedPieceAt(1, 1, PieceColor.Black));
+            _pieceContainer.Add(Helper.GetMockedPieceAt(x, y, PieceColor.White));
             var move = new Position(x, y);
 
             // act
@@ -43,6 +47,7 @@ namespace Chess.Tests.MoveFixtures
 
             // assert
             Assert.Contains(move, attacks);
+            Assert.DoesNotContain(new Position(1,1), attacks);
         }
     }
 }

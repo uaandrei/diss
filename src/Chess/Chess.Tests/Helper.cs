@@ -14,12 +14,14 @@ namespace Chess.Tests
             return new PieceContainer(mockedEmptyFactory.Object);
         }
 
-        public static IPiece GetMockedPieceAt(int x, int y)
+        public static IPiece GetMockedPieceAt(int x, int y, PieceColor color)
         {
             var mockedPiece = new Mock<IPiece>();
             mockedPiece
                 .SetupGet(p => p.CurrentPosition)
                 .Returns(new Position(x, y));
+            mockedPiece.SetupGet(p => p.Color)
+                .Returns(color);
             return mockedPiece.Object;
         }
     }

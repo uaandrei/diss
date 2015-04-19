@@ -32,7 +32,7 @@ namespace Chess.Moves
             {
                 var posibleMove = new Position(position.X + moves[i, 0], position.Y + moves[i, 1]);
                 if (posibleMove.IsInBounds() && condition(_container, posibleMove))
-                    positions.Add(posibleMove);
+                    positions.AddPieceIfPossible(position, posibleMove, _container);
             }
             return positions;
         }
