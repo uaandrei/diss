@@ -60,7 +60,7 @@
       <ToolsOptionsSubCategory name="RoamingSettings" RegisteredName="RoamingSettings" PackageName="Roaming Manager Package">
         <PropertyValue name="SyncEditor">true</PropertyValue>
         <PropertyValue name="SyncAppearance">true</PropertyValue>
-        <PropertyValue name="RoamingEnabled">true</PropertyValue>
+        <PropertyValue name="RoamingEnabled">false</PropertyValue>
         <PropertyValue name="SyncStartup">true</PropertyValue>
         <PropertyValue name="SyncAliases">true</PropertyValue>
         <PropertyValue name="SyncKeyBindings">true</PropertyValue>
@@ -1295,15 +1295,15 @@
       <PropertyValue name="ErrorListShowsMessages">true</PropertyValue>
       <PropertyValue name="ErrorListScopeFilteringActive">false</PropertyValue>
       <PropertyValue name="ErrorListFilterScope">3</PropertyValue>
-      <PropertyValue name="ActiveProvider">{7E5BB8D2-57E5-4FA9-9542-3870395C16A1}</PropertyValue>
+      <PropertyValue name="ActiveProvider">{00000000-0000-0000-0000-000000000000}</PropertyValue>
       <TaskProviders>
         <Provider GUID="{7E5BB8D2-57E5-4FA9-9542-3870395C16A1}">
           <Columns>
             <Column Name="Priority" Width="20" Visibility="Invisible" SortPriority="-1" SortDirection="Up" />
             <Column Name="Bitmap" Width="17" Visibility="Visible" SortPriority="-1" SortDirection="Up" />
-            <Column Name="ProviderKnowsOrder" Width="18" Visibility="Visible" SortPriority="0" SortDirection="Up" />
+            <Column Name="ProviderKnowsOrder" Width="18" Visibility="Visible" SortPriority="-1" SortDirection="Up" />
             <Column Name="Checked" Width="28" Visibility="Invisible" SortPriority="-1" SortDirection="Up" />
-            <Column Name="Description" Width="557" Visibility="Visible" SortPriority="-1" SortDirection="Up" />
+            <Column Name="Description" Width="1517" Visibility="Visible" SortPriority="0" SortDirection="Up" />
             <Column Name="File" Width="69" Visibility="Visible" SortPriority="-1" SortDirection="Up" />
             <Column Name="Line" Width="70" Visibility="Visible" SortPriority="-1" SortDirection="Up" />
             <Column Name="Column" Width="70" Visibility="Visible" SortPriority="-1" SortDirection="Up" />
@@ -1405,20 +1405,20 @@
     </Category>
     <Category name="Environment_TaskList" Category="{8EA81A4E-FDB5-4ee8-BD1A-22ECBF73B7CD}" Package="{4A9B7E50-AA16-11d0-A8C5-00A0C921A4D2}" RegisteredName="Environment_TaskList" PackageName="Visual Studio Task List Package">
       <PropertyValue name="Version">1</PropertyValue>
-      <PropertyValue name="ActiveProvider">{5A2D2729-ADFF-4A2E-A44F-55EBBF5DF64B}</PropertyValue>
+      <PropertyValue name="ActiveProvider">{1593EE17-2E95-41F0-8DC6-A0BFE991388F}</PropertyValue>
       <TaskProviders>
         <Provider GUID="{1593EE17-2E95-41F0-8DC6-A0BFE991388F}">
           <Columns>
             <Column Name="Priority" Width="20" Visibility="Visible" SortPriority="-1" SortDirection="Up" />
             <Column Name="Checked" Width="28" Visibility="Visible" SortPriority="-1" SortDirection="Up" />
-            <Column Name="Description" Width="873" Visibility="Visible" SortPriority="0" SortDirection="Down" />
+            <Column Name="Description" Width="18" Visibility="Visible" SortPriority="0" SortDirection="Down" />
           </Columns>
         </Provider>
         <Provider GUID="{5A2D2729-ADFF-4A2E-A44F-55EBBF5DF64B}">
           <Columns>
             <Column Name="Priority" Width="20" Visibility="Visible" SortPriority="0" SortDirection="Up" />
             <Column Name="ProviderKnowsOrder" Width="18" Visibility="Invisible" SortPriority="2" SortDirection="Up" />
-            <Column Name="Description" Width="711" Visibility="Visible" SortPriority="7" SortDirection="Up" />
+            <Column Name="Description" Width="18" Visibility="Visible" SortPriority="7" SortDirection="Up" />
             <Column Name="File" Width="120" Visibility="Visible" SortPriority="4" SortDirection="Up" />
             <Column Name="Line" Width="70" Visibility="Visible" SortPriority="5" SortDirection="Up" />
             <Column Name="Column" Width="70" Visibility="Invisible" SortPriority="6" SortDirection="Up" />
@@ -1451,9 +1451,9 @@
       <PropertyValue name="ItemCount">0</PropertyValue>
     </Category>
     <Category name="Environment_UnifiedFind" Category="{DF00ADDF-C14C-4ffd-9325-634FD605850B}" Package="{DA9FB551-C724-11d0-AE1F-00A0C90FFFC3}" RegisteredName="Environment_UnifiedFind" PackageName="Visual Studio Environment Package">
-      <PropertyValue name="Options">MatchCase=0 WholeWord=0 Hidden=0 Up=0 Selection=0 Block=0 KeepCase=0 SubFolders=1 KeepOpen=0 NameOnly=0 Plain Files Find</PropertyValue>
+      <PropertyValue name="Options">MatchCase=0 WholeWord=0 Hidden=1 Up=0 Selection=0 Block=0 KeepCase=0 SubFolders=0 KeepOpen=0 NameOnly=0 Plain Solution Find</PropertyValue>
       <PropertyValue name="DialogOptions">MatchCase=0 WholeWord=0 Hidden=0 Up=0 Selection=0 Block=0 KeepCase=0 SubFolders=1 KeepOpen=0 NameOnly=0 Plain Solution Find</PropertyValue>
-      <PropertyValue name="AdornmentOptions">MatchCase=0 WholeWord=0 Hidden=1 Up=0 Selection=0 Block=0 KeepCase=0 SubFolders=0 KeepOpen=0 NameOnly=0 Plain Document Find</PropertyValue>
+      <PropertyValue name="AdornmentOptions">MatchCase=0 WholeWord=0 Hidden=1 Up=0 Selection=0 Block=0 KeepCase=0 SubFolders=0 KeepOpen=0 NameOnly=0 Plain Solution Find</PropertyValue>
       <PropertyValue name="Result list">1</PropertyValue>
       <PropertyValue name="ShowEndOfSearch">1</PropertyValue>
       <PropertyValue name="ShowNoFound">1</PropertyValue>
@@ -1686,7 +1686,7 @@
     <PropertyValue name="FrameworkSourceStepping">0</PropertyValue>
     <PropertyValue name="WarnAboutSymbolCacheDuringRemoteManagedDebugging">1</PropertyValue>
     <PropertyValue name="EnableStepFiltering">1</PropertyValue>
-    <PropertyValue name="WarnOnStepFilter">1</PropertyValue>
+    <PropertyValue name="WarnOnStepFilter">0</PropertyValue>
     <PropertyValue name="AllowImplicitFuncEval">1</PropertyValue>
     <PropertyValue name="AllowToString">1</PropertyValue>
     <PropertyValue name="UseSourceServer">0</PropertyValue>

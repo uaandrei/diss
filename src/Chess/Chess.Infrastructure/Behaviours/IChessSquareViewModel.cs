@@ -1,5 +1,4 @@
 ﻿using Chess.Infrastructure.Enums;
-using Chess.Pieces;
 
 namespace Chess.Infrastructure.Behaviours
 {

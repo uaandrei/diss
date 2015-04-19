@@ -1,6 +1,10 @@
-﻿using Chess.Infrastructure.Behaviours;
+﻿using Chess.Business.Interfaces;
+using Chess.Business.Interfaces.Piece;
+using Chess.Infrastructure;
+using Chess.Infrastructure.Behaviours;
 using Chess.Infrastructure.Enums;
 using Microsoft.Practices.Prism.PubSubEvents;
+using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,17 +13,17 @@ namespace Chess.Game.ViewModels
 {
     public class ChessTableViewModel : ViewModelBase, IChessTableViewModel
     {
-        private GameTable _gameTable;
-        private IEventAggregator _eventAggregator;
-        private Pieces.IPiece _selectedSquarePiece;
+        private IPiece _selectedSquarePiece;
         private List<Position> _availableMoves;
+        private IEventAggregator _eventAggregator;
+        private IGameTable _gameTable;
         public ObservableCollection<IChessSquareViewModel> Squares { get; private set; }
 
-        public ChessTableViewModel(IEventAggregator eventAggregator)
+        public ChessTableViewModel(IEventAggregator eg, IGameTable gt)
         {
+            _gameTable = gt;
+            _eventAggregator = eg;
             _availableMoves = new List<Position>();
-            _gameTable = new GameTable();
-            _eventAggregator = eventAggregator;
             InitializeTableSquares();
             InitializeEventHandlers();
             RedrawTable();
@@ -80,7 +84,7 @@ namespace Chess.Game.ViewModels
             square.SquareState = SquareState.Selected;
         }
 
-        private void ColorAndSetMovesAndAttacksForPiece(Pieces.IPiece squarePiece)
+        private void ColorAndSetMovesAndAttacksForPiece(IPiece squarePiece)
         {
             _availableMoves.Clear();
             if (_selectedSquarePiece == null)

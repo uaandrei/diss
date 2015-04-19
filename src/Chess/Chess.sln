@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess", "Chess\Chess.csproj", "{D7085601-4205-408A-A04B-4FF046232F74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Business.ImplementationA", "Chess.Business.ImplementationA\Chess.Business.ImplementationA.csproj", "{D7085601-4205-408A-A04B-4FF046232F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Tests", "Chess.Tests\Chess.Tests.csproj", "{09000C1A-9FFE-4467-8AC6-3A9C98AB09E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Business.ImplementationA.Tests", "Chess.Business.ImplementationA.Tests\Chess.Business.ImplementationA.Tests.csproj", "{09000C1A-9FFE-4467-8AC6-3A9C98AB09E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Desktop", "Chess.Desktop\Chess.Desktop.csproj", "{22F67548-CAC4-4D53-9239-CB0062A4E486}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -18,6 +18,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{73D8E7AB-C045-4868-BD3E-9318F2820EA1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Game", "GameModule\Chess.Game.csproj", "{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{AB45276A-C77D-4D6E-9C0E-2FA1C458799E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game", "Game", "{A2F4B436-0131-4E2A-A88E-077AD60C1AB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Business.Interfaces", "Chess.Business.Interfaces\Chess.Business.Interfaces.csproj", "{B1AD0F92-079D-47A5-B807-8AA254E9A92D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,11 +51,20 @@ Global
 		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1AD0F92-079D-47A5-B807-8AA254E9A92D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1AD0F92-079D-47A5-B807-8AA254E9A92D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1AD0F92-079D-47A5-B807-8AA254E9A92D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1AD0F92-079D-47A5-B807-8AA254E9A92D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA} = {73D8E7AB-C045-4868-BD3E-9318F2820EA1}
+		{D7085601-4205-408A-A04B-4FF046232F74} = {AB45276A-C77D-4D6E-9C0E-2FA1C458799E}
+		{09000C1A-9FFE-4467-8AC6-3A9C98AB09E8} = {AB45276A-C77D-4D6E-9C0E-2FA1C458799E}
+		{468C9C6B-78E8-4198-AAD8-8AB16F7B1FCA} = {A2F4B436-0131-4E2A-A88E-077AD60C1AB6}
+		{AB45276A-C77D-4D6E-9C0E-2FA1C458799E} = {73D8E7AB-C045-4868-BD3E-9318F2820EA1}
+		{A2F4B436-0131-4E2A-A88E-077AD60C1AB6} = {73D8E7AB-C045-4868-BD3E-9318F2820EA1}
+		{B1AD0F92-079D-47A5-B807-8AA254E9A92D} = {AB45276A-C77D-4D6E-9C0E-2FA1C458799E}
 	EndGlobalSection
 EndGlobal

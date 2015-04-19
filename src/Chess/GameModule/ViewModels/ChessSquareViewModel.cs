@@ -1,12 +1,9 @@
-﻿using Chess.Infrastructure.Behaviours;
+﻿using Chess.Infrastructure;
+using Chess.Infrastructure.Behaviours;
 using Chess.Infrastructure.Enums;
-using Chess.Infrastructure.Events;
-using Chess.Pieces;
 using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
 using System.Windows.Input;
 
 namespace Chess.Game.ViewModels
