@@ -1,7 +1,5 @@
-﻿using Chess.Business.Interfaces.Move;
-using Chess.Business.Interfaces.Piece;
+﻿using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
-using Chess.Infrastructure.Enums;
 using System.Collections.Generic;
 
 namespace Chess.Business.ImplementationA.Moves
@@ -18,7 +16,7 @@ namespace Chess.Business.ImplementationA.Moves
             var positions = new List<Position>();
 
             var posibleMove = new Position(position.X, position.Y + 1);
-            if (posibleMove.IsInBounds() && _container.IsFree(posibleMove))
+            if (_container.IsFree(posibleMove))
                 positions.Add(posibleMove);
 
             return positions;

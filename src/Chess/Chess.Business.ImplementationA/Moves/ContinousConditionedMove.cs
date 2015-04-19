@@ -1,5 +1,4 @@
-﻿using Chess.Business.Interfaces.Move;
-using Chess.Business.Interfaces.Piece;
+﻿using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 
 namespace Chess.Business.ImplementationA.Moves

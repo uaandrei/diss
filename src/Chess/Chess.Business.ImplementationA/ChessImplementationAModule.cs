@@ -1,6 +1,4 @@
-﻿using Chess.Business.ImplementationA.Moves;
-using Chess.Business.Interfaces;
-using Chess.Business.Interfaces.Move;
+﻿using Chess.Business.Interfaces;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Unity;
 

@@ -1,9 +1,6 @@
 ﻿using Chess.Business.Interfaces.Move;
 using Chess.Infrastructure;
-using Microsoft.Practices.ServiceLocation;
 using System.Collections.Generic;
-using Microsoft.Practices.Prism.UnityExtensions;
-using Microsoft.Practices.Unity;
 
 namespace Chess.Business.ImplementationA.Moves
 {

@@ -1292,10 +1292,10 @@
       <PropertyValue name="Version">1</PropertyValue>
       <PropertyValue name="ErrorListShowsErrors">true</PropertyValue>
       <PropertyValue name="ErrorListShowsWarnings">true</PropertyValue>
-      <PropertyValue name="ErrorListShowsMessages">true</PropertyValue>
+      <PropertyValue name="ErrorListShowsMessages">false</PropertyValue>
       <PropertyValue name="ErrorListScopeFilteringActive">false</PropertyValue>
       <PropertyValue name="ErrorListFilterScope">3</PropertyValue>
-      <PropertyValue name="ActiveProvider">{00000000-0000-0000-0000-000000000000}</PropertyValue>
+      <PropertyValue name="ActiveProvider">{7E5BB8D2-57E5-4FA9-9542-3870395C16A1}</PropertyValue>
       <TaskProviders>
         <Provider GUID="{7E5BB8D2-57E5-4FA9-9542-3870395C16A1}">
           <Columns>
@@ -1476,23 +1476,23 @@
         <Alias Name="props" Definition="View.PropertiesWindow" />
         <Alias Name="memory1" Definition="Debug.Memory1" />
         <Alias Name="memory2" Definition="Debug.Memory2" />
-        <Alias Name="Lcase" Definition="Edit.MakeLowercase" />
         <Alias Name="memory3" Definition="Debug.Memory3" />
-        <Alias Name="kb" Definition="Debug.ListCallStack" />
-        <Alias Name="locals" Definition="Debug.Locals" />
+        <Alias Name="Lcase" Definition="Edit.MakeLowercase" />
         <Alias Name="memory4" Definition="Debug.Memory4" />
+        <Alias Name="locals" Definition="Debug.Locals" />
+        <Alias Name="kb" Definition="Debug.ListCallStack" />
         <Alias Name="da" Definition="Debug.ListMemory /Ansi" />
-        <Alias Name="DelEOL" Definition="Edit.DeleteToEOL" />
         <Alias Name="db" Definition="Debug.ListMemory /Format:OneByte" />
+        <Alias Name="DelEOL" Definition="Edit.DeleteToEOL" />
         <Alias Name="dc" Definition="Debug.ListMemory /Format:FourBytes /Ansi" />
         <Alias Name="dd" Definition="Debug.ListMemory /Format:FourBytes" />
         <Alias Name="df" Definition="Debug.ListMemory /Format:Float" />
-        <Alias Name="AddProj" Definition="File.AddNewProject" />
         <Alias Name="WordWrap" Definition="Edit.ToggleWordWrap" />
+        <Alias Name="AddProj" Definition="File.AddNewProject" />
         <Alias Name="dq" Definition="Debug.ListMemory /Format:EightBytes" />
         <Alias Name="du" Definition="Debug.ListMemory /Unicode" />
-        <Alias Name="ListMembers" Definition="Edit.ListMembers" />
         <Alias Name="designer" Definition="View.ViewDesigner" />
+        <Alias Name="ListMembers" Definition="Edit.ListMembers" />
         <Alias Name="code" Definition="View.ViewCode" />
         <Alias Name="ParamInfo" Definition="Edit.ParameterInfo" />
         <Alias Name="DelHSp" Definition="Edit.DeleteHorizontalWhiteSpace" />
@@ -1504,14 +1504,14 @@
         <Alias Name="TileV" Definition="Window.TileVertically" />
         <Alias Name="OutlineDefs" Definition="Edit.CollapsetoDefinitions" />
         <Alias Name="CloseAll" Definition="Window.CloseAllDocuments" />
-        <Alias Name="InsertFile" Definition="Edit.InsertFileAsText" />
         <Alias Name="ToggleBook" Definition="Edit.ToggleBookmark" />
+        <Alias Name="InsertFile" Definition="Edit.InsertFileAsText" />
         <Alias Name="autos" Definition="Debug.Autos" />
         <Alias Name="SaveAll" Definition="File.SaveAll" />
         <Alias Name="new" Definition="File.NewFile" />
         <Alias Name="d" Definition="Debug.ListMemory" />
-        <Alias Name="navigate" Definition="View.WebBrowser" />
         <Alias Name="rtc" Definition="Debug.RunToCursor" />
+        <Alias Name="navigate" Definition="View.WebBrowser" />
         <Alias Name="g" Definition="Debug.Start" />
         <Alias Name="k" Definition="Debug.ListCallStack" />
         <Alias Name="format" Definition="Edit.FormatSelection" />
@@ -1519,10 +1519,10 @@
         <Alias Name="p" Definition="Debug.StepOver" />
         <Alias Name="q" Definition="Debug.StopDebugging" />
         <Alias Name="r" Definition="Debug.ListRegisters" />
-        <Alias Name="~*kb" Definition="Debug.ListCallStack /AllThreads" />
         <Alias Name="t" Definition="Debug.StepInto" />
-        <Alias Name="nf" Definition="File.NewFile" />
+        <Alias Name="~*kb" Definition="Debug.ListCallStack /AllThreads" />
         <Alias Name="u" Definition="Debug.ListDisassembly" />
+        <Alias Name="nf" Definition="File.NewFile" />
         <Alias Name="registers" Definition="Debug.Registers" />
         <Alias Name="LineCut" Definition="Edit.LineCut" />
         <Alias Name="memory" Definition="memory1" />
@@ -1532,9 +1532,9 @@
         <Alias Name="DelBOL" Definition="Edit.DeleteToBOL" />
         <Alias Name="~*k" Definition="Debug.ListCallStack /AllThreads" />
         <Alias Name="NextBook" Definition="Edit.NextBookmark" />
-        <Alias Name="NewProj" Definition="File.NewProject" />
-        <Alias Name="Ucase" Definition="Edit.MakeUppercase" />
         <Alias Name="TaskList" Definition="View.TaskList" />
+        <Alias Name="Ucase" Definition="Edit.MakeUppercase" />
+        <Alias Name="NewProj" Definition="File.NewProject" />
         <Alias Name="Untabify" Definition="Edit.UntabifySelectedLines" />
         <Alias Name="GotoBrace" Definition="Edit.GotoBrace" />
         <Alias Name="cls" Definition="Edit.ClearAll" />
@@ -1543,29 +1543,29 @@
         <Alias Name="log" Definition="Tools.LogCommandWindowOutput" />
         <Alias Name="print" Definition="File.Print" />
         <Alias Name="op" Definition="File.OpenProject" />
-        <Alias Name="alias" Definition="Tools.Alias" />
         <Alias Name="eval" Definition="Debug.EvaluateStatement" />
+        <Alias Name="alias" Definition="Tools.Alias" />
         <Alias Name="watch" Definition="Debug.Watch" />
         <Alias Name="cmd" Definition="View.CommandWindow" />
-        <Alias Name="GotoLn" Definition="Edit.GoTo" />
         <Alias Name="help" Definition="Help.F1Help" />
+        <Alias Name="GotoLn" Definition="Edit.GoTo" />
         <Alias Name="disasm" Definition="Debug.Disassembly" />
         <Alias Name="redo" Definition="Edit.Redo" />
-        <Alias Name="LineDel" Definition="Edit.LineDelete" />
-        <Alias Name="tabify" Definition="Edit.TabifySelectedLines" />
         <Alias Name="undo" Definition="Edit.Undo" />
+        <Alias Name="tabify" Definition="Edit.TabifySelectedLines" />
+        <Alias Name="LineDel" Definition="Edit.LineDelete" />
         <Alias Name="StopOutlining" Definition="Edit.CollapsetoDefinitions" />
         <Alias Name="pr" Definition="Debug.StepOut" />
-        <Alias Name="FullScreen" Definition="View.FullScreen" />
         <Alias Name="SaveAs" Definition="File.SaveSelectedItemsAs" />
+        <Alias Name="FullScreen" Definition="View.FullScreen" />
         <Alias Name="nav" Definition="navigate" />
-        <Alias Name="exit" Definition="File.Exit" />
         <Alias Name="SwapAnchor" Definition="Edit.SwapAnchor" />
-        <Alias Name="PrevBook" Definition="Edit.PreviousBookmark" />
+        <Alias Name="exit" Definition="File.Exit" />
         <Alias Name="threads" Definition="Debug.Threads" />
+        <Alias Name="PrevBook" Definition="Edit.PreviousBookmark" />
         <Alias Name="close" Definition="File.Close" />
-        <Alias Name="bl" Definition="Debug.Breakpoints" />
         <Alias Name="toolbox" Definition="View.Toolbox" />
+        <Alias Name="bl" Definition="Debug.Breakpoints" />
         <Alias Name="bp" Definition="Debug.ToggleBreakpoint" />
         <Alias Name="??" Definition="Debug.QuickWatch" />
         <Alias Name="StopFind" Definition="Edit.FindInFiles /stop" />

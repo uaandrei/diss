@@ -1,7 +1,5 @@
-﻿using Chess.Business.Interfaces.Move;
-using Chess.Business.Interfaces.Piece;
+﻿using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
-using Chess.Infrastructure.Enums;
 using System.Collections.Generic;
 
 namespace Chess.Business.ImplementationA.Moves
