@@ -83,15 +83,13 @@
     <Compile Include="ChessImplementationAModule.cs" />
     <Compile Include="GameTable.cs" />
     <Compile Include="Moves\MoveStrategyBase.cs" />
-    <Compile Include="Moves\WhitePawnMove.cs" />
-    <Compile Include="Pieces\PieceContainer.cs" />
     <Compile Include="Pieces\PieceFactory.cs" />
     <Compile Include="Moves\CompositeMove.cs" />
     <Compile Include="Moves\ContinousConditionedMove.cs" />
     <Compile Include="Moves\DiagonalMove.cs" />
     <Compile Include="Moves\LMove.cs" />
     <Compile Include="Moves\OrthogonalMove.cs" />
-    <Compile Include="Moves\BlackPawnMove.cs" />
+    <Compile Include="Moves\PawnMove.cs" />
     <Compile Include="Moves\SquareMove.cs" />
     <Compile Include="Pieces\ChessPiece.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

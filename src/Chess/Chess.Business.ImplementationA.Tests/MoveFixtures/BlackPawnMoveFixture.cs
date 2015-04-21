@@ -1,21 +1,24 @@
 ﻿using Chess.Business.ImplementationA.Moves;
+using Chess.Business.ImplementationA.Pieces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Enums;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Chess.Tests.MoveFixtures
 {
     public class BlackPawnMoveFixture
     {
-        private BlackPawnMove _sut;
-        private IPieceContainer _pieceContainer;
+        private PawnMove _sut;
+        private IPiece _piece;
+        private IList<IPiece> _pieces;
 
         public BlackPawnMoveFixture()
         {
-            _pieceContainer = Helper.GetEmptyContainer();
-            _pieceContainer.Add(Helper.GetMockedPieceAt(1, 0, PieceColor.Black));
-            _sut = new BlackPawnMove(_pieceContainer);
+            _sut = new PawnMove();
+            _piece = Helper.GetMockedPieceAt(1, 0);
+            _pieces = new List<IPiece> { _piece };
         }
 
         [Fact]
@@ -24,7 +27,7 @@ namespace Chess.Tests.MoveFixtures
             // arrange
 
             // act
-            var moves = _sut.GetMoves(new Position(1, 0));
+            var moves = _sut.GetMoves(_piece, _pieces);
 
             // assert
             Assert.Single(moves);
@@ -35,11 +38,11 @@ namespace Chess.Tests.MoveFixtures
         public void GetAttacks_ShouldReturnPositions()
         {
             // arrange
-            _pieceContainer.Add(Helper.GetMockedPieceAt(0, 1, PieceColor.White));
-            _pieceContainer.Add(Helper.GetMockedPieceAt(2, 1, PieceColor.White));
+            _pieces.Add(Helper.GetMockedPieceAt(0, 1, PieceColor.White));
+            _pieces.Add(Helper.GetMockedPieceAt(2, 1, PieceColor.White));
 
             // act
-            var attacks = _sut.GetAttacks(new Position(1, 0));
+            var attacks = _sut.GetAttacks(_piece, _pieces);
 
             // assert
             Assert.Equal(2, attacks.Count);

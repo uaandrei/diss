@@ -3,6 +3,7 @@ using Chess.Business.ImplementationA.Pieces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Enums;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Chess.Tests.ChessPieces
@@ -10,14 +11,14 @@ namespace Chess.Tests.ChessPieces
     public class ChessPieceMoveIntegrationFixture
     {
         private ChessPiece _sut;
-        private IPieceContainer _pieceContainer;
+        private IPiece _piece;
+        private IList<IPiece> _pieces;
 
         public ChessPieceMoveIntegrationFixture()
         {
-            _pieceContainer = Helper.GetEmptyContainer();
-            _pieceContainer.Add(Helper.GetMockedPieceAt(0, 0, PieceColor.Black));
-            var moveStrategy = new LMove(_pieceContainer);
-            _sut = new ChessPiece(new Position(), PieceColor.Black, PieceType.Knight, moveStrategy);
+            _piece = Helper.GetMockedPieceAt(0, 0, PieceColor.Black);
+            _pieces = new List<IPiece> { _piece };
+            _sut = new ChessPiece(new Position(), PieceColor.Black, PieceType.Knight);
         }
 
         [Theory]
@@ -26,10 +27,11 @@ namespace Chess.Tests.ChessPieces
         public void KnightTypePiece_ShouldReturn_LMoves(int x, int y)
         {
             // arrange
+            var moveStrategy = new LMove();
             var move = new Position(x, y);
 
             // act
-            var moves = _sut.GetAvailableMoves();
+            var moves = _sut.GetAvailableMoves(_pieces);
 
             // assert
             Assert.Contains(move, moves);

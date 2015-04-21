@@ -1,8 +1,10 @@
 ﻿using Chess.Business.ImplementationA.Pieces;
 using Chess.Business.Interfaces.Move;
+using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Enums;
 using Moq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Chess.Tests.ChessPieces
@@ -10,12 +12,10 @@ namespace Chess.Tests.ChessPieces
     public class ChessPieceFixture
     {
         private ChessPiece _sut;
-        private Mock<IMoveStrategy> _moveStrategyMock;
 
         public ChessPieceFixture()
         {
-            _moveStrategyMock = new Mock<IMoveStrategy>();
-            _sut = new ChessPiece(new Position(0, 0), PieceColor.Black, PieceType.Bishop, _moveStrategyMock.Object);
+            _sut = new ChessPiece(new Position(0, 0), PieceColor.Black, PieceType.Bishop);
         }
 
         [Fact]
@@ -35,15 +35,14 @@ namespace Chess.Tests.ChessPieces
         public void GetMoves_GetAttacks_Verify()
         {
             // arrange
-            _moveStrategyMock.Setup(p => p.GetMoves(It.IsAny<Position>()));
-            _moveStrategyMock.Setup(p => p.GetAttacks(It.IsAny<Position>()));
 
             // act
-            _sut.GetAvailableMoves();
-            _sut.GetAvailableAttacks();
+            var moves =_sut.GetAvailableMoves(new List<IPiece>());
+            var attacks = _sut.GetAvailableAttacks(new List<IPiece>());
 
             // assert
-            _moveStrategyMock.VerifyAll();
+            Assert.NotNull(moves);
+            Assert.NotNull(attacks);
         }
     }
 }

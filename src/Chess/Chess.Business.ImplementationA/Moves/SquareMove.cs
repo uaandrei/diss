@@ -7,30 +7,25 @@ namespace Chess.Business.ImplementationA.Moves
 {
     public class SquareMove : MoveStrategyBase
     {
-        public SquareMove(IPieceContainer container)
-            : base(container)
+        public override IList<Position> GetMoves(IPiece currentPiece, IEnumerable<IPiece> allPieces)
         {
+            return GetAvailableMoves((c, p) => c.IsFree(p), currentPiece, allPieces);
         }
 
-        public override IList<Position> GetMoves(Position position)
+        protected override List<Position> GenerateAttacks(IPiece currentPiece, IEnumerable<IPiece> allPieces)
         {
-            return GetAvailableMoves((c, p) => c.IsFree(p), position);
+            return GetAvailableMoves((c, p) => !c.IsFree(p), currentPiece, allPieces);
         }
 
-        protected override List<Position> GenerateAttacks(Position position)
-        {
-            return GetAvailableMoves((c, p) => !c.IsFree(p), position);
-        }
-
-        private List<Position> GetAvailableMoves(Func<IPieceContainer, Position, bool> condition, Position position)
+        private List<Position> GetAvailableMoves(Func<IEnumerable<IPiece>, Position, bool> condition, IPiece currentPiece, IEnumerable<IPiece> allPieces)
         {
             var positions = new List<Position>();
             var moves = GetOffsets();
             for (int i = 0; i < 8; i++)
             {
-                var posiblePosition = new Position(position.X + moves[i, 0], position.Y + moves[i, 1]);
+                var posiblePosition = new Position(currentPiece.CurrentPosition.X + moves[i, 0], currentPiece.CurrentPosition.Y + moves[i, 1]);
 
-                if (condition(_container, posiblePosition))
+                if (condition(allPieces, posiblePosition))
                     positions.Add(posiblePosition);
             }
             return positions;

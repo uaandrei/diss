@@ -9,36 +9,55 @@ namespace Chess.Business.ImplementationA
 {
     public class GameTable : IGameTable
     {
-        private IPieceContainer _pieceContainer;
+        private List<IPiece> _pieces;
+        public IEnumerable<IPiece> Pieces { get { return _pieces; } }
 
-        public GameTable()
+        public void Start()
         {
-            InitializeTable();
+            var pieceFactory = new PieceFactory();
+            _pieces = pieceFactory.GetPieces();
+            _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
         }
 
         private void InitializeTable()
         {
-            _pieceContainer = new PieceContainer(new PieceFactory());
-            _pieceContainer.ForEach(p => p.PieceMoving += OnPieceMoving);
         }
 
         private void OnPieceMoving(IPiece piece, Position newPosition)
         {
-            if (_pieceContainer.IsOccupied(newPosition))
+            if (_pieces.IsOccupied(newPosition))
             {
-                var attackedPiece = _pieceContainer.Single(p => p.CurrentPosition == newPosition);
-                _pieceContainer.Remove(attackedPiece);
+                var attackedPiece = _pieces.Single(p => p.CurrentPosition == newPosition);
+                _pieces.Remove(attackedPiece);
             }
         }
+    }
 
-        public IEnumerator<IPiece> GetEnumerator()
+    public static class PieceExtensions
+    {
+        public static bool IsFree(this IEnumerable<IPiece> pieces, int x, int y)
         {
-            return _pieceContainer.GetEnumerator();
+            return pieces.IsFree(new Position(x, y));
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        public static bool IsFree(this IEnumerable<IPiece> pieces, Position pos)
         {
-            return _pieceContainer.GetEnumerator();
+            return !pieces.Any(p => p.CurrentPosition == pos);
+        }
+
+        public static bool IsOccupied(this IEnumerable<IPiece> pieces, int x, int y)
+        {
+            return pieces.IsOccupied(new Position(x, y));
+        }
+
+        public static bool IsOccupied(this IEnumerable<IPiece> pieces, Position pos)
+        {
+            return !pieces.IsFree(pos);
+        }
+
+        public static IPiece GetPiece(this IEnumerable<IPiece> pieces, Position pos)
+        {
+            return pieces.FirstOrDefault(p => p.CurrentPosition == pos);
         }
     }
 }

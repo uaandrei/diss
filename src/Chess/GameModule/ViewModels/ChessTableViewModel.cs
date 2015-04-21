@@ -24,6 +24,7 @@ namespace Chess.Game.ViewModels
             _gameTable = gt;
             _eventAggregator = eg;
             _availableMoves = new List<Position>();
+            _gameTable.Start();
             InitializeTableSquares();
             InitializeEventHandlers();
             RedrawTable();
@@ -39,7 +40,7 @@ namespace Chess.Game.ViewModels
             if (MoveWasHandled(square))
                 return;
             SelectSquare(square);
-            _selectedSquarePiece = _gameTable.FirstOrDefault(p => p.CurrentPosition == square.Position);
+            _selectedSquarePiece = _gameTable.Pieces.FirstOrDefault(p => p.CurrentPosition == square.Position);
             if (_selectedSquarePiece != null)
             {
                 ColorAndSetMovesAndAttacksForPiece(_selectedSquarePiece);
@@ -90,14 +91,14 @@ namespace Chess.Game.ViewModels
             if (_selectedSquarePiece == null)
                 return;
 
-            var availableAttacks = squarePiece.GetAvailableAttacks();
+            var availableAttacks = squarePiece.GetAvailableAttacks(_gameTable.Pieces);
             _availableMoves.AddRange(availableAttacks);
             foreach (var attack in availableAttacks)
             {
                 Squares.Single(p => p.Position == attack).SquareState = SquareState.PosibleAttack;
             }
 
-            var availableMoves = squarePiece.GetAvailableMoves();
+            var availableMoves = squarePiece.GetAvailableMoves(_gameTable.Pieces);
             _availableMoves.AddRange(availableMoves);
             foreach (var move in availableMoves)
             {
@@ -112,7 +113,7 @@ namespace Chess.Game.ViewModels
                 s.SquareState = SquareState.Empty;
                 s.Representation = string.Empty;
             });
-            _gameTable.ForEach(piece =>
+            _gameTable.Pieces.ForEach(piece =>
                 Squares.Single(s => s.Position == piece.CurrentPosition).Representation = string.Format("{0}\n{1}", piece.Color, piece.Type)
             );
         }

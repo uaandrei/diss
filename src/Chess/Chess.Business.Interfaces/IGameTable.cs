@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace Chess.Business.Interfaces
 {
-    public interface IGameTable : IEnumerable<IPiece>
+    public interface IGameTable
     {
+        IEnumerable<IPiece> Pieces { get; }
+        void Start();
     }
 }

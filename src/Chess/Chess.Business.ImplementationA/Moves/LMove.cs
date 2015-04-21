@@ -7,29 +7,24 @@ namespace Chess.Business.ImplementationA.Moves
 {
     public class LMove : MoveStrategyBase
     {
-        public LMove(IPieceContainer container)
-            : base(container)
+        public override IList<Position> GetMoves(IPiece currentPiece, IEnumerable<IPiece> allPieces)
         {
+            return GetMoves((c, p) => c.IsFree(p), currentPiece, allPieces);
         }
 
-        public override IList<Position> GetMoves(Position position)
+        protected override List<Position> GenerateAttacks(IPiece currentPiece, IEnumerable<IPiece> allPieces)
         {
-            return GetMoves((c, p) => c.IsFree(p), position);
+            return GetMoves((c, p) => !c.IsFree(p), currentPiece, allPieces);
         }
 
-        protected override List<Position> GenerateAttacks(Position position)
-        {
-            return GetMoves((c, p) => !c.IsFree(p), position);
-        }
-
-        private List<Position> GetMoves(Func<IPieceContainer, Position, bool> condition, Position position)
+        private List<Position> GetMoves(Func<IEnumerable<IPiece>, Position, bool> condition, IPiece currentPiece, IEnumerable<IPiece> allPieces)
         {
             var positions = new List<Position>();
             var moves = GetOffsets();
             for (int i = 0; i < 8; i++)
             {
-                var posibleMove = new Position(position.X + moves[i, 0], position.Y + moves[i, 1]);
-                if (posibleMove.IsInBounds() && condition(_container, posibleMove))
+                var posibleMove = new Position(currentPiece.CurrentPosition.X + moves[i, 0], currentPiece.CurrentPosition.Y + moves[i, 1]);
+                if (posibleMove.IsInBounds() && condition(allPieces, posibleMove))
                     positions.Add(posibleMove);
             }
             return positions;

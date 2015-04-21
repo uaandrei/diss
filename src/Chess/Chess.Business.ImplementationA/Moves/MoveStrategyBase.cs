@@ -7,31 +7,24 @@ namespace Chess.Business.ImplementationA.Moves
 {
     public abstract class MoveStrategyBase : IMoveStrategy
     {
-        protected IPieceContainer _container;
+        public abstract IList<Position> GetMoves(IPiece currentPiece, IEnumerable<IPiece> allPieces);
 
-        public MoveStrategyBase(IPieceContainer pieceContainer)
+        public IList<Position> GetAttacks(IPiece currentPiece, IEnumerable<IPiece> allPieces)
         {
-            _container = pieceContainer;
+            var attacks = GenerateAttacks(currentPiece, allPieces);
+            return FilterOutInvalidAttacks(attacks, currentPiece, allPieces);
         }
 
-        public abstract IList<Position> GetMoves(Position position);
+        protected abstract List<Position> GenerateAttacks(IPiece currentPiece, IEnumerable<IPiece> allPieces);
 
-        public IList<Position> GetAttacks(Position position)
+        private bool IsAttackInvalid(Position current, Position dest, IEnumerable<IPiece> pieces)
         {
-            var attacks = GenerateAttacks(position);
-            return FilterOutInvalidAttacks(attacks, position);
+            return dest.IsInBounds() && pieces.GetPiece(dest) != null && pieces.GetPiece(current).Color == pieces.GetPiece(dest).Color;
         }
 
-        protected abstract List<Position> GenerateAttacks(Position position);
-
-        private bool IsAttackInvalid(Position current, Position dest)
+        protected IList<Position> FilterOutInvalidAttacks(List<Position> positions, IPiece currentPiece, IEnumerable<IPiece> pieces)
         {
-            return dest.IsInBounds() && _container[dest] != null && _container[current].Color == _container[dest].Color;
-        }
-
-        protected IList<Position> FilterOutInvalidAttacks(List<Position> positions, Position currentPosition)
-        {
-            positions.RemoveAll(p => IsAttackInvalid(currentPosition, p));
+            positions.RemoveAll(p => IsAttackInvalid(currentPiece.CurrentPosition, p, pieces));
             return positions;
         }
     }

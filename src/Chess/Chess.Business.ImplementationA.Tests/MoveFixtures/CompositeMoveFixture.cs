@@ -2,6 +2,7 @@
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Enums;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Chess.Tests.MoveFixtures
@@ -9,13 +10,14 @@ namespace Chess.Tests.MoveFixtures
     public class CompositeMoveFixture
     {
         private CompositeMove _sut;
-        private IPieceContainer _pieceContainer;
+        private IPiece _piece;
+        private IList<IPiece> _pieces;
 
         public CompositeMoveFixture()
         {
-            _pieceContainer = Helper.GetEmptyContainer();
-            _pieceContainer.Add(Helper.GetMockedPieceAt(4, 4, PieceColor.Black));
-            _sut = new CompositeMove(new DiagonalMove(_pieceContainer), new OrthogonalMove(_pieceContainer));
+            _piece = Helper.GetMockedPieceAt(4, 4, PieceColor.Black);
+            _pieces = new List<IPiece> { _piece };
+            _sut = new CompositeMove(new DiagonalMove(), new OrthogonalMove());
         }
 
         [Theory]
@@ -27,7 +29,7 @@ namespace Chess.Tests.MoveFixtures
             var move = new Position(x, y);
 
             // act
-            var moves = _sut.GetMoves(new Position(4, 4));
+            var moves = _sut.GetMoves(_piece, _pieces);
 
             // assert
             Assert.Equal(27, moves.Count);
@@ -39,12 +41,12 @@ namespace Chess.Tests.MoveFixtures
         public void GetAttacks_ShouldReturnPositions(int x, int y)
         {
             // arrange
-            _pieceContainer.Add(Helper.GetMockedPieceAt(3, 4, PieceColor.Black));
-            _pieceContainer.Add(Helper.GetMockedPieceAt(x, y, PieceColor.White));
+            _pieces.Add(Helper.GetMockedPieceAt(3, 4, PieceColor.Black));
+            _pieces.Add(Helper.GetMockedPieceAt(x, y, PieceColor.White));
             var move = new Position(x, y);
 
             // act
-            var attacks = _sut.GetAttacks(new Position(4, 4));
+            var attacks = _sut.GetAttacks(_piece, _pieces);
 
             // assert
             Assert.Single(attacks, move);

@@ -36,7 +36,6 @@
     <Compile Include="IGameTable.cs" />
     <Compile Include="Move\IMoveStrategy.cs" />
     <Compile Include="Piece\IPiece.cs" />
-    <Compile Include="Piece\IPieceContainer.cs" />
     <Compile Include="Piece\IPieceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

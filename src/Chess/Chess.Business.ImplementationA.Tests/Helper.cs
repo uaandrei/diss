@@ -9,16 +9,7 @@ namespace Chess.Tests
 {
     static class Helper
     {
-        public static IPieceContainer GetEmptyContainer()
-        {
-            var mockedEmptyFactory = new Mock<IPieceFactory>();
-            mockedEmptyFactory
-                .Setup(f => f.Pieces)
-                .Returns(new List<IPiece>());
-            return new PieceContainer(mockedEmptyFactory.Object);
-        }
-
-        public static IPiece GetMockedPieceAt(int x, int y, PieceColor color)
+        public static IPiece GetMockedPieceAt(int x, int y, PieceColor color = PieceColor.Black)
         {
             var mockedPiece = new Mock<IPiece>();
             mockedPiece
