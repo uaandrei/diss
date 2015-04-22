@@ -38,6 +38,7 @@
     <Compile Include="Enums\MoveColor.cs" />
     <Compile Include="Enums\SquareState.cs" />
     <Compile Include="Events\SquareSelectedEvent.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Names\ModuleNames.cs" />
     <Compile Include="Names\RegionNames.cs" />
     <Compile Include="Enums\PieceColor.cs" />

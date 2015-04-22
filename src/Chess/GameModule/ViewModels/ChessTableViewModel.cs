@@ -13,8 +13,6 @@ namespace Chess.Game.ViewModels
 {
     public class ChessTableViewModel : ViewModelBase, IChessTableViewModel
     {
-        private IPiece _selectedSquarePiece;
-        private List<Position> _availableMoves;
         private IEventAggregator _eventAggregator;
         private IGameTable _gameTable;
         public ObservableCollection<IChessSquareViewModel> Squares { get; private set; }
@@ -23,7 +21,6 @@ namespace Chess.Game.ViewModels
         {
             _gameTable = gt;
             _eventAggregator = eg;
-            _availableMoves = new List<Position>();
             _gameTable.Start();
             InitializeTableSquares();
             InitializeEventHandlers();
@@ -34,17 +31,8 @@ namespace Chess.Game.ViewModels
 
         private void OnSquareSelected(IChessSquareViewModel square)
         {
-            if (_selectedSquarePiece != null && _selectedSquarePiece.CurrentPosition == square.Position)
-                return;
+            _gameTable.ParseInput(square.Position);
             RedrawTable();
-            if (MoveWasHandled(square))
-                return;
-            SelectSquare(square);
-            _selectedSquarePiece = _gameTable.Pieces.FirstOrDefault(p => p.CurrentPosition == square.Position);
-            if (_selectedSquarePiece != null)
-            {
-                ColorAndSetMovesAndAttacksForPiece(_selectedSquarePiece);
-            }
         }
 
         #endregion
@@ -52,20 +40,6 @@ namespace Chess.Game.ViewModels
         private void InitializeEventHandlers()
         {
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.SquareSelectedEvent>().Subscribe(OnSquareSelected);
-        }
-
-        private bool MoveWasHandled(IChessSquareViewModel square)
-        {
-            if (_selectedSquarePiece == null)
-                return false;
-
-            if (!_availableMoves.Contains(square.Position))
-                return false;
-
-            _selectedSquarePiece.Move(square.Position);
-            _selectedSquarePiece = null;
-            RedrawTable();
-            return true;
         }
 
         private void InitializeTableSquares()
@@ -80,32 +54,6 @@ namespace Chess.Game.ViewModels
             }
         }
 
-        private void SelectSquare(IChessSquareViewModel square)
-        {
-            square.SquareState = SquareState.Selected;
-        }
-
-        private void ColorAndSetMovesAndAttacksForPiece(IPiece squarePiece)
-        {
-            _availableMoves.Clear();
-            if (_selectedSquarePiece == null)
-                return;
-
-            var availableAttacks = squarePiece.GetAvailableAttacks(_gameTable.Pieces);
-            _availableMoves.AddRange(availableAttacks);
-            foreach (var attack in availableAttacks)
-            {
-                Squares.Single(p => p.Position == attack).SquareState = SquareState.PosibleAttack;
-            }
-
-            var availableMoves = squarePiece.GetAvailableMoves(_gameTable.Pieces);
-            _availableMoves.AddRange(availableMoves);
-            foreach (var move in availableMoves)
-            {
-                Squares.Single(p => p.Position == move).SquareState = SquareState.PosibleMove;
-            }
-        }
-
         private void RedrawTable()
         {
             Squares.ForEach(s =>
@@ -113,9 +61,24 @@ namespace Chess.Game.ViewModels
                 s.SquareState = SquareState.Empty;
                 s.Representation = string.Empty;
             });
-            _gameTable.Pieces.ForEach(piece =>
+            _gameTable.GetPieces().ForEach(piece =>
                 Squares.Single(s => s.Position == piece.CurrentPosition).Representation = string.Format("{0}\n{1}", piece.Color, piece.Type)
             );
+            SelectSquare(_gameTable.SelectedSquare);
+            _gameTable.TableAttacks.ForEach(a => SetSquareState(a, SquareState.PosibleAttack));
+            _gameTable.TableMoves.ForEach(a => SetSquareState(a, SquareState.PosibleMove));
+        }
+
+        private void SelectSquare(Position pos)
+        {
+            if (pos == null)
+                return;
+            SetSquareState(pos, SquareState.Selected);
+        }
+
+        private void SetSquareState(Position pos, SquareState state)
+        {
+            Squares.Single(s => s.Position == pos).SquareState = state;
         }
     }
 }

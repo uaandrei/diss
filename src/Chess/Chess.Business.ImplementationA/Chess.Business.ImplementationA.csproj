@@ -92,6 +92,7 @@
     <Compile Include="Moves\PawnMove.cs" />
     <Compile Include="Moves\SquareMove.cs" />
     <Compile Include="Pieces\ChessPiece.cs" />
+    <Compile Include="HumanPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

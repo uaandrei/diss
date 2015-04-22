@@ -55,14 +55,14 @@ namespace Chess.Infrastructure
         {
             if (p1 is Position && p2 is Position)
                 return p1.Equals(p2);
+            if (((object)p1) == null && ((object)p2) == null)
+                return true;
             return false;
         }
 
         public static bool operator !=(Position p1, Position p2)
         {
-            if (p1 is Position && p2 is Position)
-                return !p1.Equals(p2);
-            return false;
+            return !(p1 == p2);
         }
     }
 
