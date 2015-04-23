@@ -1,8 +1,8 @@
 ﻿using Chess.Business.ImplementationA.Pieces;
+using Chess.Business.ImplementationA.Players;
 using Chess.Business.Interfaces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
-using Microsoft.Practices.Prism.PubSubEvents;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,25 +10,21 @@ namespace Chess.Business.ImplementationA
 {
     public class GameTable : IGameTable
     {
+        #region Members
         private IEnumerable<IPlayer> _players;
-        private IEnumerator<IPlayer> _playerEnumerator;
         private IList<IPiece> _pieces;
         private IPiece _selectedPiece;
         private List<Position> _allAvailableMoves;
         private List<Position> _moves;
         private List<Position> _attacks;
-        private IEventAggregator _eventAggregator;
+        private PlayerSwitchSystem _playerSwitchSystem;
 
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
-        public IPlayer CurrentPlayer { get { return _playerEnumerator.Current; } }
+        public IPlayer CurrentPlayer { get { return _playerSwitchSystem.CurrentPlayer; } }
         public IEnumerable<Position> TableMoves { get { return _moves; } }
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
-
-        public GameTable(IEventAggregator eventAggregator)
-        {
-            _eventAggregator = eventAggregator;
-        }
+        #endregion
 
         public void Start()
         {
@@ -36,25 +32,21 @@ namespace Chess.Business.ImplementationA
             _moves = new List<Position>();
             _attacks = new List<Position>();
             InitializePlayersAndPieces();
-            CyclePlayerTurn();
+            _playerSwitchSystem = new PlayerSwitchSystem(_players.GetEnumerator());
+            _playerSwitchSystem.NextTurn(this);
         }
 
         public void ParseInput(Position userInput)
         {
-            if (IsPieceSelected() && _selectedPiece.CurrentPosition == userInput)
-                return;
-
-            _moves.Clear();
-            _attacks.Clear();
-            if (MoveWasHandled(userInput))
+            if (MoveCanBeHandled(userInput))
             {
-                CyclePlayerTurn();
-                _selectedPiece = null;
-                return;
+                PlayerMove(userInput);
+                ClearAllMoves();
             }
-            _selectedPiece = _pieces.GetPiece(userInput);
-            if (IsPieceSelected())
+            else
             {
+                ClearAllMoves();
+                _selectedPiece = _pieces.GetPiece(userInput);
                 SetMovesForSelectedPiece();
             }
         }
@@ -66,16 +58,35 @@ namespace Chess.Business.ImplementationA
 
         private void InitializePlayersAndPieces()
         {
-
             var pieceFactory = new PieceFactory();
             _pieces = pieceFactory.GetPieces();
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
-
-            var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
-            //var blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black).ToList(), 2);
+            var whitePlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
             var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
+            //var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
             _players = new IPlayer[] { whitePlayer, blackPlayer };
-            _playerEnumerator = _players.GetEnumerator();
+        }
+
+        private void PlayerMove(Position userInput)
+        {
+            _selectedPiece.Move(userInput);
+            _selectedPiece = null;
+            _playerSwitchSystem.NextTurn(this);
+        }
+
+        private void ClearAllMoves()
+        {
+            _attacks.Clear();
+            _moves.Clear();
+            _allAvailableMoves.Clear();
+        }
+
+        private bool MoveCanBeHandled(Position userInput)
+        {
+            return IsPieceSelected()
+                && !_selectedPiece.CurrentPosition.Equals(userInput)
+                && _allAvailableMoves.Contains(userInput)
+                && CurrentPlayer.OwnsPiece(_selectedPiece);
         }
 
         private void OnPieceMoving(IPiece piece, Position newPosition)
@@ -87,41 +98,18 @@ namespace Chess.Business.ImplementationA
             }
         }
 
-        private void CyclePlayerTurn()
-        {
-            if (!_playerEnumerator.MoveNext())
-            {
-                _playerEnumerator.Reset();
-                _playerEnumerator.MoveNext();
-            }
-            _eventAggregator.GetEvent<Chess.Infrastructure.Events.PlayerChangedEvent>().Publish(CurrentPlayer);
-            CurrentPlayer.Act(this);
-        }
-
-        private bool MoveWasHandled(Position position)
+        private void SetMovesForSelectedPiece()
         {
             if (!IsPieceSelected())
-                return false;
-
-            if (!_allAvailableMoves.Contains(position) || !CurrentPlayer.OwnsPiece(_selectedPiece))
-                return false;
-
-            _selectedPiece.Move(position);
-            return true;
+                return;
+            _attacks.AddRange(_selectedPiece.GetAvailableAttacks(Pieces));
+            _allAvailableMoves.AddRange(TableMoves);
+            _allAvailableMoves.AddRange(TableAttacks);
         }
 
         private bool IsPieceSelected()
         {
             return _selectedPiece != null;
-        }
-
-        private void SetMovesForSelectedPiece()
-        {
-            _allAvailableMoves.Clear();
-            _moves.AddRange(_selectedPiece.GetAvailableMoves(Pieces));
-            _attacks.AddRange(_selectedPiece.GetAvailableAttacks(Pieces));
-            _allAvailableMoves.AddRange(TableMoves);
-            _allAvailableMoves.AddRange(TableAttacks);
         }
     }
 

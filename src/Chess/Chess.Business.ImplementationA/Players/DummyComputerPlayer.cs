@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Chess.Business.ImplementationA
+namespace Chess.Business.ImplementationA.Players
 {
     public class DummyComputerPlayer : IPlayer
     {

@@ -81,7 +81,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChessImplementationAModule.cs" />
-    <Compile Include="DummyComputerPlayer.cs" />
+    <Compile Include="PlayerSwitchSystem.cs" />
+    <Compile Include="Players\DummyComputerPlayer.cs" />
     <Compile Include="GameTable.cs" />
     <Compile Include="Moves\MoveStrategyBase.cs" />
     <Compile Include="Pieces\PieceFactory.cs" />
@@ -93,7 +94,7 @@
     <Compile Include="Moves\PawnMove.cs" />
     <Compile Include="Moves\SquareMove.cs" />
     <Compile Include="Pieces\ChessPiece.cs" />
-    <Compile Include="HumanPlayer.cs" />
+    <Compile Include="Players\HumanPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

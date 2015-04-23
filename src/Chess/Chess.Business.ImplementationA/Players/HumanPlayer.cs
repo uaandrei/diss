@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Chess.Business.ImplementationA
+namespace Chess.Business.ImplementationA.Players
 {
     public class HumanPlayer : IPlayer
     {

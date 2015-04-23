@@ -11,7 +11,7 @@ namespace Chess.Business.ImplementationA.Moves
             var positions = new List<Position>();
 
             var posibleMove = GetPosibleMove(currentPiece);
-            if (allPieces.IsFree(posibleMove))
+            if (posibleMove.IsInBounds() && allPieces.IsFree(posibleMove))
                 positions.Add(posibleMove);
 
             return positions;
@@ -23,7 +23,7 @@ namespace Chess.Business.ImplementationA.Moves
 
             var move = GetPosibleMove(currentPiece);
             var posibleAttack = new Position(move.X - 1, move.Y);
-            if (!allPieces.IsFree(posibleAttack))
+            if (posibleAttack.IsInBounds() && !allPieces.IsFree(posibleAttack))
                 positions.Add(posibleAttack);
             posibleAttack = new Position(move.X + 1, move.Y);
             if (!allPieces.IsFree(posibleAttack))
