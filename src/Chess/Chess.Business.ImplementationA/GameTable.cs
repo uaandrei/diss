@@ -63,7 +63,6 @@ namespace Chess.Business.ImplementationA
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
             var whitePlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
             var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
-            //var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
             _players = new IPlayer[] { whitePlayer, blackPlayer };
         }
 
@@ -103,8 +102,9 @@ namespace Chess.Business.ImplementationA
             if (!IsPieceSelected())
                 return;
             _attacks.AddRange(_selectedPiece.GetAvailableAttacks(Pieces));
-            _allAvailableMoves.AddRange(TableMoves);
-            _allAvailableMoves.AddRange(TableAttacks);
+            _moves.AddRange(_selectedPiece.GetAvailableMoves(Pieces));
+            _allAvailableMoves.AddRange(_attacks);
+            _allAvailableMoves.AddRange(_moves);
         }
 
         private bool IsPieceSelected()
