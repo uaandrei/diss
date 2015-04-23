@@ -15,6 +15,7 @@ namespace Chess.Business.ImplementationA
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
         private int _moveOrder;
         public int MoveOrder { get { return _moveOrder; } }
+        public string Name { get { return string.Format("Player {0}", _moveOrder); } }
 
         public HumanPlayer(IEnumerable<IPiece> pieces, int moveOrder)
         {
@@ -32,5 +33,8 @@ namespace Chess.Business.ImplementationA
         {
             return _pieces.Any(p => p == piece);
         }
+
+
+        public void Act(IGameTable g) { }
     }
 }

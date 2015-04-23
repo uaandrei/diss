@@ -17,14 +17,14 @@ namespace Chess.Business.ImplementationA.Moves
 
         protected abstract List<Position> GenerateAttacks(IPiece currentPiece, IEnumerable<IPiece> allPieces);
 
-        private bool IsAttackInvalid(Position current, Position dest, IEnumerable<IPiece> pieces)
+        private bool IsAttackValid(Position current, Position dest, IEnumerable<IPiece> pieces)
         {
-            return dest.IsInBounds() && pieces.GetPiece(dest) != null && pieces.GetPiece(current).Color == pieces.GetPiece(dest).Color;
+            return dest.IsInBounds() && pieces.GetPiece(dest) != null && pieces.GetPiece(current).Color != pieces.GetPiece(dest).Color;
         }
 
         protected IList<Position> FilterOutInvalidAttacks(List<Position> positions, IPiece currentPiece, IEnumerable<IPiece> pieces)
         {
-            positions.RemoveAll(p => IsAttackInvalid(currentPiece.CurrentPosition, p, pieces));
+            positions.RemoveAll(p => !IsAttackValid(currentPiece.CurrentPosition, p, pieces));
             return positions;
         }
     }

@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChessImplementationAModule.cs" />
+    <Compile Include="DummyComputerPlayer.cs" />
     <Compile Include="GameTable.cs" />
     <Compile Include="Moves\MoveStrategyBase.cs" />
     <Compile Include="Pieces\PieceFactory.cs" />

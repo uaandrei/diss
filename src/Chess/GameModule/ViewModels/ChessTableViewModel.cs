@@ -1,11 +1,8 @@
 ﻿using Chess.Business.Interfaces;
-using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Behaviours;
 using Chess.Infrastructure.Enums;
 using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Unity;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -13,12 +10,40 @@ namespace Chess.Game.ViewModels
 {
     public class ChessTableViewModel : ViewModelBase, IChessTableViewModel
     {
+        #region Memebers
         private IEventAggregator _eventAggregator;
         private IGameTable _gameTable;
         public ObservableCollection<IChessSquareViewModel> Squares { get; private set; }
 
+        private bool _moveAllowed;
+        public bool MoveAllowed
+        {
+            get { return _moveAllowed; }
+            set
+            {
+                _moveAllowed = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private string _infoText;
+        public string InfoText
+        {
+            get { return _infoText; }
+            set
+            {
+                _infoText = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Initialization
+
         public ChessTableViewModel(IEventAggregator eg, IGameTable gt)
         {
+            MoveAllowed = true;
             _gameTable = gt;
             _eventAggregator = eg;
             _gameTable.Start();
@@ -27,19 +52,11 @@ namespace Chess.Game.ViewModels
             RedrawTable();
         }
 
-        #region Event Handlers
-
-        private void OnSquareSelected(IChessSquareViewModel square)
-        {
-            _gameTable.ParseInput(square.Position);
-            RedrawTable();
-        }
-
-        #endregion
-
         private void InitializeEventHandlers()
         {
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.SquareSelectedEvent>().Subscribe(OnSquareSelected);
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.PlayerChangedEvent>().Subscribe(OnPlayerChanged);
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Subscribe(DoRefreshTable);
         }
 
         private void InitializeTableSquares()
@@ -53,6 +70,31 @@ namespace Chess.Game.ViewModels
                 }
             }
         }
+
+        #endregion
+
+        #region Event Handlers
+
+        private void OnSquareSelected(IChessSquareViewModel square)
+        {
+            _gameTable.ParseInput(square.Position);
+            RedrawTable();
+        }
+
+        private void OnPlayerChanged(object player)
+        {
+            MoveAllowed = !_gameTable.CurrentPlayer.IsAutomatic;
+            InfoText = string.Format("Player to move: {0}\nUI: {1}\nWaiting...", _gameTable.CurrentPlayer.Name, _gameTable.CurrentPlayer.IsAutomatic);
+        }
+
+        private void DoRefreshTable(object obj)
+        {
+            RedrawTable();
+        }
+
+        #endregion
+
+        #region Methods
 
         private void RedrawTable()
         {
@@ -80,5 +122,7 @@ namespace Chess.Game.ViewModels
         {
             Squares.Single(s => s.Position == pos).SquareState = state;
         }
+
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using Chess.Business.Interfaces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
+using Microsoft.Practices.Prism.PubSubEvents;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,12 +17,18 @@ namespace Chess.Business.ImplementationA
         private List<Position> _allAvailableMoves;
         private List<Position> _moves;
         private List<Position> _attacks;
+        private IEventAggregator _eventAggregator;
 
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
         public IPlayer CurrentPlayer { get { return _playerEnumerator.Current; } }
         public IEnumerable<Position> TableMoves { get { return _moves; } }
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
+
+        public GameTable(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+        }
 
         public void Start()
         {
@@ -36,7 +43,7 @@ namespace Chess.Business.ImplementationA
         {
             if (_selectedPiece != null && _selectedPiece.CurrentPosition == userInput)
                 return;
-            
+
             _moves.Clear();
             _attacks.Clear();
             if (MoveWasHandled(userInput))
@@ -64,8 +71,9 @@ namespace Chess.Business.ImplementationA
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
 
             var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White).ToList(), 1);
-            var blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black).ToList(), 2);
-            _players = new[] { whitePlayer, blackPlayer };
+            //var blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black).ToList(), 2);
+            var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black).ToList(), 2);
+            _players = new IPlayer[] { whitePlayer, blackPlayer };
             _playerEnumerator = _players.GetEnumerator();
         }
 
@@ -85,6 +93,8 @@ namespace Chess.Business.ImplementationA
                 _playerEnumerator.Reset();
                 _playerEnumerator.MoveNext();
             }
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.PlayerChangedEvent>().Publish(CurrentPlayer);
+            CurrentPlayer.Act(this);
         }
 
         private bool MoveWasHandled(Position position)

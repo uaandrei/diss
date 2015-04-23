@@ -13,10 +13,16 @@
         <converters:SquareStateToBorderThicknessConverter x:Key="SquareStateToBorderThicknessConverter" />
         <converters:SquareStateToBorderColorConverter x:Key="SquareStateToBorderColorConverter" />
     </UserControl.Resources>
-    <Grid>
-        <ListBox ItemsSource="{Binding Squares}"
-                 HorizontalAlignment="Left"
-                 VerticalAlignment="Top">
+    <DockPanel>
+        <StackPanel Name="infoBar"
+                    DockPanel.Dock="Top">
+            <TextBlock Text="{Binding InfoText}" />
+        </StackPanel>
+        <ListBox  DockPanel.Dock="Left"
+                  IsEnabled="{Binding MoveAllowed}"
+                  ItemsSource="{Binding Squares}"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="8"
@@ -36,5 +42,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-    </Grid>
+    </DockPanel>
 </UserControl>

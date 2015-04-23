@@ -37,6 +37,8 @@
     <Compile Include="Behaviours\IChessTableViewModel.cs" />
     <Compile Include="Enums\MoveColor.cs" />
     <Compile Include="Enums\SquareState.cs" />
+    <Compile Include="Events\PlayerChangedEvent.cs" />
+    <Compile Include="Events\RefreshTableEvent.cs" />
     <Compile Include="Events\SquareSelectedEvent.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Names\ModuleNames.cs" />
