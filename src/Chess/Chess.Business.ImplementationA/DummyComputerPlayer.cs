@@ -1,4 +1,5 @@
-﻿using Chess.Business.Interfaces;
+﻿using System.Linq;
+using Chess.Business.Interfaces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Events;
@@ -13,7 +14,7 @@ namespace Chess.Business.ImplementationA
 {
     public class DummyComputerPlayer : IPlayer
     {
-        private List<IPiece> _pieces;
+        private IEnumerable<IPiece> _pieces;
         private int _moveOrder;
         private IEventAggregator _eventAggregator;
         public bool IsAutomatic { get { return true; } }
@@ -22,7 +23,7 @@ namespace Chess.Business.ImplementationA
         public int MoveOrder { get { return _moveOrder; } }
         public string Name { get { return string.Format("Dummy AI {0}", _moveOrder); } }
 
-        public DummyComputerPlayer(List<IPiece> list, int moveOrder)
+        public DummyComputerPlayer(IEnumerable<IPiece> list, int moveOrder)
         {
             _pieces = list;
             _moveOrder = moveOrder;
@@ -47,23 +48,26 @@ namespace Chess.Business.ImplementationA
 
         private void GenerateMove(object state)
         {
-            var gameTable = state as IGameTable;
-            IPiece pieceToMove;
-            Thread.Sleep(500);
-            var availablePositions = new List<Position>();
-            do
+            lock (this)
             {
-                availablePositions.Clear();
-                var random = new Random();
-                pieceToMove = _pieces[random.Next(0, _pieces.Count)];
-                availablePositions.AddRange(pieceToMove.GetAvailableAttacks(gameTable.GetPieces()));
-                availablePositions.AddRange(pieceToMove.GetAvailableMoves(gameTable.GetPieces()));
-            } while (availablePositions.Count <= 0);
-            var random1 = new Random();
-            var move = availablePositions[random1.Next(0, availablePositions.Count)];
-            gameTable.ParseInput(pieceToMove.CurrentPosition);
-            gameTable.ParseInput(move);
-            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
+                var gameTable = state as IGameTable;
+                IPiece pieceToMove;
+                Thread.Sleep(50);
+                var availablePositions = new List<Position>();
+                do
+                {
+                    availablePositions.Clear();
+                    var random = new Random();
+                    pieceToMove = _pieces.ElementAt(random.Next(0, _pieces.Count()));
+                    availablePositions.AddRange(pieceToMove.GetAvailableAttacks(gameTable.GetPieces()));
+                    availablePositions.AddRange(pieceToMove.GetAvailableMoves(gameTable.GetPieces()));
+                } while (availablePositions.Count <= 0);
+                var random1 = new Random();
+                var move = availablePositions[random1.Next(0, availablePositions.Count)];
+                gameTable.ParseInput(pieceToMove.CurrentPosition);
+                gameTable.ParseInput(move);
+                _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
+            }
         }
     }
 }

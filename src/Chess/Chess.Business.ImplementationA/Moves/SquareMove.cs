@@ -25,7 +25,7 @@ namespace Chess.Business.ImplementationA.Moves
             {
                 var posiblePosition = new Position(currentPiece.CurrentPosition.X + moves[i, 0], currentPiece.CurrentPosition.Y + moves[i, 1]);
 
-                if (condition(allPieces, posiblePosition))
+                if (posiblePosition.IsInBounds() && condition(allPieces, posiblePosition))
                     positions.Add(posiblePosition);
             }
             return positions;

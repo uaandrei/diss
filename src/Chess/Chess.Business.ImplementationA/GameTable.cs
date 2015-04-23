@@ -70,9 +70,9 @@ namespace Chess.Business.ImplementationA
             _pieces = pieceFactory.GetPieces();
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
 
-            var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White).ToList(), 1);
+            var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
             //var blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black).ToList(), 2);
-            var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black).ToList(), 2);
+            var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
             _players = new IPlayer[] { whitePlayer, blackPlayer };
             _playerEnumerator = _players.GetEnumerator();
         }

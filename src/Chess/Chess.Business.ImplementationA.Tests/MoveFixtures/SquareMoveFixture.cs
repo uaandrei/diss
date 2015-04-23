@@ -33,6 +33,7 @@ namespace Chess.Tests.MoveFixtures
             var moves = _sut.GetMoves(_piece, _pieces);
 
             // assert
+            Assert.Equal(3, moves.Count);
             Assert.Contains(move, moves);
         }
 
