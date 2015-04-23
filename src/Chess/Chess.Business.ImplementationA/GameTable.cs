@@ -41,7 +41,7 @@ namespace Chess.Business.ImplementationA
 
         public void ParseInput(Position userInput)
         {
-            if (_selectedPiece != null && _selectedPiece.CurrentPosition == userInput)
+            if (IsPieceSelected() && _selectedPiece.CurrentPosition == userInput)
                 return;
 
             _moves.Clear();
@@ -49,10 +49,11 @@ namespace Chess.Business.ImplementationA
             if (MoveWasHandled(userInput))
             {
                 CyclePlayerTurn();
+                _selectedPiece = null;
                 return;
             }
-            _selectedPiece = _pieces.FirstOrDefault(p => p.CurrentPosition == userInput);
-            if (_selectedPiece != null)
+            _selectedPiece = _pieces.GetPiece(userInput);
+            if (IsPieceSelected())
             {
                 SetMovesForSelectedPiece();
             }
@@ -99,23 +100,24 @@ namespace Chess.Business.ImplementationA
 
         private bool MoveWasHandled(Position position)
         {
-            if (_selectedPiece == null)
+            if (!IsPieceSelected())
                 return false;
 
             if (!_allAvailableMoves.Contains(position) || !CurrentPlayer.OwnsPiece(_selectedPiece))
                 return false;
 
             _selectedPiece.Move(position);
-            _selectedPiece = null;
             return true;
+        }
+
+        private bool IsPieceSelected()
+        {
+            return _selectedPiece != null;
         }
 
         private void SetMovesForSelectedPiece()
         {
             _allAvailableMoves.Clear();
-            if (_selectedPiece == null)
-                return;
-
             _moves.AddRange(_selectedPiece.GetAvailableMoves(Pieces));
             _attacks.AddRange(_selectedPiece.GetAvailableAttacks(Pieces));
             _allAvailableMoves.AddRange(TableMoves);
