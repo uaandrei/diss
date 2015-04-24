@@ -181,3 +181,7 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Code Coverage
+/src/Chess/coverage.xml
+/src/Chess/coverage
