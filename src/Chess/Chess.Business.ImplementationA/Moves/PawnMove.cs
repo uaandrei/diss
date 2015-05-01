@@ -35,9 +35,9 @@ namespace Chess.Business.ImplementationA.Moves
         {
             var pawnPosition = new Position(pawn.CurrentPosition);
             if (pawn.Color == Infrastructure.Enums.PieceColor.White)
-                --pawnPosition.Y;
-            else
                 ++pawnPosition.Y;
+            else
+                --pawnPosition.Y;
             return pawnPosition;
         }
     }

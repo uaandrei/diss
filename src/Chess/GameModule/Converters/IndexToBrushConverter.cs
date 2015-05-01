@@ -15,9 +15,9 @@ namespace Chess.Game.Converters
                 var y = index / 8;
                 if (y % 2 == 0)
                 {
-                    return x % 2 == 0 ? System.Windows.Media.Brushes.White : System.Windows.Media.Brushes.Gray;
+                    return x % 2 == 0 ? System.Windows.Media.Brushes.Gray : System.Windows.Media.Brushes.White;
                 }
-                return x % 2 == 0 ? System.Windows.Media.Brushes.Gray : System.Windows.Media.Brushes.White;
+                return x % 2 == 0 ? System.Windows.Media.Brushes.White : System.Windows.Media.Brushes.Gray;
             }
             return null;
         }

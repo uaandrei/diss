@@ -84,7 +84,7 @@ namespace Chess.Game.ViewModels
         private void OnPlayerChanged(object player)
         {
             MoveAllowed = !_gameTable.CurrentPlayer.IsAutomatic;
-            InfoText = string.Format("Player to move: {0}\nUI: {1}\nWaiting...", _gameTable.CurrentPlayer.Name, _gameTable.CurrentPlayer.IsAutomatic);
+            RedrawTable();
         }
 
         private void DoRefreshTable(object obj)
@@ -109,6 +109,7 @@ namespace Chess.Game.ViewModels
             SelectSquare(_gameTable.SelectedSquare);
             _gameTable.TableAttacks.ForEach(a => SetSquareState(a, SquareState.PosibleAttack));
             _gameTable.TableMoves.ForEach(a => SetSquareState(a, SquareState.PosibleMove));
+            InfoText = string.Format("Player to move: {0}\nUI: {1}\nWaiting...", _gameTable.CurrentPlayer.Name, _gameTable.CurrentPlayer.IsAutomatic);
         }
 
         private void SelectSquare(Position pos)

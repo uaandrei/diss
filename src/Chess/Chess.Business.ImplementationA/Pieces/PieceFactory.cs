@@ -27,8 +27,8 @@ namespace Chess.Business.ImplementationA.Pieces
 
         public List<IPiece> GetPieces()
         {
-            var pieces = InitializePieces(PieceColor.White, 7, 6);
-            pieces.AddRange(InitializePieces(PieceColor.Black, 0, 1));
+            var pieces = InitializePieces(PieceColor.Black, 7, 6);
+            pieces.AddRange(InitializePieces(PieceColor.White, 0, 1));
             return pieces;
         }
     }

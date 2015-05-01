@@ -1,4 +1,5 @@
 ﻿using Chess.Business.ImplementationA.Moves;
+using Chess.Business.ImplementationA.Pieces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Enums;
@@ -16,7 +17,7 @@ namespace Chess.Tests.MoveFixtures
         public WhitePawnMoveFixture()
         {
             _sut = new PawnMove();
-            _piece = Helper.GetMockedPieceAt(1, 7, PieceColor.White);
+            _piece = Helper.GetMockedPieceAt(1, 0, PieceColor.White);
             _pieces = new List<IPiece> { _piece };
         }
 
@@ -30,21 +31,23 @@ namespace Chess.Tests.MoveFixtures
 
             // assert
             Assert.Single(moves);
-            Assert.Contains(new Position(1, 6), moves);
+            Assert.Contains(new Position(1, 1), moves);
         }
 
         [Fact]
         public void GetAttacks_ShouldReturnPositions()
         {
             // arrange
-            _pieces.Add(Helper.GetMockedPieceAt(0, 6, PieceColor.White));
-            _pieces.Add(Helper.GetMockedPieceAt(2, 6, PieceColor.Black));
+            _pieces.Add(Helper.GetMockedPieceAt(0, 1, PieceColor.Black));
+            _pieces.Add(Helper.GetMockedPieceAt(2, 1, PieceColor.Black));
 
             // act
             var attacks = _sut.GetAttacks(_piece, _pieces);
 
             // assert
-            Assert.Single(attacks, new Position(2, 6));
+            Assert.Equal(2, attacks.Count);
+            Assert.Contains(new Position(0, 1), attacks);
+            Assert.Contains(new Position(2, 1), attacks);
         }
     }
 }
