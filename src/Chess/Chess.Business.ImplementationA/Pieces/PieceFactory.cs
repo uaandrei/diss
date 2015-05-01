@@ -7,7 +7,14 @@ namespace Chess.Business.ImplementationA.Pieces
 {
     public class PieceFactory : IPieceFactory
     {
-        private List<IPiece> InitializePieces(PieceColor color, int firstLine, int secondLine)
+        public List<IPiece> GetPieces()
+        {
+            var pieces = InitializePieces(PieceColor.Black, 7, 6);
+            pieces.AddRange(InitializePieces(PieceColor.White, 0, 1));
+            return pieces;
+        }
+
+        private List<IPiece> InitializePieces(PieceColor color, int firstLine, int pawnLine)
         {
             var pieces = new List<IPiece>();
             pieces.Add(new ChessPiece(0, firstLine, color, PieceType.Rook));
@@ -20,15 +27,8 @@ namespace Chess.Business.ImplementationA.Pieces
             pieces.Add(new ChessPiece(7, firstLine, color, PieceType.Rook));
             for (int i = 0; i < 8; i++)
             {
-                pieces.Add(new ChessPiece(i, secondLine, color, PieceType.Pawn));
+                pieces.Add(new ChessPiece(i, pawnLine, color, PieceType.Pawn));
             }
-            return pieces;
-        }
-
-        public List<IPiece> GetPieces()
-        {
-            var pieces = InitializePieces(PieceColor.Black, 7, 6);
-            pieces.AddRange(InitializePieces(PieceColor.White, 0, 1));
             return pieces;
         }
     }

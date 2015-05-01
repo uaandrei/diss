@@ -65,6 +65,42 @@ namespace Chess.Infrastructure.Tests
             Assert.True(equalsOperator);
         }
 
+        [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 2)]
+        public void Rank_Should_ReturnCorrespondingYStartingFromOne(int y, int expectedRank)
+        {
+            // arrange
+            _sut = new Position(0, y);
+
+            // act
+            var actualRank = _sut.Rank;
+
+            // assert
+            Assert.Equal(expectedRank, actualRank);
+        }
+
+        [Theory]
+        [InlineData(0, "A")]
+        [InlineData(1, "B")]
+        [InlineData(2, "C")]
+        [InlineData(3, "D")]
+        [InlineData(4, "E")]
+        [InlineData(5, "F")]
+        [InlineData(6, "G")]
+        [InlineData(7, "H")]
+        public void File_Should_ReturnCorrespondingYStartingFromOne(int x, string expectedFile)
+        {
+            // arrange
+            _sut = new Position(x, 0);
+
+            // act
+            var actualFile = _sut.File;
+
+            // assert
+            Assert.Equal(expectedFile, actualFile);
+        }
+
         [Fact]
         public void TestEqualsOperatorNull()
         {

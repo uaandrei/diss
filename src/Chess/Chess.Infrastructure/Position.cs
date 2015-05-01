@@ -6,6 +6,8 @@ namespace Chess.Infrastructure
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public string File { get { return GetFile(); } }
+        public int Rank { get { return GetRank(); } }
 
         public Position(int x, int y)
         {
@@ -63,6 +65,16 @@ namespace Chess.Infrastructure
         public static bool operator !=(Position p1, Position p2)
         {
             return !(p1 == p2);
+        }
+
+        private int GetRank()
+        {
+            return Y + 1;
+        }
+
+        private string GetFile()
+        {
+            return ((char)(65 + X)).ToString();
         }
     }
 
