@@ -13,5 +13,7 @@ namespace Chess.Business.Interfaces
         void Start();
         void ParseInput(Position userInput);
         IEnumerable<IPiece> GetPieces();
+        string GetFen();
+        void LoadFromFen(string fen);
     }
 }

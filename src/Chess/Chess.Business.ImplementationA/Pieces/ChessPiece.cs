@@ -16,6 +16,8 @@ namespace Chess.Business.ImplementationA.Pieces
         public PieceColor Color { get { return _color; } }
         public Position CurrentPosition { get { return _curPosition; } }
         public PieceType Type { get { return _type; } }
+        public int Rank { get { return _curPosition.Rank; } }
+        public char File { get { return _curPosition.File; } }
         public event PieceMove PieceMoving;
 
         public ChessPiece(Position p, PieceColor color, PieceType type)

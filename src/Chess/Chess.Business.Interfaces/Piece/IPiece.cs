@@ -10,6 +10,8 @@ namespace Chess.Business.Interfaces.Piece
         PieceColor Color { get; }
         PieceType Type { get; }
         Position CurrentPosition { get; }
+        int Rank { get; }
+        char File { get; }
         IList<Position> GetAvailableMoves(IEnumerable<IPiece> allPieces);
         IList<Position> GetAvailableAttacks(IEnumerable<IPiece> allPieces);
         bool Move(Position p);

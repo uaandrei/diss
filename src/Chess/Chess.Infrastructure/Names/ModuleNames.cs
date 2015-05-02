@@ -4,5 +4,6 @@
     {
         public const string ImplementationAModule = "ImplementationModule";
         public const string GameModule = "GameModule";
+        public const string FenModule = "FenModule";
     }
 }

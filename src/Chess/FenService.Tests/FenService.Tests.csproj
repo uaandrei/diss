@@ -6,14 +6,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{09000C1A-9FFE-4467-8AC6-3A9C98AB09E8}</ProjectGuid>
+    <ProjectGuid>{823D57DA-F954-4267-B372-961A88FFC84A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Chess.Business.ImplementationA.Tests</RootNamespace>
-    <AssemblyName>Chess.Business.ImplementationA.Tests</AssemblyName>
+    <RootNamespace>FenService.Tests</RootNamespace>
+    <AssemblyName>FenService.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>de401cd2</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>961532fc</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,31 +33,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq">
+    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="xunit.abstractions">
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="xunit.assert">
+    <Reference Include="xunit.assert, Version=2.0.0.2929, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.assert.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.assert.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="xunit.core">
+    <Reference Include="xunit.core, Version=2.0.0.2929, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.extensibility.core.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChessPieces\ChessPieceFixture.cs" />
-    <Compile Include="ChessPieces\ChessPieceMoveIntegrationFixture.cs" />
+    <Compile Include="FenServiceFixture.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="MoveFixtures\WhitePawnMoveFixture.cs" />
-    <Compile Include="MoveFixtures\CompositeMoveFixture.cs" />
-    <Compile Include="MoveFixtures\DiagonalMoveFixture.cs" />
-    <Compile Include="MoveFixtures\LMoveFixture.cs" />
-    <Compile Include="MoveFixtures\OrthogonalMoveFixture.cs" />
-    <Compile Include="MoveFixtures\SquareMoveFixture.cs" />
-    <Compile Include="MoveFixtures\BlackPawnMoveFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,15 +74,18 @@
       <Project>{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}</Project>
       <Name>Chess.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Chess.Business.ImplementationA\Chess.Business.ImplementationA.csproj">
-      <Project>{D7085601-4205-408A-A04B-4FF046232F74}</Project>
-      <Name>Chess.Business.ImplementationA</Name>
+    <ProjectReference Include="..\FenService.Interfaces\FenService.Interfaces.csproj">
+      <Project>{28E0AF23-A8F7-4760-9039-6661B022DECD}</Project>
+      <Name>FenService.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FenService\FenService.csproj">
+      <Project>{68665792-04D2-455C-B44B-492979C764C5}</Project>
+      <Name>FenService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

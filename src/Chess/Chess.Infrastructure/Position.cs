@@ -6,7 +6,7 @@ namespace Chess.Infrastructure
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public string File { get { return GetFile(); } }
+        public char File { get { return GetFile(); } }
         public int Rank { get { return GetRank(); } }
 
         public Position(int x, int y)
@@ -72,9 +72,9 @@ namespace Chess.Infrastructure
             return Y + 1;
         }
 
-        private string GetFile()
+        private char GetFile()
         {
-            return ((char)(65 + X)).ToString();
+            return (char)(65 + X);
         }
     }
 

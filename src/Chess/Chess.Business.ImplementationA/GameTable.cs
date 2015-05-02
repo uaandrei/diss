@@ -26,6 +26,7 @@ namespace Chess.Business.ImplementationA
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
         #endregion
 
+        #region Methods
         public void Start()
         {
             _allAvailableMoves = new List<Position>();
@@ -56,6 +57,17 @@ namespace Chess.Business.ImplementationA
             return _pieces;
         }
 
+        public string GetFen()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void LoadFromFen(string fen)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        #region Private
         private void InitializePlayersAndPieces()
         {
             var pieceFactory = new PieceFactory();
@@ -111,6 +123,8 @@ namespace Chess.Business.ImplementationA
         {
             return _selectedPiece != null;
         }
+        #endregion
+        #endregion
     }
 
     public static class PieceExtensions
