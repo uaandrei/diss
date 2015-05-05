@@ -1,6 +1,7 @@
 ﻿using Chess.Infrastructure.Enums;
 using FenService.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -8,7 +9,10 @@ namespace FenService
 {
     public class FenService : IFenService
     {
-        public string GetFen(FenData fenData)
+        private const int FileSection = 0;
+        private const int ColorToMoveSection = 1;
+
+        public string GetFen(IFenData fenData)
         {
             var sb = new StringBuilder();
             for (int y = 8; y > 0; y--)
@@ -16,7 +20,7 @@ namespace FenService
                 var whiteSpaceCounter = 0;
                 for (char x = 'a'; x <= 'h'; x++)
                 {
-                    var piece = fenData.Pieces.FirstOrDefault(p => p.File == x && p.Rank == y);
+                    var piece = fenData.PieceInfos.FirstOrDefault(p => p.File == x && p.Rank == y);
                     if (piece == null)
                         whiteSpaceCounter++;
                     else
@@ -47,9 +51,75 @@ namespace FenService
             return sb.ToString();
         }
 
-        public FenData GetData(string fen)
+        public IFenData GetData(string fen)
         {
-            throw new NotImplementedException();
+            var pieces = new List<IPieceInfo>();
+            var fenData = new FenData();
+            var fenSections = fen.Split(' ');
+            var allPieces = fenSections[FileSection].Split('/');
+            for (int pieceGroup = 0; pieceGroup < 8; pieceGroup++)
+            {
+                var rank = 8 - pieceGroup;
+                var rankPieces = allPieces[pieceGroup];
+                var file = 'a';
+                for (int j = 0; j < rankPieces.Length; j++)
+                {
+                    var filePiece = rankPieces[j];
+                    if (char.IsNumber(rankPieces, j))
+                    {
+                        file += (char)Convert.ToInt16(rankPieces[j].ToString());
+                    }
+                    else
+                    {
+                        pieces.Add(GetPiece(filePiece, rank, file));
+                        file++;
+                    }
+                }
+            }
+            fenData.PieceInfos = pieces.ToArray();
+            fenData.ColorToMove = GetColorToMove(fenSections[ColorToMoveSection][0]);
+            return fenData;
+        }
+
+        private IPieceInfo GetPiece(char filePiece, int rank, char file)
+        {
+            return new PieceInfo
+            {
+                Rank = rank,
+                File = file,
+                Color = GetColor(filePiece),
+                Type = GetType(filePiece)
+            };
+        }
+
+        private PieceType GetType(char filePiece)
+        {
+            switch (char.ToLower(filePiece))
+            {
+                case 'p':
+                    return PieceType.Pawn;
+                case 'r':
+                    return PieceType.Rook;
+                case 'n':
+                    return PieceType.Knight;
+                case 'b':
+                    return PieceType.Bishop;
+                case 'q':
+                    return PieceType.Queen;
+                case 'k':
+                    return PieceType.King;
+            }
+            throw new FormatException();
+        }
+
+        private PieceColor GetColor(char filePiece)
+        {
+            return char.IsUpper(filePiece) ? PieceColor.White : PieceColor.Black;
+        }
+
+        private PieceColor GetColorToMove(char colorChar)
+        {
+            return colorChar == 'w' ? PieceColor.White : PieceColor.Black;
         }
 
         private string GetPlayerToMoveRepresentation(PieceColor pieceColor)
@@ -64,10 +134,10 @@ namespace FenService
             throw new FormatException();
         }
 
-        private string GetFenRepresentation(Chess.Business.Interfaces.Piece.IPiece piece)
+        private string GetFenRepresentation(IPieceInfo pieceInfo)
         {
-            var repr = GetPieceRepresentation(piece.Type);
-            return piece.Color == PieceColor.White ? repr.ToUpper() : repr;
+            var repr = GetPieceRepresentation(pieceInfo.Type);
+            return pieceInfo.Color == PieceColor.White ? repr.ToUpper() : repr;
         }
 
         private string GetPieceRepresentation(PieceType type)

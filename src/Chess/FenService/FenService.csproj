@@ -79,18 +79,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FenData.cs" />
     <Compile Include="FenModule.cs" />
     <Compile Include="FenService.cs" />
+    <Compile Include="PieceInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Chess.Business.Interfaces\Chess.Business.Interfaces.csproj">
-      <Project>{B1AD0F92-079D-47A5-B807-8AA254E9A92D}</Project>
-      <Name>Chess.Business.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Chess.Infrastructure\Chess.Infrastructure.csproj">
       <Project>{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}</Project>
       <Name>Chess.Infrastructure</Name>

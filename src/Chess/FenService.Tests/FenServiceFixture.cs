@@ -1,4 +1,4 @@
-﻿using Chess.Business.Interfaces.Piece;
+﻿using System.Linq;
 using Chess.Infrastructure.Enums;
 using FenService.Interfaces;
 using System.Collections.Generic;
@@ -32,20 +32,44 @@ namespace FenService.Tests
         public void GetData_Should_ReturnCorrectFenData_BasedOnFenNotation()
         {
             // arrange
-            var fenNotation = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+            var fenNotation = "rnbqkbnr/ppp1pppp/8/3p4/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 1";
 
             // act
             var fenData = _sut.GetData(fenNotation);
 
             // assert
             Assert.Equal(PieceColor.White, fenData.ColorToMove);
+            for (char file = 'a'; file <= 'h'; file++)
+            {
+                fenData.AssertSinglePiece(2, file, PieceType.Pawn, PieceColor.White);
+                if (file == 'd')
+                    continue;
+                fenData.AssertSinglePiece(7, file, PieceType.Pawn, PieceColor.Black);
+            }
+            fenData.AssertSinglePiece(5, 'd', PieceType.Pawn, PieceColor.Black);
+            fenData.AssertSinglePiece(1, 'a', PieceType.Rook, PieceColor.White);
+            fenData.AssertSinglePiece(1, 'b', PieceType.Knight, PieceColor.White);
+            fenData.AssertSinglePiece(1, 'c', PieceType.Bishop, PieceColor.White);
+            fenData.AssertSinglePiece(1, 'd', PieceType.Queen, PieceColor.White);
+            fenData.AssertSinglePiece(1, 'e', PieceType.King, PieceColor.White);
+            fenData.AssertSinglePiece(1, 'f', PieceType.Bishop, PieceColor.White);
+            fenData.AssertSinglePiece(3, 'f', PieceType.Knight, PieceColor.White);
+            fenData.AssertSinglePiece(1, 'h', PieceType.Rook, PieceColor.White);
+            fenData.AssertSinglePiece(8, 'a', PieceType.Rook, PieceColor.Black);
+            fenData.AssertSinglePiece(8, 'b', PieceType.Knight, PieceColor.Black);
+            fenData.AssertSinglePiece(8, 'c', PieceType.Bishop, PieceColor.Black);
+            fenData.AssertSinglePiece(8, 'd', PieceType.Queen, PieceColor.Black);
+            fenData.AssertSinglePiece(8, 'e', PieceType.King, PieceColor.Black);
+            fenData.AssertSinglePiece(8, 'f', PieceType.Bishop, PieceColor.Black);
+            fenData.AssertSinglePiece(8, 'g', PieceType.Knight, PieceColor.Black);
+            fenData.AssertSinglePiece(8, 'h', PieceType.Rook, PieceColor.Black);
         }
 
         private FenData GetTestFenData()
         {
             var fenData = new FenData();
 
-            var pieces = new List<IPiece>();
+            var pieces = new List<IPieceInfo>();
             pieces.Add(Helper.GetMockedPiece(PieceType.Rook, PieceColor.White, 1, 'a'));
             pieces.Add(Helper.GetMockedPiece(PieceType.Rook, PieceColor.White, 1, 'h'));
             pieces.Add(Helper.GetMockedPiece(PieceType.Knight, PieceColor.White, 5, 'e'));
@@ -79,9 +103,17 @@ namespace FenService.Tests
             pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 6, 'g'));
             pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 7, 'h'));
 
-            fenData.Pieces = pieces.ToArray();
+            fenData.PieceInfos = pieces.ToArray();
             fenData.ColorToMove = PieceColor.Black;
             return fenData;
+        }
+    }
+
+    public static class FenServiceFixtureExtension
+    {
+        public static void AssertSinglePiece(this IFenData fenData, int rank, char file, PieceType type, PieceColor color)
+        {
+            Assert.Single(fenData.PieceInfos, p => p.Rank == rank && p.File == file && p.Type == type && p.Color == color);
         }
     }
 }

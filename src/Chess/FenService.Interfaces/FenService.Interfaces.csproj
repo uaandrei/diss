@@ -30,19 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FenData.cs" />
+    <Compile Include="IFenData.cs" />
     <Compile Include="IFenService.cs" />
+    <Compile Include="IPieceInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Chess.Business.Interfaces\Chess.Business.Interfaces.csproj">
-      <Project>{B1AD0F92-079D-47A5-B807-8AA254E9A92D}</Project>
-      <Name>Chess.Business.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Chess.Infrastructure\Chess.Infrastructure.csproj">
       <Project>{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}</Project>
       <Name>Chess.Infrastructure</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

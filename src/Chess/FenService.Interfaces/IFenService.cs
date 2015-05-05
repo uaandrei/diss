@@ -2,7 +2,7 @@
 {
     public interface IFenService
     {
-        string GetFen(FenData fenData);
-        FenData GetData(string fen);
+        string GetFen(IFenData fenData);
+        IFenData GetData(string fen);
     }
 }

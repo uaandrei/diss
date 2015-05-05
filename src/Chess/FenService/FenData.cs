@@ -1,18 +1,12 @@
-﻿using Chess.Business.Interfaces;
-using Chess.Business.Interfaces.Piece;
-using Chess.Infrastructure;
+﻿using Chess.Infrastructure;
 using Chess.Infrastructure.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FenService.Interfaces;
 
-namespace FenService.Interfaces
+namespace FenService
 {
-    public class FenData
+    public class FenData : IFenData
     {
-        public IPiece[] Pieces { get; set; }
+        public IPieceInfo[] PieceInfos { get; set; }
         public PieceColor ColorToMove { get; set; }
         public bool WhiteLeftCastling { get; set; }
         public bool WhiteRightCastling { get; set; }
