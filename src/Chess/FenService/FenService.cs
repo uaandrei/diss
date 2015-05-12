@@ -15,12 +15,12 @@ namespace FenService
         public string GetFen(IFenData fenData)
         {
             var sb = new StringBuilder();
-            for (int y = 8; y > 0; y--)
+            for (int rank = 8; rank > 0; rank--)
             {
                 var whiteSpaceCounter = 0;
-                for (char x = 'a'; x <= 'h'; x++)
+                for (char file = 'a'; file <= 'h'; file++)
                 {
-                    var piece = fenData.PieceInfos.FirstOrDefault(p => p.File == x && p.Rank == y);
+                    var piece = fenData.PieceInfos.FirstOrDefault(p => p.File == file && p.Rank == rank);
                     if (piece == null)
                         whiteSpaceCounter++;
                     else
@@ -38,7 +38,7 @@ namespace FenService
                     sb.Append(whiteSpaceCounter);
                     whiteSpaceCounter = 0;
                 }
-                if (y != 1)
+                if (rank != 1)
                     sb.Append("/");
                 else
                     sb.Append(" ");

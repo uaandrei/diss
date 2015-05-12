@@ -4,6 +4,8 @@ namespace Chess.Infrastructure
 {
     public class Position
     {
+        private const int SmallLetterACode = 97;
+
         public int X { get; set; }
         public int Y { get; set; }
         public char File { get { return GetFile(); } }
@@ -13,6 +15,12 @@ namespace Chess.Infrastructure
         {
             X = x;
             Y = y;
+        }
+
+        public Position(int rank, char file)
+        {
+            X = System.Convert.ToInt16(file) - SmallLetterACode;
+            Y = rank - 1;
         }
 
         public Position(Position p)
@@ -74,7 +82,7 @@ namespace Chess.Infrastructure
 
         private char GetFile()
         {
-            return (char)(65 + X);
+            return (char)(SmallLetterACode + X);
         }
     }
 

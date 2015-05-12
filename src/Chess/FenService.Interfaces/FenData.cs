@@ -2,7 +2,7 @@
 using Chess.Infrastructure.Enums;
 using FenService.Interfaces;
 
-namespace FenService
+namespace FenService.Interfaces
 {
     public class FenData : IFenData
     {

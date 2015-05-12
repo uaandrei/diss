@@ -33,6 +33,11 @@ namespace Chess.Business.ImplementationA.Pieces
         {
         }
 
+        public ChessPiece(int rank, char file, PieceColor color, PieceType type)
+            : this(new Position(rank, file), color, type)
+        {
+        }
+
         public bool Move(Position newPosition)
         {
             RaisePieceMovingEvent(newPosition);

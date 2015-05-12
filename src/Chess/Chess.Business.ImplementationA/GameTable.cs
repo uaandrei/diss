@@ -3,6 +3,10 @@ using Chess.Business.ImplementationA.Players;
 using Chess.Business.Interfaces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
+using Chess.Infrastructure.Events;
+using FenService.Interfaces;
+using Microsoft.Practices.Prism.PubSubEvents;
+using Microsoft.Practices.ServiceLocation;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,12 +22,22 @@ namespace Chess.Business.ImplementationA
         private List<Position> _moves;
         private List<Position> _attacks;
         private PlayerSwitchSystem _playerSwitchSystem;
+        private IFenService _fenService;
+        private IEventAggregator _eventAggregator;
 
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
         public IPlayer CurrentPlayer { get { return _playerSwitchSystem.CurrentPlayer; } }
         public IEnumerable<Position> TableMoves { get { return _moves; } }
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
+        #endregion
+
+        #region ctor
+        public GameTable(IFenService fenService, IEventAggregator evtAggr)
+        {
+            _fenService = fenService;
+            _eventAggregator = evtAggr;
+        }
         #endregion
 
         #region Methods
@@ -59,12 +73,31 @@ namespace Chess.Business.ImplementationA
 
         public string GetFen()
         {
-            throw new System.NotImplementedException();
+            // todo: maybe converters?
+            var pieceInfos = (from p in _pieces
+                             select new PieceInfo
+                             {
+                                 Color = p.Color,
+                                 File = p.File,
+                                 Rank = p.Rank,
+                                 Type = p.Type
+                             }).ToArray();
+            var fenData = new FenData
+            {
+                PieceInfos = pieceInfos,
+                // todo: improve, add color to player so i know which player has to move
+                ColorToMove = _playerSwitchSystem.CurrentPlayer.Pieces.First().Color
+            };
+            return _fenService.GetFen(fenData);
         }
 
         public void LoadFromFen(string fen)
         {
-            throw new System.NotImplementedException();
+            var fenData = _fenService.GetData(fen);
+            // todo: maybe converters?
+            _pieces = (from p in fenData.PieceInfos
+                        select new ChessPiece(p.Rank, p.File, p.Color, p.Type)).ToArray<IPiece>();
+            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
         }
 
         #region Private
@@ -73,7 +106,7 @@ namespace Chess.Business.ImplementationA
             var pieceFactory = new PieceFactory();
             _pieces = pieceFactory.GetPieces();
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
-            var whitePlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
+            var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
             var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
             _players = new IPlayer[] { whitePlayer, blackPlayer };
         }

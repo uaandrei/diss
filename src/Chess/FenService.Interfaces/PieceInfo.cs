@@ -1,12 +1,6 @@
 ﻿using Chess.Infrastructure.Enums;
-using FenService.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FenService
+namespace FenService.Interfaces
 {
     public class PieceInfo : IPieceInfo
     {
