@@ -11,7 +11,7 @@ namespace FenService.Interfaces
 
         public override string ToString()
         {
-            return string.Format("{0}{1} {2}{3}",Rank, File, Type, Color);
+            return string.Format("{0}{1} {2}{3}", File, Rank, Type, Color);
         }
     }
 }
