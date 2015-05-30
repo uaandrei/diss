@@ -76,6 +76,7 @@ namespace Chess.SmartAI
             // member, so we have to use an intermediate.  Annoying and not too clean,
             // but it works...
             theList.GetMoveList().Sort(MoveComparator);
+            theList.ResetIterator();
             return true;
         }
 
