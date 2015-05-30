@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3C9C8272-F209-45F0-8DF8-DC334301059A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Chess.SmartAI</RootNamespace>
+    <AssemblyName>Chess.SmartAI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Chess.SmartAI.jcApp</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helper.cs" />
+    <Compile Include="jcAISearchAgent.cs" />
+    <Compile Include="jcAISearchAgentAlphabeta.cs" />
+    <Compile Include="jcAISearchAgentMDTF.cs" />
+    <Compile Include="jcAISearchAgentMTDF.cs" />
+    <Compile Include="jcApp.cs" />
+    <Compile Include="jcBoard.cs" />
+    <Compile Include="jcBoardEvaluator.cs" />
+    <Compile Include="jcGame.cs" />
+    <Compile Include="jcHistoryTable.cs" />
+    <Compile Include="jcMove.cs" />
+    <Compile Include="jcMoveListGenerator.cs" />
+    <Compile Include="jcOpeningBook.cs" />
+    <Compile Include="jcPlayer.cs" />
+    <Compile Include="jcPlayerAI.cs" />
+    <Compile Include="jcPlayerHuman.cs" />
+    <Compile Include="jcTranspositionTable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fen1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="openings.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Readme.txt" />
+    <Content Include="samplepos.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.Infrastructure\Chess.Infrastructure.csproj">
+      <Project>{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}</Project>
+      <Name>Chess.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FenService.Interfaces\FenService.Interfaces.csproj">
+      <Project>{28E0AF23-A8F7-4760-9039-6661B022DECD}</Project>
+      <Name>FenService.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FenService\FenService.csproj">
+      <Project>{68665792-04D2-455C-B44B-492979C764C5}</Project>
+      <Name>FenService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
