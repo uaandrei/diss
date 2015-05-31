@@ -41,10 +41,12 @@
     <Compile Include="Events\RefreshTableEvent.cs" />
     <Compile Include="Events\SquareSelectedEvent.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FenData.cs" />
     <Compile Include="Names\ModuleNames.cs" />
     <Compile Include="Names\RegionNames.cs" />
     <Compile Include="Enums\PieceColor.cs" />
     <Compile Include="Enums\PieceType.cs" />
+    <Compile Include="PieceInfo.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

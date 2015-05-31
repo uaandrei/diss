@@ -1,8 +1,9 @@
-﻿namespace FenService.Interfaces
+﻿using Chess.Infrastructure;
+namespace FenService.Interfaces
 {
     public interface IFenService
     {
-        string GetFen(IFenData fenData);
-        IFenData GetData(string fen);
+        string GetFen(FenData fenData);
+        FenData GetData(string fen);
     }
 }

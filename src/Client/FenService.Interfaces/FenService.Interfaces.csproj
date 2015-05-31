@@ -33,11 +33,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FenData.cs" />
-    <Compile Include="IFenData.cs" />
     <Compile Include="IFenService.cs" />
-    <Compile Include="IPieceInfo.cs" />
-    <Compile Include="PieceInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Chess.Infrastructure.Enums;
+﻿using Chess.Infrastructure;
+using Chess.Infrastructure.Enums;
 using FenService.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace FenService
         private const int FileSection = 0;
         private const int ColorToMoveSection = 1;
 
-        public string GetFen(IFenData fenData)
+        public string GetFen(FenData fenData)
         {
             var sb = new StringBuilder();
             for (int rank = 8; rank > 0; rank--)
@@ -51,9 +52,9 @@ namespace FenService
             return sb.ToString();
         }
 
-        public IFenData GetData(string fen)
+        public FenData GetData(string fen)
         {
-            var pieces = new List<IPieceInfo>();
+            var pieces = new List<PieceInfo>();
             var fenData = new FenData();
             var fenSections = fen.Split(' ');
             var allPieces = fenSections[FileSection].Split('/');
@@ -81,7 +82,7 @@ namespace FenService
             return fenData;
         }
 
-        private IPieceInfo GetPiece(char filePiece, int rank, char file)
+        private PieceInfo GetPiece(char filePiece, int rank, char file)
         {
             return new PieceInfo
             {
@@ -134,7 +135,7 @@ namespace FenService
             throw new FormatException();
         }
 
-        private string GetFenRepresentation(IPieceInfo pieceInfo)
+        private string GetFenRepresentation(PieceInfo pieceInfo)
         {
             var repr = GetPieceRepresentation(pieceInfo.Type);
             return pieceInfo.Color == PieceColor.White ? repr.ToUpper() : repr;

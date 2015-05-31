@@ -3,6 +3,7 @@ using Chess.Infrastructure.Enums;
 using FenService.Interfaces;
 using System.Collections.Generic;
 using Xunit;
+using Chess.Infrastructure;
 
 namespace FenService.Tests
 {
@@ -69,39 +70,39 @@ namespace FenService.Tests
         {
             var fenData = new FenData();
 
-            var pieces = new List<IPieceInfo>();
-            pieces.Add(Helper.GetMockedPiece(PieceType.Rook, PieceColor.White, 1, 'a'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Rook, PieceColor.White, 1, 'h'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Knight, PieceColor.White, 5, 'e'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Knight, PieceColor.White, 1, 'g'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Bishop, PieceColor.White, 5, 'g'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Bishop, PieceColor.White, 1, 'f'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Queen, PieceColor.White, 2, 'd'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.King, PieceColor.White, 1, 'e'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.White, 4, 'a'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.White, 2, 'b'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.White, 2, 'c'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.White, 4, 'd'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.White, 2, 'e'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.White, 2, 'f'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.White, 2, 'g'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.White, 4, 'h'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Rook, PieceColor.Black, 8, 'a'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Rook, PieceColor.Black, 7, 'g'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Knight, PieceColor.Black, 8, 'b'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Knight, PieceColor.Black, 6, 'f'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Bishop, PieceColor.Black, 8, 'f'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Bishop, PieceColor.Black, 4, 'g'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Queen, PieceColor.Black, 8, 'd'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.King, PieceColor.Black, 8, 'e'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 5, 'a'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 7, 'b'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 7, 'c'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 5, 'd'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 7, 'e'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 7, 'f'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 6, 'g'));
-            pieces.Add(Helper.GetMockedPiece(PieceType.Pawn, PieceColor.Black, 7, 'h'));
+            var pieces = new List<PieceInfo>();
+            pieces.Add(Helper.GetPieceInfo(PieceType.Rook, PieceColor.White, 1, 'a'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Rook, PieceColor.White, 1, 'h'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Knight, PieceColor.White, 5, 'e'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Knight, PieceColor.White, 1, 'g'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Bishop, PieceColor.White, 5, 'g'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Bishop, PieceColor.White, 1, 'f'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Queen, PieceColor.White, 2, 'd'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.King, PieceColor.White, 1, 'e'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.White, 4, 'a'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.White, 2, 'b'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.White, 2, 'c'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.White, 4, 'd'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.White, 2, 'e'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.White, 2, 'f'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.White, 2, 'g'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.White, 4, 'h'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Rook, PieceColor.Black, 8, 'a'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Rook, PieceColor.Black, 7, 'g'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Knight, PieceColor.Black, 8, 'b'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Knight, PieceColor.Black, 6, 'f'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Bishop, PieceColor.Black, 8, 'f'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Bishop, PieceColor.Black, 4, 'g'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Queen, PieceColor.Black, 8, 'd'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.King, PieceColor.Black, 8, 'e'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 5, 'a'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 7, 'b'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 7, 'c'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 5, 'd'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 7, 'e'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 7, 'f'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 6, 'g'));
+            pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 7, 'h'));
 
             fenData.PieceInfos = pieces.ToArray();
             fenData.ColorToMove = PieceColor.Black;
@@ -111,7 +112,7 @@ namespace FenService.Tests
 
     public static class FenServiceFixtureExtension
     {
-        public static void AssertSinglePiece(this IFenData fenData, int rank, char file, PieceType type, PieceColor color)
+        public static void AssertSinglePiece(this FenData fenData, int rank, char file, PieceType type, PieceColor color)
         {
             Assert.Single(fenData.PieceInfos, p => p.Rank == rank && p.File == file && p.Type == type && p.Color == color);
         }

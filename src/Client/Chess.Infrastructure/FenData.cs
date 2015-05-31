@@ -2,11 +2,11 @@
 using Chess.Infrastructure.Enums;
 using FenService.Interfaces;
 
-namespace FenService.Interfaces
+namespace Chess.Infrastructure
 {
-    public class FenData : IFenData
+    public class FenData
     {
-        public IPieceInfo[] PieceInfos { get; set; }
+        public PieceInfo[] PieceInfos { get; set; }
         public PieceColor ColorToMove { get; set; }
         public bool WhiteLeftCastling { get; set; }
         public bool WhiteRightCastling { get; set; }

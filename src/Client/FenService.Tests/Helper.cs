@@ -6,7 +6,7 @@ namespace FenService.Tests
 {
     static class Helper
     {
-        public static IPieceInfo GetMockedPiece(PieceType type, PieceColor color, int rank, char file)
+        public static PieceInfo GetPieceInfo(PieceType type, PieceColor color, int rank, char file)
         {
             return new PieceInfo
             {

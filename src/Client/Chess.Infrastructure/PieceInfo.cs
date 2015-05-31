@@ -2,7 +2,7 @@
 
 namespace FenService.Interfaces
 {
-    public class PieceInfo : IPieceInfo
+    public class PieceInfo
     {
         public PieceColor Color { get; set; }
         public PieceType Type { get; set; }
