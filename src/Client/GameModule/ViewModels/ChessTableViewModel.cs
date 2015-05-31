@@ -117,6 +117,7 @@ namespace Chess.Game.ViewModels
             SelectSquare(_gameTable.SelectedSquare);
             _gameTable.TableAttacks.ForEach(a => SetSquareState(a, SquareState.PosibleAttack));
             _gameTable.TableMoves.ForEach(a => SetSquareState(a, SquareState.PosibleMove));
+            SetSquareState(_gameTable.MovedTo, SquareState.LastMove);
             InfoText = string.Format("Player to move: {0}\nUI: {1}\nWaiting...", _gameTable.CurrentPlayer.Name, _gameTable.CurrentPlayer.IsAutomatic);
         }
 
@@ -129,6 +130,7 @@ namespace Chess.Game.ViewModels
 
         private void SetSquareState(Position pos, SquareState state)
         {
+            if (pos == null) return;
             Squares.Single(s => s.Position == pos).SquareState = state;
         }
 

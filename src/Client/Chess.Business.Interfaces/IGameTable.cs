@@ -10,6 +10,7 @@ namespace Chess.Business.Interfaces
         IEnumerable<Position> TableMoves { get; }
         IEnumerable<Position> TableAttacks { get; }
         Position SelectedSquare { get; }
+        Position MovedTo { get; }
         void Start();
         void ParseInput(Position userInput);
         IEnumerable<IPiece> GetPieces();

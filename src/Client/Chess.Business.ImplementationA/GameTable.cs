@@ -32,6 +32,7 @@ namespace Chess.Business.ImplementationA
         public IEnumerable<Position> TableMoves { get { return _moves; } }
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
+        public Position MovedTo { get; private set; }
         [Dependency]
         public IRuleSystem RuleSystem { get; set; }
         #endregion
@@ -146,6 +147,7 @@ namespace Chess.Business.ImplementationA
                 _pieces.Remove(attackedPiece);
                 logMessage = string.Format("{0} attacked:{1}", logMessage, attackedPiece);
             }
+            MovedTo = newPosition;
             Logger.Log(LogLevel.Info, logMessage);
         }
 

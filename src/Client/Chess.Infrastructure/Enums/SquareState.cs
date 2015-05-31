@@ -5,6 +5,7 @@
         Empty,
         PosibleAttack,
         PosibleMove,
-        Selected
+        Selected,
+        LastMove
     }
 }
