@@ -81,8 +81,12 @@ namespace Chess.Game.ViewModels
         #endregion
 
         #region Event Handlers
-        private void OnSquareSelected(IChessSquareViewModel square)
+        private void OnSquareSelected(object obj)
         {
+            var square = obj as IChessSquareViewModel;
+            if (square == null)
+                return;
+
             _gameTable.ParseInput(square.Position);
             RedrawTable();
         }

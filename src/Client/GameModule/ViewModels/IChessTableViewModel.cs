@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Chess.Game.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace Chess.Infrastructure.Behaviours
 {

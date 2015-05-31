@@ -88,6 +88,8 @@
     <Compile Include="TableState.cs" />
     <Compile Include="ViewModels\ChessSquareViewModel.cs" />
     <Compile Include="ViewModels\ChessTableViewModel.cs" />
+    <Compile Include="ViewModels\IChessSquareViewModel.cs" />
+    <Compile Include="ViewModels\IChessTableViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\ChessTableView.xaml.cs">
       <DependentUpon>ChessTableView.xaml</DependentUpon>

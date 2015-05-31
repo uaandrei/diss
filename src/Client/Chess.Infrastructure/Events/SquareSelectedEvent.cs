@@ -1,9 +1,8 @@
-﻿using Chess.Infrastructure.Behaviours;
-using Microsoft.Practices.Prism.PubSubEvents;
+﻿using Microsoft.Practices.Prism.PubSubEvents;
 
 namespace Chess.Infrastructure.Events
 {
-    public class SquareSelectedEvent : PubSubEvent<IChessSquareViewModel>
+    public class SquareSelectedEvent : PubSubEvent<object>
     {
     }
 }

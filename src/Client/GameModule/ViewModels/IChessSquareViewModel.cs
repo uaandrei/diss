@@ -1,6 +1,7 @@
-﻿using Chess.Infrastructure.Enums;
+﻿using Chess.Infrastructure;
+using Chess.Infrastructure.Enums;
 
-namespace Chess.Infrastructure.Behaviours
+namespace Chess.Game.ViewModels
 {
     public interface IChessSquareViewModel
     {

@@ -33,8 +33,6 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Behaviours\IChessSquareViewModel.cs" />
-    <Compile Include="Behaviours\IChessTableViewModel.cs" />
     <Compile Include="Enums\MoveColor.cs" />
     <Compile Include="Enums\SquareState.cs" />
     <Compile Include="Events\PlayerChangedEvent.cs" />
