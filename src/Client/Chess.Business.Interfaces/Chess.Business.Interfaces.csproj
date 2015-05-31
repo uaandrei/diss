@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="IGameTable.cs" />
     <Compile Include="IPlayer.cs" />
+    <Compile Include="IRuleSystem.cs" />
     <Compile Include="Move\IMoveStrategy.cs" />
     <Compile Include="Piece\IPiece.cs" />
     <Compile Include="Piece\IPieceFactory.cs" />

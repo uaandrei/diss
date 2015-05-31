@@ -1,4 +1,5 @@
-﻿using Chess.Business.Interfaces;
+﻿using Chess.Business.ImplementationA.Rules;
+using Chess.Business.Interfaces;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Unity;
 
@@ -18,6 +19,7 @@ namespace Chess.Business.ImplementationA
         private void RegisterTypes()
         {
             Container.RegisterType<IGameTable, GameTable>();
+            Container.RegisterType<IRuleSystem, RuleSystem>();
         }
     }
 }

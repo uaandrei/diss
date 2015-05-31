@@ -7,6 +7,7 @@ using Chess.Infrastructure.Events;
 using FenService.Interfaces;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +31,8 @@ namespace Chess.Business.ImplementationA
         public IEnumerable<Position> TableMoves { get { return _moves; } }
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
+        [Dependency]
+        public IRuleSystem RuleSystem { get; set; }
         #endregion
 
         #region ctor
