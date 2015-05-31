@@ -7,7 +7,7 @@ namespace Chess.Business.ImplementationA.Pieces
 {
     public class PieceFactory : IPieceFactory
     {
-        public List<IPiece> GetPieces()
+        public List<IPiece> GetAllPieces()
         {
             var pieces = InitializePieces(PieceColor.Black, 7, 6);
             pieces.AddRange(InitializePieces(PieceColor.White, 0, 1));

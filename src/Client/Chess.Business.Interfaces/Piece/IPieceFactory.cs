@@ -4,6 +4,6 @@ namespace Chess.Business.Interfaces.Piece
 {
     public interface IPieceFactory
     {
-        List<IPiece> GetPieces();
+        List<IPiece> GetAllPieces();
     }
 }

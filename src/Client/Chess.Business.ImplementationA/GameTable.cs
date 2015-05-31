@@ -26,6 +26,7 @@ namespace Chess.Business.ImplementationA
         private PlayerSwitchSystem _playerSwitchSystem;
         private IFenService _fenService;
         private IEventAggregator _eventAggregator;
+        private IPieceFactory _pieceFactory;
 
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
         public IPlayer CurrentPlayer { get { return _playerSwitchSystem.CurrentPlayer; } }
@@ -38,8 +39,9 @@ namespace Chess.Business.ImplementationA
         #endregion
 
         #region ctor
-        public GameTable(IFenService fenService, IEventAggregator evtAggr)
+        public GameTable(IFenService fenService, IEventAggregator evtAggr, IPieceFactory pieceFactory)
         {
+            _pieceFactory = pieceFactory;
             _fenService = fenService;
             _eventAggregator = evtAggr;
         }
@@ -108,8 +110,7 @@ namespace Chess.Business.ImplementationA
         #region Private
         private void InitializePlayersAndPieces()
         {
-            var pieceFactory = new PieceFactory();
-            _pieces = pieceFactory.GetPieces();
+            _pieces = _pieceFactory.GetAllPieces();
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
             var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
             var blackPlayer = new DummyComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
