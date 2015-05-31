@@ -4,6 +4,7 @@ using Chess.Business.Interfaces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Events;
+using Chess.Infrastructure.Logging;
 using FenService.Interfaces;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
@@ -78,13 +79,13 @@ namespace Chess.Business.ImplementationA
         {
             // todo: maybe converters?
             var pieceInfos = (from p in _pieces
-                             select new PieceInfo
-                             {
-                                 Color = p.Color,
-                                 File = p.File,
-                                 Rank = p.Rank,
-                                 Type = p.Type
-                             }).ToArray();
+                              select new PieceInfo
+                              {
+                                  Color = p.Color,
+                                  File = p.File,
+                                  Rank = p.Rank,
+                                  Type = p.Type
+                              }).ToArray();
             var fenData = new FenData
             {
                 PieceInfos = pieceInfos,
@@ -99,7 +100,7 @@ namespace Chess.Business.ImplementationA
             var fenData = _fenService.GetData(fen);
             // todo: maybe converters?
             _pieces = (from p in fenData.PieceInfos
-                        select new ChessPiece(p.Rank, p.File, p.Color, p.Type)).ToArray<IPiece>();
+                       select new ChessPiece(p.Rank, p.File, p.Color, p.Type)).ToArray<IPiece>();
             _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
         }
 
@@ -138,11 +139,14 @@ namespace Chess.Business.ImplementationA
 
         private void OnPieceMoving(IPiece piece, Position newPosition)
         {
+            var logMessage = string.Format("piece:{0} => {1}", this, newPosition);
             if (_pieces.IsOccupied(newPosition))
             {
                 var attackedPiece = _pieces.Single(p => p.CurrentPosition == newPosition);
                 _pieces.Remove(attackedPiece);
+                logMessage = string.Format("{0} attacked:{1}", logMessage, attackedPiece);
             }
+            Logger.Log(LogLevel.Info, logMessage);
         }
 
         private void SetMovesForSelectedPiece()
