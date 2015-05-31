@@ -1,1 +1,0 @@
-codecoverage.bat D:\dev\diss\src\Chess\Chess.Business.ImplementationA.Tests\bin\Debug\Chess.Business.ImplementationA.Tests.dll

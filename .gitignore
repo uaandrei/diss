@@ -183,5 +183,5 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 # Code Coverage
-/src/Chess/coverage.xml
-/src/Chess/coverage
+/src/Client/coverage/coverage_results
+/src/Client/coverage/coverage.xml
