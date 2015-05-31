@@ -64,6 +64,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="defs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bitboards.cpp" />
+    <ClCompile Include="init.cpp" />
+    <ClCompile Include="vice.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
