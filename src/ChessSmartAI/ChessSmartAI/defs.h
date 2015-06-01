@@ -27,6 +27,8 @@ typedef unsigned long long U64;
 
 #define MAXGAMEMOVES 2048 // halfmoves
 
+#define START_FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
 // board data
 enum { EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK };
 enum { FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, FILE_NONE };
@@ -40,7 +42,7 @@ enum {
 	A5 = 61, B5, C5, D5, E5, F5, G5, H5,
 	A6 = 71, B6, C6, D6, E6, F6, G6, H6,
 	A7 = 81, B7, C7, D7, E7, F7, G7, H7,
-	A8 = 91, B8, C8, D8, E8, F8, G8, H8, NO_SQ // NO_SQ = 99, offboard square
+	A8 = 91, B8, C8, D8, E8, F8, G8, H8, NO_SQ, OFFBOARD
 };
 enum { FALSE, TRUE };
 
@@ -77,9 +79,12 @@ typedef struct {
 	// where castling is permitted
 	int castlePerm;
 
-	// ply == half move; (2 x ply = 1 move)
 	int fiftyMove;
+
+	// ply == half move; (2 x ply = 1 move)
 	int ply;
+
+	// history plies played in the whole game
 	int hisPly;
 
 	// unique key for each position
@@ -87,12 +92,18 @@ typedef struct {
 
 	// number of pieces on board by type
 	int pceNum[13];
-	// number of big (not pawn) pieces by color(White, Black, BOTH)
-	int bigPce[3];
-	// number of major (r & q) pieces by color(White, Black, BOTH)
-	int majPce[3];
-	// number of minor (b & n) pieces by color(White, Black, BOTH)
-	int minPce[3];
+
+	// number of big (not pawn) pieces by color(White, Black)
+	int bigPce[2];
+
+	// number of major (r, q & k) pieces by color(White, Black)
+	int majPce[2];
+
+	// number of minor (b & n) pieces by color(White, Black)
+	int minPce[2];
+
+	// material score by color(White, Black)
+	int material[2];
 
 	S_UNDO history[MAXGAMEMOVES];
 
@@ -107,7 +118,8 @@ typedef struct {
 
 // MACROS
 #define FR2SQ(f, r) { ( 21 + (f)) + ( (r) * 10 ) } // 120 based
-#define SQ64(sq120) Sq120ToSq64[sq120]
+#define SQ64(sq120) ( Sq120ToSq64[( sq120 )] )
+#define SQ120(sq64) ( Sq64ToSq120[( sq64 )] )
 #define POP(b) PopBit(b)
 #define CNT(b) CountBits(b)
 #define CLRBIT(bb,sq) ((bb) &= ClearMask[(sq)])
@@ -118,15 +130,41 @@ extern int Sq120ToSq64[BRD_SQ_NUM];
 extern int Sq64ToSq120[64];
 extern U64 SetMask[64];
 extern U64 ClearMask[64];
+extern U64 PieceKeys[13][120];
+extern U64 SideKey;
+extern U64 CastleKeys[16];
+extern char PceChar[];
+extern char SideChar[];
+extern char RankChar[];
+extern char FileChar[];
+
+extern int PieceBig[13];
+extern int PieceMaj[13];
+extern int PieceMin[13];
+extern int PieceVal[13];
+extern int PieceCol[13];
+
+extern int FilesBrd[BRD_SQ_NUM];
+extern int RanksBrd[BRD_SQ_NUM];
 
 // FUNCTIONS
 
-// init.c
+// init.cpp
 extern void AllInit();
 
-// bitboards.c
+// bitboards.cpp
 extern void PrintBitBoard(U64 bb);
 extern int CountBits(U64 bb);
 extern int PopBit(U64 *bb);
+
+// hashkeys.cpp
+extern U64 GeneratePosKey(const S_BOARD *pos);
+
+// board.cpp
+extern void ResetBoard(S_BOARD *pos);
+extern int ParseFen(char *fen, S_BOARD *pos);
+extern void PrintBoard(const S_BOARD *pos);
+extern void UpdateListMaterial(S_BOARD *pos);
+extern int CheckBoard(const S_BOARD *pos);
 
 #endif
