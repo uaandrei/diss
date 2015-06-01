@@ -51,6 +51,15 @@ enum { WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8 };
 
 typedef struct {
 
+	// all the information for the move
+	int move;
+	
+	// used for move ordering
+	int score;
+} S_MOVE;
+
+typedef struct {
+
 	int move;
 	int castlePerm;
 	int enPas;
@@ -116,6 +125,32 @@ typedef struct {
 
 } S_BOARD;
 
+// GAME MOVE
+// hexadecimals are easy to represent on 4 bits:
+// 1000 1010 1111 -> 8FF (hexa, prefix : 0x)
+/*
+7 bits are enough to represent a move 7 bits = 127, square values >= 21 <= 98
+		
+0000 0000 0000 0000 0000 0111 1111 -> From                 0x7F
+0000 0000 0000 0011 1111 1000 0000 -> To             >> 7  0x7F
+0000 0000 0011 1100 0000 0000 0000 -> Captured piece >> 14 0xF
+0000 0000 0100 0000 0000 0000 0000 -> EP                   0x40000
+0000 0000 1000 0000 0000 0000 0000 -> PawnStart            0x80000
+0000 1111 0000 0000 0000 0000 0000 -> Promoted to	 >> 20 0xF
+0001 0000 0000 0000 0000 0000 0000 -> Castling move	       0x1000000
+*/
+
+#define FROMSQ(m) (( m ) & 0x7F)
+#define TOSQ(m) (( ( m ) >> 7 ) & 0x7F)
+#define CAPTURED(m) (( ( m ) >> 14 ) & 0xF)
+#define PROMOTED(m) (( ( m ) >> 20 ) & 0xF)
+#define MFLAGEP 0x40000
+#define MFLAGPS 0x80000
+#define MFLAGCA 0x1000000
+
+#define MFLAGCAP 0x7C000 // EP + CAPTURE BITS
+#define MFLAGPROM 0xF00000
+
 // MACROS
 #define FR2SQ(f, r) { ( 21 + (f)) + ( (r) * 10 ) } // 120 based
 #define SQ64(sq120) ( Sq120ToSq64[( sq120 )] )
@@ -124,6 +159,11 @@ typedef struct {
 #define CNT(b) CountBits(b)
 #define CLRBIT(bb,sq) ((bb) &= ClearMask[(sq)])
 #define SETBIT(bb,sq) ((bb) |= SetMask[(sq)])
+
+#define IsBQ(p) ( PieceBishopQueen[( p )] )
+#define IsRQ(p) ( PieceRookQueen[( p )] )
+#define IsKn(p) ( PieceKnight[( p )] )
+#define IsKi(p) ( PieceKing[( p )] )
 
 // GLOBALS
 extern int Sq120ToSq64[BRD_SQ_NUM];
@@ -147,6 +187,11 @@ extern int PieceCol[13];
 extern int FilesBrd[BRD_SQ_NUM];
 extern int RanksBrd[BRD_SQ_NUM];
 
+extern int PieceKnight[13];
+extern int PieceKing[13];
+extern int PieceRookQueen[13];
+extern int PieceBishopQueen[13];
+
 // FUNCTIONS
 
 // init.cpp
@@ -166,5 +211,8 @@ extern int ParseFen(char *fen, S_BOARD *pos);
 extern void PrintBoard(const S_BOARD *pos);
 extern void UpdateListMaterial(S_BOARD *pos);
 extern int CheckBoard(const S_BOARD *pos);
+
+// attack.cpp
+extern int SqAttacked(const int sq, const int side, const S_BOARD *pos);
 
 #endif

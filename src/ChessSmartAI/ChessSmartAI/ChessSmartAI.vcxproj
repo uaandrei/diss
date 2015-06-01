@@ -67,6 +67,7 @@
     <ClInclude Include="defs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="attack.cpp" />
     <ClCompile Include="bitboards.cpp" />
     <ClCompile Include="board.cpp" />
     <ClCompile Include="data.cpp" />
