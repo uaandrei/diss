@@ -4,6 +4,7 @@ namespace Chess.Infrastructure
 {
     public class Position
     {
+        // TODO: change from Convert.ToInt(x) - SmallLetterCode to x - 'a' :)
         private const int SmallLetterACode = 97;
 
         public int X { get; set; }
