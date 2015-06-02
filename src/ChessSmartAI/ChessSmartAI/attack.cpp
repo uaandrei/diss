@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "defs.h"
 
 const int KnDir[8] = { -8, -19, -21, -12, 8, 19, 21, 12 };
@@ -8,6 +9,10 @@ const int KiDir[8] = { -1, -10, 1, 10, -9, -11, 11, 9 };
 // 'sq' - square to be check if attacked by 'side' on board 'pos'
 int SqAttacked(const int sq, const int side, const S_BOARD *pos) {
 	int pce, index, t_sq, dir;
+
+	ASSERT(SqOnBoard(sq));
+	ASSERT(SideValid(side));
+	ASSERT(CheckBoard(pos));
 
 	// is attacked by pawn
 	if (side == WHITE) {
@@ -20,7 +25,7 @@ int SqAttacked(const int sq, const int side, const S_BOARD *pos) {
 	// is attacked by knight
 	for (index = 0; index < 8; ++index) {
 		pce = pos->pieces[sq + KnDir[index]];
-		if (IsKn(pce) && PieceCol[pce] == side) {
+		if (pce != OFFBOARD && IsKn(pce) && PieceCol[pce] == side) {
 			return TRUE;
 		}
 	}
@@ -64,7 +69,7 @@ int SqAttacked(const int sq, const int side, const S_BOARD *pos) {
 	// is attacked by king
 	for (index = 0; index < 8; ++index) {
 		pce = pos->pieces[sq + KiDir[index]];
-		if (IsKi(pce) && PieceCol[pce] == side) {
+		if (pce != OFFBOARD && IsKi(pce) && PieceCol[pce] == side) {
 			return TRUE;
 		}
 	}

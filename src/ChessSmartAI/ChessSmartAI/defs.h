@@ -26,6 +26,7 @@ typedef unsigned long long U64;
 #define BRD_SQ_NUM 120
 
 #define MAXGAMEMOVES 2048 // halfmoves
+#define MAXPOSITIONMOVES 256
 
 #define START_FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
@@ -53,10 +54,15 @@ typedef struct {
 
 	// all the information for the move
 	int move;
-	
+
 	// used for move ordering
 	int score;
 } S_MOVE;
+
+typedef struct {
+	S_MOVE moves[MAXPOSITIONMOVES];
+	int count;
+} S_MOVELIST;
 
 typedef struct {
 
@@ -116,7 +122,7 @@ typedef struct {
 
 	S_UNDO history[MAXGAMEMOVES];
 
-	// piece list, all are set to EMPTY
+	// piece list
 	int pList[13][10];
 	// must be maintained, but is worth it. rather then looping through all the pieces
 	// pList[wK][0] = E1
@@ -129,8 +135,8 @@ typedef struct {
 // hexadecimals are easy to represent on 4 bits:
 // 1000 1010 1111 -> 8FF (hexa, prefix : 0x)
 /*
-7 bits are enough to represent a move 7 bits = 127, square values >= 21 <= 98
-		
+*7 bits are enough to represent a move 7 bits = 127, square values >= 21 <= 98
+*Pawn start = chess game began with pawn move? or just a pawn move
 0000 0000 0000 0000 0000 0111 1111 -> From                 0x7F
 0000 0000 0000 0011 1111 1000 0000 -> To             >> 7  0x7F
 0000 0000 0011 1100 0000 0000 0000 -> Captured piece >> 14 0xF
@@ -144,11 +150,12 @@ typedef struct {
 #define TOSQ(m) (( ( m ) >> 7 ) & 0x7F)
 #define CAPTURED(m) (( ( m ) >> 14 ) & 0xF)
 #define PROMOTED(m) (( ( m ) >> 20 ) & 0xF)
-#define MFLAGEP 0x40000
-#define MFLAGPS 0x80000
-#define MFLAGCA 0x1000000
 
-#define MFLAGCAP 0x7C000 // EP + CAPTURE BITS
+#define MFLAGEP 0x40000 // en passant
+#define MFLAGPS 0x80000 // pawn start
+#define MFLAGCA 0x1000000 // capture
+
+#define MFLAGCAP 0x7C000 // EP + Captured piece BITS
 #define MFLAGPROM 0xF00000
 
 // MACROS
@@ -191,6 +198,7 @@ extern int PieceKnight[13];
 extern int PieceKing[13];
 extern int PieceRookQueen[13];
 extern int PieceBishopQueen[13];
+extern int PieceSlides[13];
 
 // FUNCTIONS
 
@@ -214,5 +222,20 @@ extern int CheckBoard(const S_BOARD *pos);
 
 // attack.cpp
 extern int SqAttacked(const int sq, const int side, const S_BOARD *pos);
+
+// io.cpp
+extern char *PrSq(const int sq);
+extern char *PrMove(const int move);
+extern void PrintMoveList(const S_MOVELIST *list);
+
+// validate.cpp
+extern int SqOnBoard(const int sq);
+extern int SideValid(const int side);
+extern int FileRankValid(const int fr);
+extern int PieceValidEmpty(const int pce);
+extern int PieceValid(const int pce);
+
+// movegen.cpp
+extern void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list);
 
 #endif
