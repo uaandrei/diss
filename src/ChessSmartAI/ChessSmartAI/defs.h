@@ -253,4 +253,7 @@ extern void PerftTest(int depth, S_BOARD *pos);
 // search.cpp
 extern void SearchPositions(S_BOARD *pos);
 
+// misc.cpp
+extern int GetTimeMs();
+
 #endif

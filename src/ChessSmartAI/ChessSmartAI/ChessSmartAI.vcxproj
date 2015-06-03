@@ -76,6 +76,7 @@
     <ClCompile Include="init.cpp" />
     <ClCompile Include="io.cpp" />
     <ClCompile Include="makemove.cpp" />
+    <ClCompile Include="misc.cpp" />
     <ClCompile Include="movegen.cpp" />
     <ClCompile Include="perft.cpp" />
     <ClCompile Include="search.cpp" />

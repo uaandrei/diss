@@ -9,6 +9,9 @@ int IsRepetition(const S_BOARD *pos) {
 	// (pawns can't go backward and pieces cannot be uncaptured)
 	// hisPly - fiftyMove = number of positions that can be repeated
 	for (index = pos->hisPly - pos->fiftyMove; index < pos->hisPly - 1; ++index) {
+
+		ASSERT(index >= 0 && index <= MAXGAMEMOVES);
+
 		if (pos->posKey == pos->history[index].posKey) {
 			return TRUE;
 		}
