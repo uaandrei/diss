@@ -45,12 +45,10 @@ static void ClearPiece(const int sq, S_BOARD *pos) {
 		pos->bigPce[col]--;
 		if (PieceMaj[pce]) {
 			pos->majPce[col]--;
-		}
-		else{
+		} else {
 			pos->minPce[col]--;
 		}
-	}
-	else {
+	} else {
 		CLRBIT(pos->pawns[col], SQ64(sq));
 		CLRBIT(pos->pawns[BOTH], SQ64(sq));
 	}
@@ -100,12 +98,10 @@ static void AddPiece(const int sq, S_BOARD *pos, const int pce) {
 		pos->bigPce[col]++;
 		if (PieceMaj[pce]) {
 			pos->majPce[col]++;
-		}
-		else{
+		} else {
 			pos->minPce[col]++;
 		}
-	}
-	else {
+	} else {
 		SETBIT(pos->pawns[col], SQ64(sq));
 		SETBIT(pos->pawns[BOTH], SQ64(sq));
 	}
@@ -167,22 +163,20 @@ int MakeMove(S_BOARD *pos, int move) {
 	if (move & MFLAGEP) {
 		if (side == WHITE) {
 			ClearPiece(to - 10, pos);
-		}
-		else {
+		} else {
 			ClearPiece(to + 10, pos);
 		}
-	}
-	else if (move & MFLAGCA) {
+	} else if (move & MFLAGCA) {
 		switch (to) {
-		case C1:
-			MovePiece(A1, D1, pos); break;
-		case C8:
-			MovePiece(A8, D8, pos); break;
-		case G1:
-			MovePiece(H1, F1, pos); break;
-		case G8:
-			MovePiece(H8, F8, pos); break;
-		default: ASSERT(false); break;
+			case C1:
+				MovePiece(A1, D1, pos); break;
+			case C8:
+				MovePiece(A8, D8, pos); break;
+			case G1:
+				MovePiece(H1, F1, pos); break;
+			case G8:
+				MovePiece(H8, F8, pos); break;
+			default: ASSERT(false); break;
 		}
 	}
 
@@ -223,8 +217,7 @@ int MakeMove(S_BOARD *pos, int move) {
 			if (side == WHITE) {
 				pos->enPas = from + 10;
 				ASSERT(RanksBrd[pos->enPas] == RANK_3);
-			}
-			else {
+			} else {
 				pos->enPas = from - 10;
 				ASSERT(RanksBrd[pos->enPas] == RANK_6);
 			}
@@ -262,5 +255,68 @@ int MakeMove(S_BOARD *pos, int move) {
 }
 
 void TakeMove(S_BOARD *pos) {
+	ASSERT(CheckBoard(pos));
 
+	pos->hisPly--;
+	pos->ply--;
+
+	int move = pos->history[pos->hisPly].move;
+	int from = FROMSQ(move);
+	int to = TOSQ(move);
+
+	ASSERT(SqOnBoard(from));
+	ASSERT(SqOnBoard(to));
+
+	if (pos->enPas != NO_SQ) HASH_EP;
+	HASH_CA;
+
+	pos->castlePerm = pos->history[pos->hisPly].castlePerm;
+	pos->fiftyMove = pos->history[pos->hisPly].fiftyMove;
+	pos->enPas = pos->history[pos->hisPly].enPas;
+
+	if (pos->enPas != NO_SQ) HASH_EP;
+	HASH_CA;
+
+	pos->side ^= 1;
+	HASH_SIDE;
+
+	if (MFLAGEP & move) {
+		if (pos->side == WHITE) {
+			AddPiece(to - 10, pos, bP);
+		} else {
+			AddPiece(to + 10, pos, wP);
+		}
+	} else if (MFLAGCA & move) {
+		switch (to) {
+			case C1: MovePiece(D1, A1, pos);
+			case C8: MovePiece(D8, A8, pos);
+			case G1: MovePiece(F1, H1, pos);
+			case G8: MovePiece(F8, H8, pos);
+			default: ASSERT(FALSE); break;
+		}
+	}
+
+	MovePiece(to, from, pos);
+
+	if (PieceKing[pos->pieces[from]]) {
+		pos->KingSq[pos->side] = from;
+	}
+
+	int captured = CAPTURED(move);
+	if (captured != EMPTY) {
+		ASSERT(PieceValid(captured));
+
+		AddPiece(to, pos, captured);
+	}
+
+	int prPce = PROMOTED(move);
+	if (prPce != EMPTY) {
+		ASSERT(PieceValid(prPce) && !PiecePawn[prPce]);
+
+		// because piece was already moved back -> MovePiece(to, from, pos);
+		ClearPiece(from, pos);
+		AddPiece(from, pos, (PieceCol[prPce] == WHITE ? wP : bP));
+	}
+
+	ASSERT(CheckBoard(pos));
 }

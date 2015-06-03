@@ -109,8 +109,7 @@ void UpdateListMaterial(S_BOARD *pos) {
 			if (piece == wP) {
 				SETBIT(pos->pawns[WHITE], sq64);
 				SETBIT(pos->pawns[BOTH], sq64);
-			}
-			else if (piece == bP) {
+			} else if (piece == bP) {
 				SETBIT(pos->pawns[BLACK], sq64);
 				SETBIT(pos->pawns[BOTH], sq64);
 			}

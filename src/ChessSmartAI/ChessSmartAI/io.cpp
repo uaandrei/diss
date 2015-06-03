@@ -27,16 +27,13 @@ char *PrMove(const int move) {
 		char pchar = 'q';
 		if (IsKn(promoted)) {
 			pchar = 'n';
-		}
-		else if (IsRQ(promoted) && !IsBQ(promoted)) {
+		} else if (IsRQ(promoted) && !IsBQ(promoted)) {
 			pchar = 'r';
-		}
-		else if (!IsRQ(promoted) && IsBQ(promoted)) {
+		} else if (!IsRQ(promoted) && IsBQ(promoted)) {
 			pchar = 'b';
 		}
 		sprintf_s(MvStr, sizeof(MvStr), "%c%c%c%c%c", ('a' + ff), ('1' + rf), ('a' + ft), ('1' + rt), pchar);
-	}
-	else {
+	} else {
 		sprintf_s(MvStr, sizeof(MvStr), "%c%c%c%c", ('a' + ff), ('1' + rf), ('a' + ft), ('1' + rt));
 	}
 

@@ -18,8 +18,7 @@ int SqAttacked(const int sq, const int side, const S_BOARD *pos) {
 	if (side == WHITE) {
 		if (pos->pieces[sq - 11] == wP || pos->pieces[sq - 9] == wP)
 			return TRUE;
-	}
-	else if (pos->pieces[sq + 11] == bP || pos->pieces[sq + 9] == bP)
+	} else if (pos->pieces[sq + 11] == bP || pos->pieces[sq + 9] == bP)
 		return TRUE;
 
 	// is attacked by knight

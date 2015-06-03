@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "defs.h"
 
+#define STARTINGFEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 #define FEN1 "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
 //#define FEN1 "8/3q4/8/8/4Q3/8/8/8 w - - 0 2 "
 //#define FEN1 "8/3q1p2/8/5P2/4Q3/8/8/8 w - - 0 2 "
@@ -53,8 +54,7 @@ void ShowSqAttackedBySide(const int side, const S_BOARD *pos) {
 			sq = FR2SQ(file, rank);
 			if (SqAttacked(sq, side, pos)) {
 				printf("X");
-			}
-			else {
+			} else {
 				printf("-");
 			}
 		}

@@ -152,9 +152,9 @@ typedef struct {
 #define CAPTURED(m) (( ( m ) >> 14 ) & 0xF)
 #define PROMOTED(m) (( ( m ) >> 20 ) & 0xF)
 
-#define MFLAGEP 0x40000 // en passant capture
-#define MFLAGPS 0x80000 // pawn start
-#define MFLAGCA 0x1000000 // capture
+#define MFLAGEP 0x40000 // en passant capture move
+#define MFLAGPS 0x80000 // two square start pawn move
+#define MFLAGCA 0x1000000 // castling move
 
 #define MFLAGCAP 0x7C000 // EP + Captured piece BITS
 #define MFLAGPROM 0xF00000
@@ -239,5 +239,11 @@ extern int PieceValid(const int pce);
 
 // movegen.cpp
 extern void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list);
+
+// makemove.cpp
+extern int MakeMove(S_BOARD *pos, int move);
+extern void TakeMove(S_BOARD *pos);
+
+// perft.cpp
 
 #endif
