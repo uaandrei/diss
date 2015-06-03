@@ -97,9 +97,10 @@ typedef struct {
 	int fiftyMove;
 
 	// ply == half move; (2 x ply = 1 move)
+	// half moves played in the current search
 	int ply;
 
-	// history plies played in the whole game
+	// history half moves played in the whole game
 	int hisPly;
 
 	// unique key for each position
@@ -140,7 +141,7 @@ typedef struct {
 0000 0000 0000 0000 0000 0111 1111 -> From                 0x7F
 0000 0000 0000 0011 1111 1000 0000 -> To             >> 7  0x7F
 0000 0000 0011 1100 0000 0000 0000 -> Captured piece >> 14 0xF
-0000 0000 0100 0000 0000 0000 0000 -> EP                   0x40000
+0000 0000 0100 0000 0000 0000 0000 -> EP Capture           0x40000
 0000 0000 1000 0000 0000 0000 0000 -> PawnStart            0x80000
 0000 1111 0000 0000 0000 0000 0000 -> Promoted to	 >> 20 0xF
 0001 0000 0000 0000 0000 0000 0000 -> Castling move	       0x1000000
@@ -151,7 +152,7 @@ typedef struct {
 #define CAPTURED(m) (( ( m ) >> 14 ) & 0xF)
 #define PROMOTED(m) (( ( m ) >> 20 ) & 0xF)
 
-#define MFLAGEP 0x40000 // en passant
+#define MFLAGEP 0x40000 // en passant capture
 #define MFLAGPS 0x80000 // pawn start
 #define MFLAGCA 0x1000000 // capture
 
@@ -190,6 +191,7 @@ extern int PieceMaj[13];
 extern int PieceMin[13];
 extern int PieceVal[13];
 extern int PieceCol[13];
+extern int PiecePawn[13];
 
 extern int FilesBrd[BRD_SQ_NUM];
 extern int RanksBrd[BRD_SQ_NUM];
