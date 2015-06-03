@@ -23,18 +23,18 @@ const int LoopNonSlideIndex[2] = { 0, 3 };
 
 // direction increments for all pieces
 const int PceDir[13][8] = {
-	{ 0, 0, 0, 0, 0, 0, 0, 0 }, // empty
-	{ 0, 0, 0, 0, 0, 0, 0, 0 }, // p
+	{ 0, 0, 0, 0, 0, 0, 0 }, // empty
+	{ 0, 0, 0, 0, 0, 0, 0 }, // p
 	{ -8, -19, -21, -12, 8, 19, 21, 12 }, // n
-	{ -9, -11, 11, 9, 0, 0, 0 }, // b
+	{ -9, -11, 11, 9, 0, 0, 0, 0 }, // b
 	{ -1, -10, 1, 10, 0, 0, 0, 0 }, // r
 	{ -1, -10, 1, 10, -9, -11, 11, 9, }, // q
 	{ -1, -10, 1, 10, -9, -11, 11, 9 }, // k
-	{ 0, 0, 0, 0, 0, 0, 0, 0 }, // p
+	{ 0, 0, 0, 0, 0, 0, 0 }, // p
 	{ -8, -19, -21, -12, 8, 19, 21, 12 }, // n
-	{ -9, -11, 11, 9, 0, 0, 0 }, // b
+	{ -9, -11, 11, 9, 0, 0, 0, 0 }, // b
 	{ -1, -10, 1, 10, 0, 0, 0, 0 }, // r
-	{ -1, -10, 1, 10, -9, -11, 11, 9, }, // q
+	{ -1, -10, 1, 10, -9, -11, 11, 9 }, // q
 	{ -1, -10, 1, 10, -9, -11, 11, 9 } // k
 };
 
@@ -144,7 +144,7 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list) {
 			if (pos->pieces[sq + 10] == EMPTY) {
 				AddWhitePawnMove(pos, sq, sq + 10, list);
 				if (RanksBrd[sq] == RANK_2 && pos->pieces[sq + 20] == EMPTY) {
-					AddQuietMove(pos, MOVE(sq, sq + 20, EMPTY, EMPTY, MFLAGPS), list);
+					AddQuietMove(pos, MOVE(sq, (sq + 20), EMPTY, EMPTY, MFLAGPS), list);
 				}
 			}
 
@@ -187,7 +187,7 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list) {
 			if (pos->pieces[sq - 10] == EMPTY) {
 				AddBlackPawnMove(pos, sq, sq - 10, list);
 				if (RanksBrd[sq] == RANK_7 && pos->pieces[sq - 20] == EMPTY) {
-					AddQuietMove(pos, MOVE(sq, sq - 20, EMPTY, EMPTY, MFLAGPS), list);
+					AddQuietMove(pos, MOVE(sq, (sq - 20), EMPTY, EMPTY, MFLAGPS), list);
 				}
 			}
 
@@ -199,10 +199,10 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list) {
 			}
 
 			if (sq - 9 == pos->enPas) {
-				AddCaptureMove(pos, MOVE(sq, sq + 9, EMPTY, EMPTY, MFLAGEP), list);
+				AddCaptureMove(pos, MOVE(sq, sq - 9, EMPTY, EMPTY, MFLAGEP), list);
 			}
 			if (sq - 11 == pos->enPas) {
-				AddCaptureMove(pos, MOVE(sq, sq + 11, EMPTY, EMPTY, MFLAGEP), list);
+				AddCaptureMove(pos, MOVE(sq, sq - 11, EMPTY, EMPTY, MFLAGEP), list);
 			}
 		}
 
@@ -260,7 +260,7 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list) {
 	while (pce != 0) {
 		ASSERT(PieceValid(pce));
 
-		for (pceNum = 0; pceNum < pos->pceNum[pce]; pceNum++) {
+		for (pceNum = 0; pceNum < pos->pceNum[pce]; ++pceNum) {
 			sq = pos->pList[pce][pceNum];
 			ASSERT(SqOnBoard(sq));
 

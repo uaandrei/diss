@@ -288,10 +288,10 @@ void TakeMove(S_BOARD *pos) {
 		}
 	} else if (MFLAGCA & move) {
 		switch (to) {
-			case C1: MovePiece(D1, A1, pos);
-			case C8: MovePiece(D8, A8, pos);
-			case G1: MovePiece(F1, H1, pos);
-			case G8: MovePiece(F8, H8, pos);
+			case C1: MovePiece(D1, A1, pos); break;
+			case C8: MovePiece(D8, A8, pos); break;
+			case G1: MovePiece(F1, H1, pos); break;
+			case G8: MovePiece(F8, H8, pos); break;
 			default: ASSERT(FALSE); break;
 		}
 	}

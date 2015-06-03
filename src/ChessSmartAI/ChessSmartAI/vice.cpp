@@ -3,6 +3,7 @@
 #include "defs.h"
 
 #define STARTINGFEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+#define LEGENDARYFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
 #define FEN1 "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
 //#define FEN1 "8/3q4/8/8/4Q3/8/8/8 w - - 0 2 "
 //#define FEN1 "8/3q1p2/8/5P2/4Q3/8/8/8 w - - 0 2 "
@@ -68,12 +69,9 @@ int main() {
 	AllInit();
 
 	S_BOARD board[1];
-	S_MOVELIST list[1];
 
-	ParseFen(CASTLE3FEN, board);
-	//PrintBoard(board);
-	GenerateAllMoves(board, list);
-	PrintMoveList(list);
+	ParseFen(LEGENDARYFEN, board);
+	PerftTest(3, board);
 
 	getchar();
 	return 0;

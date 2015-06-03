@@ -160,7 +160,7 @@ typedef struct {
 #define MFLAGPROM 0xF00000
 
 // MACROS
-#define FR2SQ(f, r) { ( 21 + (f)) + ( (r) * 10 ) } // 120 based
+#define FR2SQ(f, r) ( ( 21 + (f)) + ( (r) * 10 ) ) // 120 based
 #define SQ64(sq120) ( Sq120ToSq64[( sq120 )] )
 #define SQ120(sq64) ( Sq64ToSq120[( sq64 )] )
 #define POP(b) PopBit(b)
@@ -245,5 +245,6 @@ extern int MakeMove(S_BOARD *pos, int move);
 extern void TakeMove(S_BOARD *pos);
 
 // perft.cpp
+extern void PerftTest(int depth, S_BOARD *pos);
 
 #endif
