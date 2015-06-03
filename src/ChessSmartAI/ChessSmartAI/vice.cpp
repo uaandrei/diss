@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "defs.h"
 
-#define STARTINGFEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 #define LEGENDARYFEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
 #define FEN1 "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
 //#define FEN1 "8/3q4/8/8/4Q3/8/8/8 w - - 0 2 "
@@ -19,6 +18,7 @@
 #define CASTLE1FEN "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"
 #define CASTLE2FEN "3rk2r/8/8/8/8/8/6p1/R3K2R b KQk - 0 1"
 #define CASTLE3FEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
+#define PERFTFEN "n1n5/PPPk4/8/8/8/8/4Kppp/5N1N w - - 0 1"
 
 void PrintBin(int move) {
 	int index = 0;
@@ -70,8 +70,35 @@ int main() {
 
 	S_BOARD board[1];
 
-	ParseFen(LEGENDARYFEN, board);
-	PerftTest(3, board);
+	ParseFen(START_FEN, board);
+	//PerftTest(3, board);
+
+	char input[6];
+	int move = NOMOVE;
+
+	while (TRUE) {
+		PrintBoard(board);
+		printf("Please enter a move: ");
+		fgets(input, 6, stdin);
+
+		if (input[0] == 'q') {
+			break;
+		} else if (input[0] == 't') {
+			TakeMove(board);
+		} else {
+			move = ParseMove(input, board);
+			if (move != NOMOVE) {
+				MakeMove(board, move);
+				/*if (IsRepetition(board)) {
+					printf("REPETITION SEEN\n");
+				}*/
+			} else {
+				printf("Move not parsed:%s\n", input);
+			}
+		}
+
+		fflush(stdin);
+	}
 
 	getchar();
 	return 0;

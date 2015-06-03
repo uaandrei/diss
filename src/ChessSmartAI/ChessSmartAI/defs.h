@@ -159,6 +159,8 @@ typedef struct {
 #define MFLAGCAP 0x7C000 // EP + Captured piece BITS
 #define MFLAGPROM 0xF00000
 
+#define NOMOVE 0
+
 // MACROS
 #define FR2SQ(f, r) ( ( 21 + (f)) + ( (r) * 10 ) ) // 120 based
 #define SQ64(sq120) ( Sq120ToSq64[( sq120 )] )
@@ -229,6 +231,7 @@ extern int SqAttacked(const int sq, const int side, const S_BOARD *pos);
 extern char *PrSq(const int sq);
 extern char *PrMove(const int move);
 extern void PrintMoveList(const S_MOVELIST *list);
+extern int ParseMove(char *ptrChar, S_BOARD *pos);
 
 // validate.cpp
 extern int SqOnBoard(const int sq);
@@ -246,5 +249,8 @@ extern void TakeMove(S_BOARD *pos);
 
 // perft.cpp
 extern void PerftTest(int depth, S_BOARD *pos);
+
+// search.cpp
+extern void SearchPositions(S_BOARD *pos);
 
 #endif
