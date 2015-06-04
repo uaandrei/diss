@@ -166,6 +166,12 @@ typedef struct {
 	int quit;
 	int stopped;
 
+	// fail high       - counts the number of times it searches the next legal moves after the first one
+	// fail high first - counts the number of times it searches the first legal move
+	// fhf/fh - is actually an indicator of how well the beta cutoffs are working. ideal = 1
+	float fh;
+	float fhf;
+
 } S_SEARCHINFO;
 
 // GAME MOVE
@@ -298,6 +304,7 @@ extern void InitPvTable(S_PVTABLE *table);
 extern void StorePvMove(const S_BOARD *pos, const int move);
 extern int ProbePvTable(const S_BOARD *pos);
 extern int GetPvLine(const int depth, S_BOARD *pos);
+extern void ClearPvTable(S_PVTABLE *table);
 
 // evaluate.cpp
 extern int EvalPosition(const S_BOARD *pos);

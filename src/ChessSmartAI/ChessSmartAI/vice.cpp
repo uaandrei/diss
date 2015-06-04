@@ -19,6 +19,7 @@
 #define CASTLE2FEN "3rk2r/8/8/8/8/8/6p1/R3K2R b KQk - 0 1"
 #define CASTLE3FEN "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"
 #define PERFTFEN "n1n5/PPPk4/8/8/8/8/4Kppp/5N1N w - - 0 1"
+#define WAC1 "2rr3k/pp3pp1/1nnqbN1p/3pN3/2pP4/2P3Q1/PPB4P/R4RK1 w - -" // mate in 3
 
 void PrintBin(int move) {
 	int index = 0;
@@ -69,8 +70,9 @@ int main() {
 	AllInit();
 
 	S_BOARD board[1];
+	S_SEARCHINFO info[1];
 
-	ParseFen(START_FEN, board);
+	ParseFen(WAC1, board);
 	//PerftTest(3, board);
 
 	char input[6];
@@ -87,15 +89,9 @@ int main() {
 			break;
 		} else if (input[0] == 't') {
 			TakeMove(board);
-		} else if (input[0] == 'p') {
-			//PerftTest(4, board);
-			max = GetPvLine(4, board);
-			printf("PvLine of %d moves: ", max);
-			for (pvNum = 0; pvNum < max; ++pvNum) {
-				move = board->PvArray[pvNum];
-				printf(" %s", PrMove(move));
-			}
-			printf("\n");
+		} else if (input[0] == 's') {
+			info->depth = 4;
+			SearchPositions(board, info);
 		} else {
 			move = ParseMove(input, board);
 			if (move != NOMOVE) {
