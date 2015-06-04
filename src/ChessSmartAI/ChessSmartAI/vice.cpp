@@ -93,7 +93,7 @@ int main() {
 		} else if (input[0] == 't') {
 			TakeMove(board);
 		} else if (input[0] == 's') {
-			info->depth = 5;
+			info->depth = 6;
 			SearchPositions(board, info);
 		} else {
 			move = ParseMove(input, board);

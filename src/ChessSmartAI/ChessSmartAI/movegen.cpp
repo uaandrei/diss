@@ -117,26 +117,40 @@ static void AddQuietMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
 	ASSERT(SqOnBoard(TOSQ(move)));
 
 	list->moves[list->count].move = move;
-	list->moves[list->count].score = 0;
+
+	// updating the non-capture moves that give us beta cut-offs
+	if (pos->searchKillers[0][pos->ply] == move) {
+		// 900000 for first killer move
+		list->moves[list->count].score = 900000;
+	} else if (pos->searchKillers[1][pos->ply] == move) {
+		// 800000 for second killer move
+		list->moves[list->count].score = 800000;
+	} else {
+		// alpha cut-off
+		list->moves[list->count].score = pos->searchHistory[pos->pieces[FROMSQ(move)]][TOSQ(move)];
+	}
+
 	list->count++;
 }
 
+// + 1000000 for capture move because of history, killer and pv will have greater values and we want to be sure that we seach capture moves FIRST!
 static void AddCaptureMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
 	ASSERT(SqOnBoard(FROMSQ(move)));
 	ASSERT(SqOnBoard(TOSQ(move)));
 	ASSERT(PieceValid(CAPTURED(move)));
 
 	list->moves[list->count].move = move;
-	list->moves[list->count].score = MvvLvaScores[CAPTURED(move)][pos->pieces[FROMSQ(move)]];
+	list->moves[list->count].score = MvvLvaScores[CAPTURED(move)][pos->pieces[FROMSQ(move)]] + 1000000;
 	list->count++;
 }
 
+// + 1000000 for capture move because of history, killer and pv will have greater values and we want to be sure that we seach capture moves FIRST!
 static void AddEnPassantMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
 	ASSERT(SqOnBoard(FROMSQ(move)));
 	ASSERT(SqOnBoard(TOSQ(move)));
 
 	list->moves[list->count].move = move;
-	list->moves[list->count].score = 105;
+	list->moves[list->count].score = 105 + 1000000;
 	list->count++;
 }
 

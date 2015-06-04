@@ -146,7 +146,8 @@ typedef struct {
 	// every time a move beats alpha: searchHistory[pieceType, toSquare]++   || non-capture
 	int searchHistory[13][BRD_SQ_NUM];
 
-	// store two moves indexed by depth that recently caused a beta cut-off  || non-capture
+	// stores two arrays of moves indexed by depth that recently caused a beta cut-off  || non-capture
+	// 0 best slot, 1 old slot
 	int searchKillers[2][MAXDEPTH];
 
 } S_BOARD;

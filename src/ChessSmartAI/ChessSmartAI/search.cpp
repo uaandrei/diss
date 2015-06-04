@@ -110,6 +110,17 @@ static int AlphaBeta(int alpha, int beta, int depth, S_BOARD *pos, S_SEARCHINFO 
 	int oldAlpha = alpha;
 	int bestMove = NOMOVE;
 	int score = -INFINITE;
+	int pvMove = ProbePvTable(pos);
+
+	if (pvMove != NOMOVE) {
+		for (moveNum = 0; moveNum < list->count; ++moveNum) {
+			if (list->moves[moveNum].move == pvMove) {
+				// 2000000 so we search it first
+				list->moves[moveNum].score = 2000000;
+				break;
+			}
+		}
+	}
 
 	for (moveNum = 0; moveNum < list->count; ++moveNum) {
 		PickNextMove(moveNum, list);
@@ -127,10 +138,23 @@ static int AlphaBeta(int alpha, int beta, int depth, S_BOARD *pos, S_SEARCHINFO 
 					info->fhf++;
 				}
 				info->fh++;
+
+				// if not a capture
+				// adds killers in for non-captures that are causing beta cut-offs to the search 
+				if (!(list->moves[moveNum].move & MFLAGCAP)) {
+					pos->searchKillers[1][pos->ply] = pos->searchKillers[0][pos->ply];
+					pos->searchKillers[0][pos->ply] = list->moves[moveNum].move;
+				}
+
 				return beta;
 			}
 			alpha = score;
 			bestMove = list->moves[moveNum].move;
+
+			if (!(list->moves[moveNum].move & MFLAGCAP)) {
+				// it prioritises moves that ocurred near the root of the tree
+				pos->searchHistory[pos->pieces[FROMSQ(bestMove)]][TOSQ(bestMove)] += depth;
+			}
 		}
 	}
 
