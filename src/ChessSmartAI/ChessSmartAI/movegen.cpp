@@ -42,6 +42,53 @@ const int PceDir[13][8] = {
 const int NumDir[13] = { 0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8 };
 
 /*
+most valuable victim-least valuable attacker
+normally when you order moves inside a chess search tree (AB),
+generally:
+search a PV Move
+search captures ordered by MvvLVA
+search moves that have made beta cutoffs (Killers)
+search according to the HistoryScore the rest of non-capture moves (history scores are incremented when they improve alpha)
+
+[Victim][Attacker] array of corresponding values
+Victims:
+P x Q - best capture to search first is pawn takes queen
+N x Q
+B x Q
+R x Q
+...
+P x R
+N x R
+....
+R
+B
+N
+P
+
+victim Q -> 500 | [Q][P] (pawn captures queen) = 505, [Q][N] = 504...
+
+*/
+const int VictimScore[13] = { 0, 100, 200, 300, 400, 500, 600, 100, 200, 300, 400, 500, 600 };
+static int MvvLvaScores[13][13];
+
+void InitMvvLva() {
+	int attacker;
+	int victim;
+
+	for (attacker = wP; attacker <= bK; ++attacker) {
+		for (victim = wP; victim <= bK; ++victim) {
+			MvvLvaScores[victim][attacker] = VictimScore[victim] + 6 - (VictimScore[attacker] / 100);
+		}
+	}
+
+	/*for (victim = wP; victim <= bK; ++victim) {
+		for (attacker = wP; attacker <= bK; ++attacker) {
+		printf("Attacker:%c x Victim:%c - score:%d\n", PceChar[attacker], PceChar[victim], MvvLvaScores[victim][attacker]);
+		}
+		}*/
+}
+
+/*
 MoveGen(board, list)
 loops all pieces
 -> slider loop each direct and add move
@@ -66,20 +113,30 @@ int MoveExists(S_BOARD *pos, const int move) {
 }
 
 static void AddQuietMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
+	ASSERT(SqOnBoard(FROMSQ(move)));
+	ASSERT(SqOnBoard(TOSQ(move)));
+
 	list->moves[list->count].move = move;
 	list->moves[list->count].score = 0;
 	list->count++;
 }
 
 static void AddCaptureMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
+	ASSERT(SqOnBoard(FROMSQ(move)));
+	ASSERT(SqOnBoard(TOSQ(move)));
+	ASSERT(PieceValid(CAPTURED(move)));
+
 	list->moves[list->count].move = move;
-	list->moves[list->count].score = 0;
+	list->moves[list->count].score = MvvLvaScores[CAPTURED(move)][pos->pieces[FROMSQ(move)]];
 	list->count++;
 }
 
 static void AddEnPassantMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
+	ASSERT(SqOnBoard(FROMSQ(move)));
+	ASSERT(SqOnBoard(TOSQ(move)));
+
 	list->moves[list->count].move = move;
-	list->moves[list->count].score = 0;
+	list->moves[list->count].score = 105;
 	list->count++;
 }
 
@@ -173,11 +230,13 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list) {
 				AddWhitePawnCaptureMove(pos, sq, sq + 11, pos->pieces[sq + 11], list);
 			}
 
-			if (sq + 9 == pos->enPas) {
-				AddCaptureMove(pos, MOVE(sq, sq + 9, EMPTY, EMPTY, MFLAGEP), list);
-			}
-			if (sq + 11 == pos->enPas) {
-				AddCaptureMove(pos, MOVE(sq, sq + 11, EMPTY, EMPTY, MFLAGEP), list);
+			if (pos->enPas != NO_SQ) {
+				if (sq + 9 == pos->enPas) {
+					AddEnPassantMove(pos, MOVE(sq, sq + 9, EMPTY, EMPTY, MFLAGEP), list);
+				}
+				if (sq + 11 == pos->enPas) {
+					AddEnPassantMove(pos, MOVE(sq, sq + 11, EMPTY, EMPTY, MFLAGEP), list);
+				}
 			}
 		}
 
@@ -215,11 +274,13 @@ void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list) {
 				AddBlackPawnCaptureMove(pos, sq, sq - 11, pos->pieces[sq - 11], list);
 			}
 
-			if (sq - 9 == pos->enPas) {
-				AddCaptureMove(pos, MOVE(sq, sq - 9, EMPTY, EMPTY, MFLAGEP), list);
-			}
-			if (sq - 11 == pos->enPas) {
-				AddCaptureMove(pos, MOVE(sq, sq - 11, EMPTY, EMPTY, MFLAGEP), list);
+			if (pos->enPas != NO_SQ) {
+				if (sq - 9 == pos->enPas) {
+					AddEnPassantMove(pos, MOVE(sq, sq - 9, EMPTY, EMPTY, MFLAGEP), list);
+				}
+				if (sq - 11 == pos->enPas) {
+					AddEnPassantMove(pos, MOVE(sq, sq - 11, EMPTY, EMPTY, MFLAGEP), list);
+				}
 			}
 		}
 
