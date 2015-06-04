@@ -29,6 +29,8 @@ typedef unsigned long long U64;
 #define MAXPOSITIONMOVES 256
 #define MAXDEPTH 64
 
+#define MATE 29000
+
 #define START_FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 // board data
@@ -160,6 +162,9 @@ typedef struct {
 	int timeSet;
 	int movesToGo;
 	int infinite;
+
+	int bestMove;
+	int bestScore;
 
 	// count of all the posistions the engine visits in a search tree
 	long nodes;
@@ -304,6 +309,7 @@ extern int GetTimeMs();
 
 // pvtable.cpp
 extern void InitPvTable(S_PVTABLE *table);
+extern void FreePvTable(S_PVTABLE *table);
 extern void StorePvMove(const S_BOARD *pos, const int move);
 extern int ProbePvTable(const S_BOARD *pos);
 extern int GetPvLine(const int depth, S_BOARD *pos);

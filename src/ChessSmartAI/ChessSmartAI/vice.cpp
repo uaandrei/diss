@@ -66,7 +66,37 @@ void ShowSqAttackedBySide(const int side, const S_BOARD *pos) {
 	printf("\n\n");
 }
 
-int main() {
+//Functions that print
+//PrintBitBoard
+//PrintBoard
+//PrintMoveList
+//PerftTest
+
+// return format:
+//		non promotion: a2a3;12311
+//		    promotion: a2a3q;12311
+extern "C" __declspec(dllexport) char* __cdecl GetMove(char *fen, int depth) {
+	static char result[50];
+	S_BOARD board[1];
+	S_SEARCHINFO info[1];
+
+	AllInit();
+
+	InitPvTable(board->PvTable);
+	ParseFen(fen, board);
+
+	info->depth = depth;
+	info->timeSet = FALSE;
+
+	SearchPositions(board, info);
+
+	sprintf_s(result, "%s;%d", PrMove(info->bestMove), info->bestScore);
+
+	FreePvTable(board->PvTable);
+	return result;
+}
+
+void ConsoleLoop() {
 
 	AllInit();
 
@@ -75,7 +105,9 @@ int main() {
 
 	S_SEARCHINFO info[1];
 
-	ParseFen(WAC1, board);
+
+
+	ParseFen(WAC2, board);
 	//PerftTest(3, board);
 
 	char input[6];
@@ -86,7 +118,7 @@ int main() {
 	while (TRUE) {
 		PrintBoard(board);
 		printf("Please enter a move: ");
-		fgets(input, 6, stdin);
+		fgets(input, 5, stdin);
 
 		if (input[0] == 'q') {
 			break;
@@ -94,15 +126,21 @@ int main() {
 			TakeMove(board);
 		} else if (input[0] == 's') {
 			info->depth = 6;
+			info->timeSet = FALSE;
+			info->startTime = GetTimeMs();
+			info->stopTime = GetTimeMs() + 1000;
 			SearchPositions(board, info);
+
+			printf("best move:%s best score:%d time:%dms\n", PrMove(info->bestMove), info->bestScore, GetTimeMs() - info->startTime);
+			if (info->bestScore == -MATE) {
+				printf("CHECK MATE. side %s lost!", board->side == WHITE ? "WHITE" : "BLACK");
+				break;
+			}
 		} else {
 			move = ParseMove(input, board);
 			if (move != NOMOVE) {
 				StorePvMove(board, move);
 				MakeMove(board, move);
-				/*if (IsRepetition(board)) {
-					printf("REPETITION SEEN\n");
-					}*/
 			} else {
 				printf("Move not parsed:%s\n", input);
 			}
@@ -112,7 +150,11 @@ int main() {
 	}
 
 	getchar();
-	
-	free(board->PvTable->pTable);
+
+	FreePvTable(board->PvTable);
+}
+
+int main(){
+	char *result = GetMove(WAC2, 6);
 	return 0;
 }

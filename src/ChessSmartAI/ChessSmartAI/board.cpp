@@ -164,42 +164,41 @@ int ParseFen(char *fen, S_BOARD *pos) {
 	while ((rank >= RANK_1) && *fen) {
 		count = 1;
 		switch (*fen) {
-		case 'p': piece = bP; break;
-		case 'r': piece = bR; break;
-		case 'n': piece = bN; break;
-		case 'b': piece = bB; break;
-		case 'k': piece = bK; break;
-		case 'q': piece = bQ; break;
+			case 'p': piece = bP; break;
+			case 'r': piece = bR; break;
+			case 'n': piece = bN; break;
+			case 'b': piece = bB; break;
+			case 'k': piece = bK; break;
+			case 'q': piece = bQ; break;
 
-		case 'P': piece = wP; break;
-		case 'R': piece = wR; break;
-		case 'N': piece = wN; break;
-		case 'B': piece = wB; break;
-		case 'K': piece = wK; break;
-		case 'Q': piece = wQ; break;
+			case 'P': piece = wP; break;
+			case 'R': piece = wR; break;
+			case 'N': piece = wN; break;
+			case 'B': piece = wB; break;
+			case 'K': piece = wK; break;
+			case 'Q': piece = wQ; break;
 
-		case '1':
-		case '2':
-		case '3':
-		case '4':
-		case '5':
-		case '6':
-		case '7':
-		case '8':
-			piece = EMPTY;
-			count = *fen - '0';
-			break;
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+				piece = EMPTY;
+				count = *fen - '0';
+				break;
 
-		case '/':
-		case ' ':
-			rank--;
-			file = FILE_A;
-			fen++; // walk through the next character in our position string
-			continue;
+			case '/':
+			case ' ':
+				rank--;
+				file = FILE_A;
+				fen++; // walk through the next character in our position string
+				continue;
 
-		default:
-			printf("FEN error\n");
-			return -1;
+			default:
+				exit(1);
 		}
 
 		for (i = 0; i < count; i++) {
@@ -223,10 +222,10 @@ int ParseFen(char *fen, S_BOARD *pos) {
 			break;
 
 		switch (*fen) {
-		case 'K': pos->castlePerm |= WKCA; break;
-		case 'Q': pos->castlePerm |= WQCA; break;
-		case 'k': pos->castlePerm |= BKCA; break;
-		case 'q': pos->castlePerm |= BQCA; break;
+			case 'K': pos->castlePerm |= WKCA; break;
+			case 'Q': pos->castlePerm |= WQCA; break;
+			case 'k': pos->castlePerm |= BKCA; break;
+			case 'q': pos->castlePerm |= BQCA; break;
 		}
 		fen++;
 	}
