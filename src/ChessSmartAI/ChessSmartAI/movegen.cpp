@@ -48,6 +48,23 @@ loops all pieces
 -> AddMove list->moves[list->count] = move; list->count++;
 */
 
+int MoveExists(S_BOARD *pos, const int move) {
+	S_MOVELIST list[1];
+	GenerateAllMoves(pos, list);
+
+	int moveNum = 0;
+	for (moveNum = 0; moveNum < list->count; ++moveNum) {
+		if (!MakeMove(pos, list->moves[moveNum].move)) {
+			continue;
+		}
+		TakeMove(pos);
+		if (list->moves[moveNum].move == move) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 static void AddQuietMove(const S_BOARD *pos, int move, S_MOVELIST *list) {
 	list->moves[list->count].move = move;
 	list->moves[list->count].score = 0;

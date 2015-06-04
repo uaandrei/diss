@@ -146,6 +146,7 @@ void ResetBoard(S_BOARD *pos) {
 	pos->hisPly = 0;
 	pos->castlePerm = 0;
 	pos->posKey = 0ULL;
+	InitPvTable(pos->PvTable);
 }
 
 int ParseFen(char *fen, S_BOARD *pos) {

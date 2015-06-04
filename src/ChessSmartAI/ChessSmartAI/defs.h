@@ -27,6 +27,7 @@ typedef unsigned long long U64;
 
 #define MAXGAMEMOVES 2048 // halfmoves
 #define MAXPOSITIONMOVES 256
+#define MAXDEPTH 64
 
 #define START_FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
@@ -63,6 +64,16 @@ typedef struct {
 	S_MOVE moves[MAXPOSITIONMOVES];
 	int count;
 } S_MOVELIST;
+
+typedef struct {
+	U64 posKey;
+	int move;
+} S_PVENTRY;
+
+typedef struct {
+	S_PVENTRY *pTable;
+	int numEntries;
+} S_PVTABLE;
 
 typedef struct {
 
@@ -129,8 +140,33 @@ typedef struct {
 	// pList[wK][0] = E1
 	// pList[wK][1] = D4 ....
 
+	S_PVTABLE PvTable[1];
+	int PvArray[MAXDEPTH];
+
+	// every time a move beats alpha: searchHistory[pieceType, toSquare]++   || non-capture
+	int searchHistory[13][BRD_SQ_NUM];
+
+	// store two moves indexed by depth that recently caused a beta cut-off  || non-capture
+	int searchKillers[2][MAXDEPTH];
 
 } S_BOARD;
+
+typedef struct {
+	int startTime;
+	int stopTime;
+	int depth;
+	int depthSet;
+	int timeSet;
+	int movesToGo;
+	int infinite;
+
+	// count of all the posistions the engine visits in a search tree
+	long nodes;
+
+	int quit;
+	int stopped;
+
+} S_SEARCHINFO;
 
 // GAME MOVE
 // hexadecimals are easy to represent on 4 bits:
@@ -242,6 +278,7 @@ extern int PieceValid(const int pce);
 
 // movegen.cpp
 extern void GenerateAllMoves(const S_BOARD *pos, S_MOVELIST *list);
+extern int MoveExists(S_BOARD *pos, const int move);
 
 // makemove.cpp
 extern int MakeMove(S_BOARD *pos, int move);
@@ -251,9 +288,18 @@ extern void TakeMove(S_BOARD *pos);
 extern void PerftTest(int depth, S_BOARD *pos);
 
 // search.cpp
-extern void SearchPositions(S_BOARD *pos);
+extern void SearchPositions(S_BOARD *pos, S_SEARCHINFO *info);
 
 // misc.cpp
 extern int GetTimeMs();
+
+// pvtable.cpp
+extern void InitPvTable(S_PVTABLE *table);
+extern void StorePvMove(const S_BOARD *pos, const int move);
+extern int ProbePvTable(const S_BOARD *pos);
+extern int GetPvLine(const int depth, S_BOARD *pos);
+
+// evaluate.cpp
+extern int EvalPosition(const S_BOARD *pos);
 
 #endif

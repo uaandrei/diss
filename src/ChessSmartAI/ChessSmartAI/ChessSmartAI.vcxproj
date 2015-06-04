@@ -72,6 +72,7 @@
     <ClCompile Include="bitboards.cpp" />
     <ClCompile Include="board.cpp" />
     <ClCompile Include="data.cpp" />
+    <ClCompile Include="evaluate.cpp" />
     <ClCompile Include="hashkeys.cpp" />
     <ClCompile Include="init.cpp" />
     <ClCompile Include="io.cpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="misc.cpp" />
     <ClCompile Include="movegen.cpp" />
     <ClCompile Include="perft.cpp" />
+    <ClCompile Include="pvtable.cpp" />
     <ClCompile Include="search.cpp" />
     <ClCompile Include="validate.cpp" />
     <ClCompile Include="vice.cpp" />
