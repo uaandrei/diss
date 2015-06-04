@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChessService", "SmartChessService\SmartChessService.csproj", "{D843010A-57D5-4CF4-A367-D8A27D8CF81C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChessService.Tests", "SmartChessService.Tests\SmartChessService.Tests.csproj", "{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D843010A-57D5-4CF4-A367-D8A27D8CF81C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D843010A-57D5-4CF4-A367-D8A27D8CF81C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D843010A-57D5-4CF4-A367-D8A27D8CF81C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D843010A-57D5-4CF4-A367-D8A27D8CF81C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
