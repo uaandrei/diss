@@ -82,15 +82,73 @@ solution quiescence search: you carry on with AB but you dont have a depth and o
 -it's an attempt to find a quiet position from which we can get an evaluation so we can eliminate the horizon effect
 */
 static int QuiescenceSearch(int alpha, int beta, S_BOARD *pos, S_SEARCHINFO *info) {
-	return 0;
+	ASSERT(CheckBoard(pos));
+
+	info->nodes++;
+	if (IsRepetition(pos) || pos->fiftyMove >= 100) {
+		return 0;
+	}
+	if (pos->ply > MAXDEPTH - 1) {
+		return EvalPosition(pos);
+	}
+	
+	// see how you're doing if you don't even make a move 
+	// if you're already doing better than beta then you're doing pretty well
+	int score = EvalPosition(pos);
+	if (score >= beta) {
+		return beta;
+	}
+
+	if (score > alpha) {
+		alpha = score;
+	}
+
+	S_MOVELIST list[1];
+	GenerateAllCaptures(pos, list);
+
+	int moveNum = 0;
+	int legal = 0;
+	int oldAlpha = alpha;
+	int bestMove = NOMOVE;
+	score = -INFINITE;
+	int pvMove = ProbePvTable(pos);
+
+	for (moveNum = 0; moveNum < list->count; ++moveNum) {
+		PickNextMove(moveNum, list);
+		if (!MakeMove(pos, list->moves[moveNum].move)) {
+			continue;
+		}
+
+		legal++;
+		score = -QuiescenceSearch(-beta, -alpha, pos, info);
+		TakeMove(pos);
+
+		if (score > alpha) {
+			if (score >= beta) {
+				if (legal == 1) {
+					info->fhf++;
+				}
+				info->fh++;
+				return beta;
+			}
+			alpha = score;
+			bestMove = list->moves[moveNum].move;
+		}
+	}
+
+	if (alpha != oldAlpha) {
+		StorePvMove(pos, bestMove);
+	}
+
+	return alpha;
 }
 
 static int AlphaBeta(int alpha, int beta, int depth, S_BOARD *pos, S_SEARCHINFO *info, int doNull) {
 	ASSERT(CheckBoard(pos));
 
 	if (depth == 0) {
-		info->nodes++;
-		return EvalPosition(pos);
+		return QuiescenceSearch(alpha, beta, pos, info);
+		//return EvalPosition(pos);
 	}
 
 	info->nodes++;
