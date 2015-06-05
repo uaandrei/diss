@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChessService", "SmartC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChessService.Tests", "SmartChessService.Tests\SmartChessService.Tests.csproj", "{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartChessService.WebApi", "SmartChessService.WebApi\SmartChessService.WebApi.csproj", "{D6FBB4F8-7F63-4A66-8C7D-B1D6315FC77C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D95E0D2-BD83-4B1C-BDAE-0B5CAA81CB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6FBB4F8-7F63-4A66-8C7D-B1D6315FC77C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6FBB4F8-7F63-4A66-8C7D-B1D6315FC77C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6FBB4F8-7F63-4A66-8C7D-B1D6315FC77C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6FBB4F8-7F63-4A66-8C7D-B1D6315FC77C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
