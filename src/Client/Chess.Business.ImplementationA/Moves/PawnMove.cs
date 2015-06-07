@@ -10,10 +10,11 @@ namespace Chess.Business.ImplementationA.Moves
         {
             var positions = new List<Position>();
 
-            var posibleMove = GetPosibleMove(currentPiece);
-            if (posibleMove.IsInBounds() && allPieces.IsFree(posibleMove))
-                positions.Add(posibleMove);
-
+            foreach (var posibleMove in GetPosibleMoves(currentPiece))
+            {
+                if (posibleMove.IsInBounds() && allPieces.IsFree(posibleMove))
+                    positions.Add(posibleMove);
+            }
             return positions;
         }
 
@@ -21,7 +22,7 @@ namespace Chess.Business.ImplementationA.Moves
         {
             var positions = new List<Position>();
 
-            var move = GetPosibleMove(currentPiece);
+            var move = GetPosibleMoves(currentPiece)[0];
             var posibleAttack = new Position(move.X - 1, move.Y);
             if (posibleAttack.IsInBounds() && !allPieces.IsFree(posibleAttack))
                 positions.Add(posibleAttack);
@@ -31,14 +32,22 @@ namespace Chess.Business.ImplementationA.Moves
             return positions;
         }
 
-        private Position GetPosibleMove(IPiece pawn)
+        private IList<Position> GetPosibleMoves(IPiece pawn)
         {
-            var pawnPosition = new Position(pawn.CurrentPosition);
+            // add test
+            var posibleMoves = new List<Position>();
+            var pp = new Position(pawn.CurrentPosition);
             if (pawn.Color == Infrastructure.Enums.PieceColor.White)
-                ++pawnPosition.Y;
+            {
+                posibleMoves.Add(new Position(pp.X, pp.Y + 1));
+                posibleMoves.Add(new Position(pp.X, pp.Y + 2));
+            }
             else
-                --pawnPosition.Y;
-            return pawnPosition;
+            {
+                posibleMoves.Add(new Position(pp.X, pp.Y - 1));
+                posibleMoves.Add(new Position(pp.X, pp.Y - 2));
+            }
+            return posibleMoves;
         }
     }
 }

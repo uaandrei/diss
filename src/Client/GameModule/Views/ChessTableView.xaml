@@ -12,6 +12,7 @@
         <converters:IndexToBrushConverter x:Key="IndexToBrushConverter" />
         <converters:SquareStateToBorderThicknessConverter x:Key="SquareStateToBorderThicknessConverter" />
         <converters:SquareStateToBorderColorConverter x:Key="SquareStateToBorderColorConverter" />
+        <converters:PieceRepresentationToPieceImageConverter x:Key="PieceRepresentationToPieceImageConverter" />
     </UserControl.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -42,11 +43,17 @@
                     <Button Height="60"
                             Width="60"
                             Margin="-5"
-                            Content="{Binding Representation}"
                             Background="{Binding Index, Converter={StaticResource IndexToBrushConverter} }"
                             BorderThickness="{Binding SquareState, Converter={StaticResource SquareStateToBorderThicknessConverter}}"
                             BorderBrush="{Binding SquareState, Converter={StaticResource SquareStateToBorderColorConverter}}"
-                            Command="{Binding SquareSelectedCommand}" />
+                            Command="{Binding SquareSelectedCommand}">
+                        <Image Height="40"
+                               Width="40"
+                               Stretch="Uniform"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Source="{Binding Representation, Converter={StaticResource PieceRepresentationToPieceImageConverter}}" />
+                    </Button>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

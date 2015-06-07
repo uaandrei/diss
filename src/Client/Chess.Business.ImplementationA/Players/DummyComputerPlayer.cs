@@ -37,7 +37,7 @@ namespace Chess.Business.ImplementationA.Players
 
         public bool OwnsPiece(IPiece piece)
         {
-            return true;
+            return _pieces.Contains(piece);
         }
 
         public void Act(IGameTable gameTable)

@@ -112,7 +112,7 @@ namespace Chess.Game.ViewModels
                 s.Representation = string.Empty;
             });
             _gameTable.GetPieces().ForEach(piece =>
-                Squares.Single(s => s.Position == piece.CurrentPosition).Representation = string.Format("{0}\n{1}", piece.Color, piece.Type)
+                Squares.Single(s => s.Position == piece.CurrentPosition).Representation = string.Format("{0}{1}", piece.Color, piece.Type)
             );
             SelectSquare(_gameTable.SelectedSquare);
             _gameTable.TableAttacks.ForEach(a => SetSquareState(a, SquareState.PosibleAttack));

@@ -80,6 +80,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\PieceRepresentationToPieceImageConverter.cs" />
     <Compile Include="Converters\SquareStateToBorderColorConverter.cs" />
     <Compile Include="Converters\SquareStateToBorderThicknessConverter.cs" />
     <Compile Include="Converters\IndexToBrushConverter.cs" />
@@ -113,6 +114,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="PieceImages\BlackBishop.png" />
+    <Resource Include="PieceImages\BlackKing.png" />
+    <Resource Include="PieceImages\BlackKnight.png" />
+    <Resource Include="PieceImages\BlackPawn.png" />
+    <Resource Include="PieceImages\BlackQueen.png" />
+    <Resource Include="PieceImages\BlackRook.png" />
+    <Resource Include="PieceImages\WhiteBishop.png" />
+    <Resource Include="PieceImages\WhiteKing.png" />
+    <Resource Include="PieceImages\WhiteKnight.png" />
+    <Resource Include="PieceImages\WhitePawn.png" />
+    <Resource Include="PieceImages\WhiteQueen.png" />
+    <Resource Include="PieceImages\WhiteRook.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
