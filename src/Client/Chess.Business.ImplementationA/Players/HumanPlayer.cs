@@ -4,6 +4,7 @@ using Chess.Infrastructure;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Chess.Infrastructure.Enums;
 
 namespace Chess.Business.ImplementationA.Players
 {
@@ -16,10 +17,15 @@ namespace Chess.Business.ImplementationA.Players
         private int _moveOrder;
         public int MoveOrder { get { return _moveOrder; } }
         public string Name { get { return string.Format("Player {0}", _moveOrder); } }
+        public PieceColor Color { get; private set; }
 
-        public HumanPlayer(IEnumerable<IPiece> pieces, int moveOrder)
+        public HumanPlayer(IEnumerable<IPiece> list, int moveOrder)
         {
-            _pieces = pieces;
+            if (list == null || list.Count() <= 0)
+                throw new ArgumentException("list");
+
+            Color = list.First().Color;
+            _pieces = list;
             _moveOrder = moveOrder;
         }
 

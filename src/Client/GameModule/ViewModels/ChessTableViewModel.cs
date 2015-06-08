@@ -2,18 +2,23 @@
 using Chess.Infrastructure;
 using Chess.Infrastructure.Behaviours;
 using Chess.Infrastructure.Enums;
+using Chess.Infrastructure.Events;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.PubSubEvents;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Chess.Game.ViewModels
 {
     public class ChessTableViewModel : ViewModelBase, IChessTableViewModel
     {
         #region Members
+        private object _lock = new object();
         private IEventAggregator _eventAggregator;
         private IGameTable _gameTable;
         public ObservableCollection<IChessSquareViewModel> Squares { get; private set; }
@@ -39,11 +44,23 @@ namespace Chess.Game.ViewModels
                 NotifyPropertyChanged();
             }
         }
+
+        private string _message;
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                _message = value;
+                NotifyPropertyChanged();
+            }
+        }
         #endregion
 
         #region Commands
         public ICommand LoadGameCommand { get; private set; }
         public ICommand SaveGameCommand { get; private set; }
+        public ICommand UndoLastMoveCommand { get; private set; }
         #endregion
 
         #region Initialization
@@ -58,6 +75,7 @@ namespace Chess.Game.ViewModels
             RedrawTable();
             LoadGameCommand = new DelegateCommand(LoadGameFromFen);
             SaveGameCommand = new DelegateCommand(SaveGame);
+            UndoLastMoveCommand = new DelegateCommand(UndoLastMove);
         }
 
         private void InitializeEventHandlers()
@@ -65,6 +83,7 @@ namespace Chess.Game.ViewModels
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.SquareSelectedEvent>().Subscribe(OnSquareSelected);
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.PlayerChangedEvent>().Subscribe(OnPlayerChanged);
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Subscribe(DoRefreshTable);
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Subscribe(DisplayMessageHandle);
         }
 
         private void InitializeTableSquares()
@@ -101,6 +120,24 @@ namespace Chess.Game.ViewModels
         {
             RedrawTable();
         }
+
+        private void DisplayMessageHandle(MessageInfo messageInfo)
+        {
+            new Task(() =>
+                Dispatcher.CurrentDispatcher.Invoke(() =>
+                {
+                    lock (_lock)
+                    {
+                        Message = messageInfo.Message;
+                        if (messageInfo.MsgTimeMs > 0)
+                        {
+                            Thread.Sleep(1500);
+                            Message = string.Empty;
+                        }
+                    }
+                })
+            ).Start();
+        }
         #endregion
 
         #region Methods
@@ -118,7 +155,7 @@ namespace Chess.Game.ViewModels
             _gameTable.TableAttacks.ForEach(a => SetSquareState(a, SquareState.PosibleAttack));
             _gameTable.TableMoves.ForEach(a => SetSquareState(a, SquareState.PosibleMove));
             SetSquareState(_gameTable.MovedTo, SquareState.LastMove);
-            InfoText = string.Format("Player to move: {0}\nUI: {1}\nWaiting...", _gameTable.CurrentPlayer.Name, _gameTable.CurrentPlayer.IsAutomatic);
+            InfoText = string.Format("Color to move: {0} - {1}\nUI: {1}\nWaiting...", _gameTable.CurrentPlayer.Color, _gameTable.CurrentPlayer.Name, _gameTable.CurrentPlayer.IsAutomatic);
         }
 
         private void SelectSquare(Position pos)
@@ -130,8 +167,14 @@ namespace Chess.Game.ViewModels
 
         private void SetSquareState(Position pos, SquareState state)
         {
-            if (pos == null) return;
+            if (pos == null)
+                return;
             Squares.Single(s => s.Position == pos).SquareState = state;
+        }
+
+        private void UndoLastMove()
+        {
+            _gameTable.UndoLastMove();
         }
 
         private void LoadGameFromFen()

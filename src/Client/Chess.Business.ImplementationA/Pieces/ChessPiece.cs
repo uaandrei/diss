@@ -14,7 +14,7 @@ namespace Chess.Business.ImplementationA.Pieces
         private PieceType _type;
         private IDictionary<PieceType, IMoveStrategy> _moveStrategies;
         public PieceColor Color { get { return _color; } }
-        public Position CurrentPosition { get { return _curPosition; } }
+        public Position CurrentPosition { get { return _curPosition; } set { _curPosition = value; } }
         public PieceType Type { get { return _type; } }
         public int Rank { get { return _curPosition.Rank; } }
         public char File { get { return _curPosition.File; } }

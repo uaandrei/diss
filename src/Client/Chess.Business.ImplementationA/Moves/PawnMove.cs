@@ -40,12 +40,14 @@ namespace Chess.Business.ImplementationA.Moves
             if (pawn.Color == Infrastructure.Enums.PieceColor.White)
             {
                 posibleMoves.Add(new Position(pp.X, pp.Y + 1));
-                posibleMoves.Add(new Position(pp.X, pp.Y + 2));
+                if (pawn.CurrentPosition.Rank == 2)
+                    posibleMoves.Add(new Position(pp.X, pp.Y + 2));
             }
             else
             {
                 posibleMoves.Add(new Position(pp.X, pp.Y - 1));
-                posibleMoves.Add(new Position(pp.X, pp.Y - 2));
+                if (pawn.CurrentPosition.Rank == 7)
+                    posibleMoves.Add(new Position(pp.X, pp.Y - 2));
             }
             return posibleMoves;
         }

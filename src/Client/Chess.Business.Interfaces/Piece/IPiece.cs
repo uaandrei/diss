@@ -9,7 +9,7 @@ namespace Chess.Business.Interfaces.Piece
         event PieceMove PieceMoving;
         PieceColor Color { get; }
         PieceType Type { get; }
-        Position CurrentPosition { get; }
+        Position CurrentPosition { get; set; }
         int Rank { get; }
         char File { get; }
         IList<Position> GetAvailableMoves(IEnumerable<IPiece> allPieces);

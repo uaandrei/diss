@@ -16,5 +16,6 @@ namespace Chess.Business.Interfaces
         IEnumerable<IPiece> GetPieces();
         string GetFen();
         void LoadFromFen(string fen);
+        void UndoLastMove();
     }
 }

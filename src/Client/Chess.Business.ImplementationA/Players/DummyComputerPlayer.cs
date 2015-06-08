@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Chess.Infrastructure.Enums;
 
 namespace Chess.Business.ImplementationA.Players
 {
@@ -22,9 +23,14 @@ namespace Chess.Business.ImplementationA.Players
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
         public int MoveOrder { get { return _moveOrder; } }
         public string Name { get { return string.Format("Dummy AI {0}", _moveOrder); } }
+        public PieceColor Color { get; private set; }
 
         public DummyComputerPlayer(IEnumerable<IPiece> list, int moveOrder)
         {
+            if (list == null || list.Count() <= 0)
+                throw new ArgumentException("list");
+
+            Color = list.First().Color;
             _pieces = list;
             _moveOrder = moveOrder;
             _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();

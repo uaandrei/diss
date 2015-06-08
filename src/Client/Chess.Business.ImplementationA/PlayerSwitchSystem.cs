@@ -25,7 +25,18 @@ namespace Chess.Business.ImplementationA
                 _playerEnumerator.MoveNext();
             }
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.PlayerChangedEvent>().Publish(CurrentPlayer);
-            CurrentPlayer.Act(gameTable);
+        }
+
+
+
+        internal void SwitchToPlayer(Infrastructure.Enums.PieceColor pieceColor)
+        {
+            _playerEnumerator.Reset();
+            _playerEnumerator.MoveNext();
+            if (_playerEnumerator.Current.Color == pieceColor)
+                return;
+            _playerEnumerator.MoveNext();
+
         }
     }
 }
