@@ -1,0 +1,11 @@
+﻿<Window x:Class="Chess.Desktop.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://www.codeplex.com/prism"
+        xmlns:infr="clr-namespace:Chess.Infrastructure"
+        Title="Shell"
+        Height="600"
+        Width="600">
+    <ItemsControl Name="MainRegion"
+                  prism:RegionManager.RegionName="MainRegion" />
+</Window>

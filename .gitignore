@@ -181,3 +181,7 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Code Coverage
+/src/Client/coverage/coverage_results
+/src/Client/coverage/coverage.xml

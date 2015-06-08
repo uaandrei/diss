@@ -1,0 +1,2 @@
+1. ar trebui sa adaug code coverage? da
+2. diagrame? da
