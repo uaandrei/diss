@@ -1,0 +1,4 @@
+font: times new roman
+size: 13pt
+title size: 15pt
+40-60 pagini
