@@ -156,7 +156,7 @@ namespace Chess.Business.ImplementationA
             _pieces = _pieceFactory.GetAllPieces();
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
             var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
-            var blackPlayer = new SmartComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
+            var blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
             _players = new IPlayer[] { whitePlayer, blackPlayer };
         }
 
