@@ -7,8 +7,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel Orientation="Horizontal">
         <Menu>
-            <MenuItem Header="File">
-                <MenuItem Header="Open"
+            <MenuItem Header="Game">
+                <MenuItem Header="Load"
                           Command="{Binding LoadGameCommand}" />
                 <MenuItem Header="Save"
                           Command="{Binding SaveGameCommand}" />

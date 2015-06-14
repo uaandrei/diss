@@ -3,21 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:infr="clr-namespace:Chess.Infrastructure"
-        Title="Shell"
-        Height="600"
-        Width="600">
-    <DockPanel>
+        Title="Chess" SizeToContent="WidthAndHeight">
+    <DockPanel LastChildFill="True">
         <ItemsControl DockPanel.Dock="Top"
                       Name="MenuRegion"
                       prism:RegionManager.RegionName="MenuRegion" />
-        <ItemsControl DockPanel.Dock="Left"
-                      Name="MainRegion"
-                      prism:RegionManager.RegionName="MainRegion" />
         <ItemsControl DockPanel.Dock="Bottom"
                       Name="NotificationRegion"
                       prism:RegionManager.RegionName="NotificationRegion" />
         <ItemsControl DockPanel.Dock="Right"
                       Name="SideRegion"
                       prism:RegionManager.RegionName="SideRegion" />
+        <ItemsControl Name="MainRegion"
+                      prism:RegionManager.RegionName="MainRegion" />
     </DockPanel>
 </Window>

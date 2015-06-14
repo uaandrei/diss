@@ -1,5 +1,10 @@
-font: times new roman
-size: 13pt
-title size: 15pt
-40-60 pagini
-print screen ecrane aplicatie
+titlu capitol: 17pt helvetica bold
+titlu subcapitol: 16pt helvetica
+titlu figura referinta: left align 11pt tnr italic gray
+content: justified 14pt tnr
+
+000_introducere 2pag
+100_instrumente_met_soft 3pag
+200_prezentarea_aplicatiei 7pag
+222_interfata_grafica 3pag
+total: 15pag (37%)

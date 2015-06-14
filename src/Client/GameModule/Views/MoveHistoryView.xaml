@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListBox Width="300">
+        <ListBox Width="150">
             <ListBoxItem Content="d7d6-P" />
             <ListBoxItem Content="d2d3-p" />
             <ListBoxItem Content="e7e6-P" />
