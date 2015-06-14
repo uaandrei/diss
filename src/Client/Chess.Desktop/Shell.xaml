@@ -6,6 +6,18 @@
         Title="Shell"
         Height="600"
         Width="600">
-    <ItemsControl Name="MainRegion"
-                  prism:RegionManager.RegionName="MainRegion" />
+    <DockPanel>
+        <ItemsControl DockPanel.Dock="Top"
+                      Name="MenuRegion"
+                      prism:RegionManager.RegionName="MenuRegion" />
+        <ItemsControl DockPanel.Dock="Left"
+                      Name="MainRegion"
+                      prism:RegionManager.RegionName="MainRegion" />
+        <ItemsControl DockPanel.Dock="Bottom"
+                      Name="NotificationRegion"
+                      prism:RegionManager.RegionName="NotificationRegion" />
+        <ItemsControl DockPanel.Dock="Right"
+                      Name="SideRegion"
+                      prism:RegionManager.RegionName="SideRegion" />
+    </DockPanel>
 </Window>

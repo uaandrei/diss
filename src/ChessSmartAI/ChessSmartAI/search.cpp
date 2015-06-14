@@ -268,12 +268,13 @@ void SearchPositions(S_BOARD *pos, S_SEARCHINFO *info) {
 			break;
 		}
 
+		// number of pv moves
 		pvMoves = GetPvLine(currentDepth, pos);
 
 		// best one is at the top of pv moves array
 		bestMove = pos->PvArray[0];
 
-		pvMoves = GetPvLine(currentDepth, pos);
+		//pvMoves = GetPvLine(currentDepth, pos);
 #ifdef DEBUG
 		printf("Pv");
 		for (pvNum = 0; pvNum < pvMoves; ++pvNum) {

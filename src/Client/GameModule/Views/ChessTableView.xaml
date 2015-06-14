@@ -14,24 +14,7 @@
         <converters:SquareStateToBorderColorConverter x:Key="SquareStateToBorderColorConverter" />
         <converters:PieceRepresentationToPieceImageConverter x:Key="PieceRepresentationToPieceImageConverter" />
     </UserControl.Resources>
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="Open"
-                          Command="{Binding LoadGameCommand}" />
-                <MenuItem Header="Save"
-                          Command="{Binding SaveGameCommand}" />
-                <MenuItem Header="Undo"
-                          Command="{Binding UndoLastMoveCommand}" />
-            </MenuItem>
-        </Menu>
-        <StackPanel Name="infoBar"
-                    DockPanel.Dock="Top">
-            <TextBlock Text="{Binding Message}"
-                       Foreground="Red"
-                       TextAlignment="Center"/>
-            <TextBlock Text="{Binding InfoText}" />
-        </StackPanel>
+    <DockPanel Width="500">
         <ListBox  DockPanel.Dock="Left"
                   IsEnabled="{Binding MoveAllowed}"
                   ItemsSource="{Binding Squares}"

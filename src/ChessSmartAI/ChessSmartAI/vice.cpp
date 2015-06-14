@@ -155,6 +155,7 @@ void ConsoleLoop() {
 }
 
 int main(){
-	char *result = GetMove(WAC2, 6);
+//	char *result = GetMove(WAC2, 6);
+	ConsoleLoop();
 	return 0;
 }

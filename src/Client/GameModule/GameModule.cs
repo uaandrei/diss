@@ -18,7 +18,10 @@ namespace Chess.Game
         public void Initialize()
         {
             RegisterTypes();
+            RegionManager.RegisterViewWithRegion(Chess.Infrastructure.Names.RegionNames.NotificationRegion, typeof(Views.NotificationView));
             RegionManager.RegisterViewWithRegion(Chess.Infrastructure.Names.RegionNames.MainRegion, typeof(Views.ChessTableView));
+            RegionManager.RegisterViewWithRegion(Chess.Infrastructure.Names.RegionNames.SideRegion, typeof(Views.MoveHistoryView));
+            RegionManager.RegisterViewWithRegion(Chess.Infrastructure.Names.RegionNames.MenuRegion, typeof(Views.MenuView));
         }
 
         private void RegisterTypes()
