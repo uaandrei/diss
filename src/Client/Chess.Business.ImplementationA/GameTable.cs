@@ -37,7 +37,7 @@ namespace Chess.Business.ImplementationA
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
         public Position MovedTo { get; private set; }
         [Dependency]
-        public IRuleSystem RuleSystem { get; set; }
+        public IRuleProvider RuleSystem { get; set; }
         #endregion
 
         #region ctor

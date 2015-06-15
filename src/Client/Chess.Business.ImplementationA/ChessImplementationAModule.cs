@@ -21,7 +21,7 @@ namespace Chess.Business.ImplementationA
         private void RegisterTypes()
         {
             Container.RegisterType<IGameTable, GameTable>();
-            Container.RegisterType<IRuleSystem, RuleSystem>();
+            Container.RegisterType<IRuleProvider, RuleProvider>();
             Container.RegisterType<IPieceFactory, PieceFactory>();
         }
     }

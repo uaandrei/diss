@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Business.Interfaces
 {
-    public interface IRuleSystem
+    public interface IRuleProvider
     {
     }
 }
