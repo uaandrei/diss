@@ -8,12 +8,16 @@
     <StackPanel Orientation="Horizontal">
         <Menu>
             <MenuItem Header="Game">
+                <MenuItem Header="New"
+                          Command="{Binding NewGameCommand}" />
                 <MenuItem Header="Load"
                           Command="{Binding LoadGameCommand}" />
                 <MenuItem Header="Save"
                           Command="{Binding SaveGameCommand}" />
                 <MenuItem Header="Undo"
                           Command="{Binding UndoLastMoveCommand}" />
+                <MenuItem Header="Options"
+                          Command="{Binding OptionsCommand}" />
             </MenuItem>
         </Menu>
     </StackPanel>

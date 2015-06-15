@@ -7,9 +7,9 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <ListBox Width="150">
-            <ListBoxItem Content="d7d6-P" />
-            <ListBoxItem Content="d2d3-p" />
-            <ListBoxItem Content="e7e6-P" />
+            <ListBoxItem Content="e2e3-P" />
+            <ListBoxItem Content="d7d6-p" />
+            <ListBoxItem Content="d2d3-P" />
         </ListBox>
     </Grid>
 </UserControl>

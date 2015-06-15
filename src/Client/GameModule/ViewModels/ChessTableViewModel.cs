@@ -156,6 +156,8 @@ namespace Chess.Game.ViewModels
             _gameTable.TableMoves.ForEach(a => SetSquareState(a, SquareState.PosibleMove));
             SetSquareState(_gameTable.MovedTo, SquareState.LastMove);
             InfoText = string.Format("Color to move: {0} - {1}\nUI: {1}\nWaiting...", _gameTable.CurrentPlayer.Color, _gameTable.CurrentPlayer.Name, _gameTable.CurrentPlayer.IsAutomatic);
+            Squares.First(s=>s.Position.Rank == 7 && s.Position.File == 'd').SquareState = SquareState.History;
+            Squares.First(s=>s.Position.Rank == 6 && s.Position.File == 'd').SquareState = SquareState.History;
         }
 
         private void SelectSquare(Position pos)
