@@ -6,5 +6,5 @@ content: justified 14pt tnr
 000_introducere 2pag
 100_instrumente_met_soft 3pag
 200_prezentarea_aplicatiei 7pag
-222_interfata_grafica 8pag
-total: 20pag (50%)
+222_interfata_grafica 10pag
+total: 22pag (55%)
