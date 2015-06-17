@@ -7,5 +7,6 @@ content: justified 14pt tnr
 100_instrumente_met_soft 3pag
 200_prezentarea_aplicatiei 7pag
 222_interfata_grafica 10pag
-230_legare_comp 1pag
-total: 23pag (57.5%)
+230_legare_comp 2pag
+300_implementation 1pag
+total: 25pag (62.5%)
