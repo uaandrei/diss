@@ -2,11 +2,13 @@ titlu capitol: 17pt helvetica bold
 titlu subcapitol: 16pt helvetica
 titlu figura referinta: left align 11pt tnr italic gray
 content: justified 14pt tnr
+cod: 11 consolas
 
 000_introducere 2pag
 100_instrumente_met_soft 3pag
 200_prezentarea_aplicatiei 7pag
 222_interfata_grafica 10pag
 230_legare_comp 2pag
-300_implementation 1pag
-total: 25pag (62.5%)
+300_implementation 5pag
+total: 30pag (75%) 
+progress bar [######--] Kappa

@@ -185,7 +185,7 @@ typedef struct {
 // 1000 1010 1111 -> 8FF (hexa, prefix : 0x)
 /*
 *7 bits are enough to represent a move 7 bits = 127, square values >= 21 <= 98
-*Pawn start = chess game began with pawn move? or just a pawn move
+*if pawn moved two squares
 0000 0000 0000 0000 0000 0111 1111 -> From                 0x7F
 0000 0000 0000 0011 1111 1000 0000 -> To             >> 7  0x7F
 0000 0000 0011 1100 0000 0000 0000 -> Captured piece >> 14 0xF
