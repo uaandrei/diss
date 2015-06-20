@@ -1,14 +1,15 @@
 titlu capitol: 15pt helvetica bold
 titlu subcapitol: 15pt helvetica
-titlu figura referinta: left align 11pt tnr italic gray
-content: justified 14pt tnr
-cod: 11 consolas
+titlu figura referinta: left align 12pt tnr italic gray
+content: justified 13pt tnr
+cod: 12 consolas
 
-000_introducere 2pag
-100_instrumente_met_soft 3pag
-200_prezentarea_aplicatiei 7pag
-222_interfata_grafica 10pag
-230_legare_comp 2pag
-300_implementation 7pag
+000_introducere 1pag 1
+100_instrumente_met_soft 3pag .. 4
+200_prezentarea_aplicatiei 7pag .. 11
+222_interfata_grafica 10pag .. 21
+230_legare_comp 2pag .. 23
+300_implementation 8pag .. 31
+301_impl_client xpag .. 32
 total: 32pag (80%) 
 progress bar [########--] Kappa

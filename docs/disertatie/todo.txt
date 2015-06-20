@@ -1,4 +1,4 @@
-page number + ajustare pagini >< []
+page number + ajustare pagini >< [x]
 ajustare capitole + cuprins []
 update bibliografie []
 update referinte bibliografie []
