@@ -10,6 +10,6 @@ cod: 12 consolas
 222_interfata_grafica 10pag .. 21
 230_legare_comp 2pag .. 23
 300_implementation 8pag .. 31
-301_impl_client xpag .. 32
-total: 32pag (80%) 
-progress bar [########--] Kappa
+301_impl_client 3 pag .. 36
+total: 36pag (90%) 
+progress bar [#########-] Kappa
