@@ -3,5 +3,5 @@ ajustare capitole + cuprins [x]
 update bibliografie []
 update referinte bibliografie []
 verificare greseli gramaticale []
-adaugare despre baza de date [] :-?? 
+adaugare despre baza de date [] :-??
 OVERVIEW
