@@ -9,7 +9,6 @@ namespace SmartChessService.WebApi.Controllers
         {
             try
             {
-
                 Console.WriteLine("{0} - parsing fen\n{1}", DateTime.Now, fen);
                 var service = new ChessService();
                 var moveResponse = service.GetMoveResponse(fen, depth);
