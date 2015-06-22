@@ -34,6 +34,22 @@ namespace Chess.Tests.MoveFixtures
         }
 
         [Fact]
+        public void GetMoves_ShouldMoveTwoPositions()
+        {
+            // arrange
+            _piece = Helper.GetMockedPieceAt(3, 6);
+            _pieces.Clear();
+            _pieces.Add(_piece);
+
+            // act
+            var moves = _sut.GetMoves(_piece, _pieces);
+
+            // assert
+            Assert.Equal(2, moves.Count);
+            Assert.Contains(new Position(3, 4), moves);
+        }
+
+        [Fact]
         public void GetAttacks_ShouldReturnPositions()
         {
             // arrange
