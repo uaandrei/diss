@@ -78,7 +78,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChessImplementationAModule.cs" />
@@ -102,6 +101,10 @@
     <Compile Include="Rules\RuleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Server\SmartChessService.DataContracts\SmartChessService.DataContracts.csproj">
+      <Project>{864D37B6-1B56-421E-8C4C-991D74E7FA3E}</Project>
+      <Name>SmartChessService.DataContracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chess.Business.Interfaces\Chess.Business.Interfaces.csproj">
       <Project>{B1AD0F92-079D-47A5-B807-8AA254E9A92D}</Project>
       <Name>Chess.Business.Interfaces</Name>

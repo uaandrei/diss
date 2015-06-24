@@ -69,7 +69,7 @@ namespace Chess.Game.ViewModels
             MoveAllowed = true;
             _gameTable = gt;
             _eventAggregator = eg;
-            _gameTable.Start();
+            _gameTable.StartNewGame();
             InitializeTableSquares();
             InitializeEventHandlers();
             RedrawTable();

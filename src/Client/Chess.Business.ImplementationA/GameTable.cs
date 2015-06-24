@@ -36,6 +36,7 @@ namespace Chess.Business.ImplementationA
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
         public Position MovedTo { get; private set; }
+        public int Difficulty { get { return 6; } }
         [Dependency]
         public IRuleProvider RuleSystem { get; set; }
         #endregion
@@ -51,7 +52,7 @@ namespace Chess.Business.ImplementationA
         #endregion
 
         #region Methods
-        public void Start()
+        public void StartNewGame()
         {
             _allAvailableMoves = new List<Position>();
             _moves = new List<Position>();
@@ -156,7 +157,7 @@ namespace Chess.Business.ImplementationA
             _pieces = _pieceFactory.GetAllPieces();
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
             var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
-            var blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
+            var blackPlayer = new SmartComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
             _players = new IPlayer[] { whitePlayer, blackPlayer };
         }
 

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SmartChessService.DataContracts;
+using System;
 using System.Web.Http;
 
 namespace SmartChessService.WebApi.Controllers
 {
     public class ChessController : ApiController
     {
-        public string Get(string fen, int depth)
+        public ChessEngineResult Get(string fen, int depth)
         {
             try
             {
@@ -13,13 +14,12 @@ namespace SmartChessService.WebApi.Controllers
                 var service = new ChessService();
                 var moveResponse = service.GetMoveResponse(fen, depth);
                 Console.WriteLine("{0} - generated move:{1}", DateTime.Now, moveResponse);
-
-                return moveResponse;
+                return ChessEngineResult.New(moveResponse);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return "error occured";
+                return new ChessEngineResult { ErrorMessage = e.Message };
             }
         }
 

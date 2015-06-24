@@ -87,6 +87,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SmartChessService.DataContracts\SmartChessService.DataContracts.csproj">
+      <Project>{864D37B6-1B56-421E-8C4C-991D74E7FA3E}</Project>
+      <Name>SmartChessService.DataContracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SmartChessService\SmartChessService.csproj">
       <Project>{D843010A-57D5-4CF4-A367-D8A27D8CF81C}</Project>
       <Name>SmartChessService</Name>

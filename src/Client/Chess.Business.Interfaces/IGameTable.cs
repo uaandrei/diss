@@ -11,11 +11,12 @@ namespace Chess.Business.Interfaces
         IEnumerable<Position> TableAttacks { get; }
         Position SelectedSquare { get; }
         Position MovedTo { get; }
-        void Start();
-        void ParseInput(Position userInput);
+        int Difficulty { get; }
         IEnumerable<IPiece> GetPieces();
+        void StartNewGame();
         string GetFen();
         void LoadFromFen(string fen);
         void UndoLastMove();
+        void ParseInput(Position userInput);
     }
 }

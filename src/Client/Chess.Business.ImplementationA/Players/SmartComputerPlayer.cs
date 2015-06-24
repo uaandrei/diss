@@ -1,6 +1,7 @@
 ﻿using Chess.Business.Interfaces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
+using Chess.Infrastructure.Communication;
 using Chess.Infrastructure.Enums;
 using Chess.Infrastructure.Events;
 using Microsoft.Practices.Prism.PubSubEvents;
@@ -9,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 
 namespace Chess.Business.ImplementationA.Players
 {
@@ -18,12 +18,10 @@ namespace Chess.Business.ImplementationA.Players
         private IEnumerable<IPiece> _pieces;
         private int _moveOrder;
         private IEventAggregator _eventAggregator;
-        private const string requestFormat = "{0}?fen={1}&depth={2}";
-        private const string requestUri = "http://localhost:9000/chess";
+        private IGameTable _gameTable;
 
         public bool IsAutomatic { get { return true; } }
         public IEnumerable<Interfaces.Piece.IPiece> Pieces { get { return _pieces; } }
-        public string RequestURI { get { return requestUri; } }
         public int MoveOrder { get { return _moveOrder; } }
         public string Name { get { return string.Format("Smart AI {0}", _moveOrder); } }
         public PieceColor Color { get; private set; }
@@ -37,6 +35,12 @@ namespace Chess.Business.ImplementationA.Players
             _pieces = list;
             _moveOrder = moveOrder;
             _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+            InitializeEventHandlers();
+        }
+
+        private void InitializeEventHandlers()
+        {
+            _eventAggregator.GetEvent<MoveGeneratedEvent>().Subscribe(OnMoveGenerated);
         }
 
         public void Move(Infrastructure.Position from, Infrastructure.Position to)
@@ -50,34 +54,26 @@ namespace Chess.Business.ImplementationA.Players
 
         public void Act(IGameTable gameTable)
         {
-            var resultString = GetMoveResponse(gameTable.GetFen(), 5);
-            var moveString = resultString.Split(';')[0];
-            var fromFile = moveString[0];
-            int fromRank = moveString[1] - '0';
-            var toFile = moveString[2];
-            int toRank = moveString[3] - '0';
-            var fromPosition = new Position(fromRank, fromFile);
-            var toPosition = new Position(toRank, toFile);
-            gameTable.ParseInput(fromPosition);
-            gameTable.ParseInput(toPosition);
-            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
+            _gameTable = gameTable;
+            Gateway.RequestMove(gameTable.GetFen(), gameTable.Difficulty);
         }
 
-        // TODO: remove this static shit
-        private static string GetMoveResponse(string fen, int depth)
+        private void OnMoveGenerated(SmartChessService.DataContracts.ChessEngineResult result)
         {
-            var client = new HttpClient();
-            var response = client.GetAsync(string.Format(requestFormat, requestUri, WebUtility.UrlEncode(fen), 5)).Result;
-            var resultString = response.Content.ReadAsStringAsync().Result;
-            return resultString.Replace("\"", "");
+            var fromPosition = new Position(result.FromRank, result.FromFile);
+            var toPosition = new Position(result.ToRank, result.ToFile);
+            _gameTable.ParseInput(fromPosition);
+            _gameTable.ParseInput(toPosition);
+            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
         }
 
         public static bool IsMate(string fen)
         {
-            var resultString = GetMoveResponse(fen, 5);
-            var moveScoreString = resultString.Split(';')[1];
-            var score = Convert.ToInt32(moveScoreString.Replace("/", "").Replace("\\", ""));
-            return score == -29000;
+            return false;
+            //var resultString = GetMoveResponse(fen, 5);
+            //var moveScoreString = resultString.Split(';')[1];
+            //var score = Convert.ToInt32(moveScoreString.Replace("/", "").Replace("\\", ""));
+            //return score == -29000;
         }
     }
 }
