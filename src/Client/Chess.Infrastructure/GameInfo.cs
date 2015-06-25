@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chess.Business.ImplementationA.Rules
+namespace Chess.Infrastructure
 {
-    interface IRule
+    class GameInfo
     {
     }
 }

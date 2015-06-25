@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Chess.Business.Interfaces
 {
     public interface IRuleProvider
     {
+        Dictionary<string, IRule> Rules { get; }
     }
 }

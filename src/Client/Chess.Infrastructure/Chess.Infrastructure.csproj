@@ -34,9 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Communication\Gateway.cs" />
-    <Compile Include="Events\MoveGeneratedEvent.cs" />
     <Compile Include="Events\MateEvent.cs" />
     <Compile Include="Events\MessageEvent.cs" />
+    <Compile Include="GameInfo.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Enums\MoveColor.cs" />
     <Compile Include="Enums\SquareState.cs" />
@@ -49,6 +49,7 @@
     <Compile Include="Names\RegionNames.cs" />
     <Compile Include="Enums\PieceColor.cs" />
     <Compile Include="Enums\PieceType.cs" />
+    <Compile Include="Names\RuleNames.cs" />
     <Compile Include="PieceInfo.cs" />
     <Compile Include="Ply.cs" />
     <Compile Include="Position.cs" />

@@ -35,12 +35,6 @@ namespace Chess.Business.ImplementationA.Players
             _pieces = list;
             _moveOrder = moveOrder;
             _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
-            InitializeEventHandlers();
-        }
-
-        private void InitializeEventHandlers()
-        {
-            _eventAggregator.GetEvent<MoveGeneratedEvent>().Subscribe(OnMoveGenerated);
         }
 
         public void Move(Infrastructure.Position from, Infrastructure.Position to)
@@ -55,25 +49,11 @@ namespace Chess.Business.ImplementationA.Players
         public void Act(IGameTable gameTable)
         {
             _gameTable = gameTable;
-            Gateway.RequestMove(gameTable.GetFen(), gameTable.Difficulty);
-        }
-
-        private void OnMoveGenerated(SmartChessService.DataContracts.ChessEngineResult result)
-        {
+            var result = Gateway.GenerateMove(gameTable.GetFen(), gameTable.Difficulty);
             var fromPosition = new Position(result.FromRank, result.FromFile);
             var toPosition = new Position(result.ToRank, result.ToFile);
             _gameTable.ParseInput(fromPosition);
             _gameTable.ParseInput(toPosition);
-            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
-        }
-
-        public static bool IsMate(string fen)
-        {
-            return false;
-            //var resultString = GetMoveResponse(fen, 5);
-            //var moveScoreString = resultString.Split(';')[1];
-            //var score = Convert.ToInt32(moveScoreString.Replace("/", "").Replace("\\", ""));
-            //return score == -29000;
         }
     }
 }

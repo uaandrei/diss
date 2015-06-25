@@ -1,11 +1,14 @@
 ﻿using Chess.Business.ImplementationA.Pieces;
 using Chess.Business.ImplementationA.Players;
+using Chess.Business.ImplementationA.Rules;
 using Chess.Business.Interfaces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
+using Chess.Infrastructure.Communication;
 using Chess.Infrastructure.Enums;
 using Chess.Infrastructure.Events;
 using Chess.Infrastructure.Logging;
+using Chess.Infrastructure.Names;
 using FenService.Interfaces;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
@@ -29,16 +32,16 @@ namespace Chess.Business.ImplementationA
         private IEventAggregator _eventAggregator;
         private IPieceFactory _pieceFactory;
         private Stack<Ply> _moveStack;
+        private Dictionary<string, IRule> _rules;
 
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
+        public IEnumerable<IPlayer> Players { get { return _players; } }
         public IPlayer CurrentPlayer { get { return _playerSwitchSystem.CurrentPlayer; } }
         public IEnumerable<Position> TableMoves { get { return _moves; } }
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
         public Position MovedTo { get; private set; }
         public int Difficulty { get { return 6; } }
-        [Dependency]
-        public IRuleProvider RuleSystem { get; set; }
         #endregion
 
         #region ctor
@@ -48,6 +51,7 @@ namespace Chess.Business.ImplementationA
             _fenService = fenService;
             _eventAggregator = evtAggr;
             _moveStack = new Stack<Ply>();
+            _rules = new RuleProvider(this).Rules;
         }
         #endregion
 
@@ -95,20 +99,6 @@ namespace Chess.Business.ImplementationA
             }
             MovedTo = null;
             _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
-        }
-
-        private bool IsInChess()
-        {
-            var king = CurrentPlayer.Pieces.First(p => p.Type == PieceType.King);
-            var opponent = _players.First(p => p.Color != king.Color);
-            foreach (var piece in opponent.Pieces)
-            {
-                var pieceAttacks = piece.GetAvailableAttacks(_pieces);
-                var anyPieceAttacksKing = pieceAttacks.Any(p => p == king.CurrentPosition);
-                if (anyPieceAttacksKing)
-                    return true;
-            }
-            return false;
         }
 
         public IEnumerable<IPiece> GetPieces()
@@ -165,7 +155,7 @@ namespace Chess.Business.ImplementationA
         {
             _selectedPiece.Move(userInput);
 
-            if (IsInChess())
+            if (_rules[RuleNames.Chess].IsTrue())
             {
                 UndoLastMove();
                 _playerSwitchSystem.NextTurn(this);
@@ -177,7 +167,7 @@ namespace Chess.Business.ImplementationA
                 _playerSwitchSystem.NextTurn(this);
                 _playerSwitchSystem.CurrentPlayer.Act(this);
             }
-            if (SmartComputerPlayer.IsMate(GetFen()))
+            if (_rules[RuleNames.Mate].IsTrue())
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(0, "You lost! King in check-mate."));
         }
 

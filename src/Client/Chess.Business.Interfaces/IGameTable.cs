@@ -7,6 +7,7 @@ namespace Chess.Business.Interfaces
     public interface IGameTable
     {
         IPlayer CurrentPlayer { get; }
+        IEnumerable<IPlayer> Players { get; }
         IEnumerable<Position> TableMoves { get; }
         IEnumerable<Position> TableAttacks { get; }
         Position SelectedSquare { get; }

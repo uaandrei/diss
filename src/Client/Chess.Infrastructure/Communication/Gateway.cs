@@ -11,26 +11,27 @@ namespace Chess.Infrastructure.Communication
     {
         private const string requestFormat = "{0}?fen={1}&depth={2}";
         private const string requestUri = "http://localhost:9000/chess";
-        private static IEventAggregator _eventAggregator;
+        private const int MateScore = -29000;
 
-        static Gateway()
+        public static ChessEngineResult GenerateMove(string fen, int depth)
         {
-            _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+            var result = GetResponse(fen, depth);
+            return result;
         }
 
-        public static void RequestMove(string fen, int depth)
+        public static bool IsMate(string fen)
         {
+            var result = GetResponse(fen, 5);
+            return result.Score == MateScore;
+        }
+
+        private static ChessEngineResult GetResponse(string fen, int depth)
+        {
+
             var client = new HttpClient();
             var request = string.Format(requestFormat, requestUri, WebUtility.UrlEncode(fen), depth);
-            client.GetAsync(request).ContinueWith(x => { 
-                var result = x.Result.Content.ReadAsAsync<ChessEngineResult>().Result;
-                _eventAggregator.GetEvent<MoveGeneratedEvent>().Publish(result);
-            });
-        }
-
-        public static void RequestIsChess(string fen)
-        {
-
+            var result = client.GetAsync(request).Result.Content.ReadAsAsync<ChessEngineResult>().Result;
+            return result;
         }
     }
 }

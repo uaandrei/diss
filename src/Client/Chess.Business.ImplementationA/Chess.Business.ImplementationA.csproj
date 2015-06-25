@@ -97,7 +97,8 @@
     <Compile Include="Players\HumanPlayer.cs" />
     <Compile Include="Players\SmartComputerPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rules\IRule.cs" />
+    <Compile Include="Rules\ChessRule.cs" />
+    <Compile Include="Rules\MateRule.cs" />
     <Compile Include="Rules\RuleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
