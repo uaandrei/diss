@@ -7,6 +7,7 @@ namespace Chess.Business.Interfaces.Piece
     public interface IPiece
     {
         event PieceMove PieceMoving;
+        bool HasMoved { get; set; }
         PieceColor Color { get; }
         PieceType Type { get; }
         Position CurrentPosition { get; set; }

@@ -9,10 +9,10 @@
     <StackPanel>
         <StackPanel Name="infoBar"
                     DockPanel.Dock="Top">
-            <TextBlock Text="Current Player to Move: Black"
+            <TextBlock Text="{Binding InfoText}" />
+            <TextBlock Text="{Binding Message}"
                        Foreground="Red"
                        TextAlignment="Center" />
-            <TextBlock Text="{Binding InfoText}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

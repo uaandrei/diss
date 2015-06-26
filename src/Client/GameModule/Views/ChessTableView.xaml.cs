@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Chess.Game.ViewModels;
+using Microsoft.Practices.Unity;
 using System.Windows.Controls;
 
 namespace Chess.Game.Views
@@ -14,7 +15,7 @@ namespace Chess.Game.Views
         }
 
         [Dependency]
-        public Chess.Infrastructure.Behaviours.IChessTableViewModel ViewModel
+        public IChessTableViewModel ViewModel
         {
             set
             {

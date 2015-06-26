@@ -1,4 +1,5 @@
-﻿using Chess.Business.ImplementationA.Moves;
+﻿using System.Linq;
+using Chess.Business.ImplementationA.Moves;
 using Chess.Business.Interfaces.Move;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
@@ -18,6 +19,7 @@ namespace Chess.Business.ImplementationA.Pieces
         public PieceType Type { get { return _type; } }
         public int Rank { get { return _curPosition.Rank; } }
         public char File { get { return _curPosition.File; } }
+        public bool HasMoved { get; set; }
         public event PieceMove PieceMoving;
 
         public ChessPiece(Position p, PieceColor color, PieceType type)
@@ -43,13 +45,17 @@ namespace Chess.Business.ImplementationA.Pieces
             RaisePieceMovingEvent(newPosition);
             _curPosition.X = newPosition.X;
             _curPosition.Y = newPosition.Y;
+            HasMoved = true;
             return true;
         }
 
 
         public IList<Position> GetAvailableMoves(IEnumerable<IPiece> allPieces)
         {
-            return _moveStrategies[_type].GetMoves(this, allPieces);
+            var moves = _moveStrategies[_type].GetMoves(this, allPieces);
+            if (_type == PieceType.King)
+                AddCastlingMoves(moves, allPieces);
+            return moves;
         }
 
         public IList<Position> GetAvailableAttacks(IEnumerable<IPiece> allPieces)
@@ -60,6 +66,25 @@ namespace Chess.Business.ImplementationA.Pieces
         public override string ToString()
         {
             return string.Format("{0}{1} {2}", _color, _type, _curPosition);
+        }
+
+        private void AddCastlingMoves(IList<Position> moves, IEnumerable<IPiece> allPieces)
+        {
+            var king = this;
+            if (king.HasMoved)
+                return;
+
+            var isB1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "b1");
+            var isC1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "c1");
+            var isD1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "d1");
+            var isF1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "f1");
+            var isG1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "g1");
+            var kRook = allPieces.FirstOrDefault(p => p.CurrentPosition.ToAlgebraic() == "a1");
+            var qRook = allPieces.FirstOrDefault(p => p.CurrentPosition.ToAlgebraic() == "h1");
+            if (isB1Empty && isC1Empty && isD1Empty && kRook != null && !kRook.HasMoved)
+                moves.Add(new Position("c1"));
+            if (isF1Empty && isG1Empty && qRook != null && !qRook.HasMoved)
+                moves.Add(new Position("g1"));
         }
 
         private void RaisePieceMovingEvent(Position newPosition)

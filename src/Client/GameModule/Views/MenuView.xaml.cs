@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chess.Game.ViewModels;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,15 @@ namespace Chess.Game.Views
         public MenuView()
         {
             InitializeComponent();
+        }
+
+        [Dependency]
+        public IMenuViewModel ViewModel
+        {
+            set
+            {
+                DataContext = value;
+            }
         }
     }
 }

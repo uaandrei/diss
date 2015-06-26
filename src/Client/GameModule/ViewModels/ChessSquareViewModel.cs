@@ -1,5 +1,4 @@
 ﻿using Chess.Infrastructure;
-using Chess.Infrastructure.Behaviours;
 using Chess.Infrastructure.Enums;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.PubSubEvents;

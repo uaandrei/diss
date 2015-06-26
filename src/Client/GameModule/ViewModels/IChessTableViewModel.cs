@@ -1,7 +1,7 @@
 ﻿using Chess.Game.ViewModels;
 using System.Collections.ObjectModel;
 
-namespace Chess.Infrastructure.Behaviours
+namespace Chess.Game.ViewModels
 {
     public interface IChessTableViewModel
     {

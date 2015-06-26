@@ -80,6 +80,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\MoveToStringConverter.cs" />
     <Compile Include="Converters\PieceRepresentationToPieceImageConverter.cs" />
     <Compile Include="Converters\SquareStateToBorderColorConverter.cs" />
     <Compile Include="Converters\SquareStateToBorderThicknessConverter.cs" />
@@ -91,10 +92,16 @@
     <Compile Include="ViewModels\ChessTableViewModel.cs" />
     <Compile Include="ViewModels\IChessSquareViewModel.cs" />
     <Compile Include="ViewModels\IChessTableViewModel.cs" />
+    <Compile Include="ViewModels\IMenuViewModel.cs" />
+    <Compile Include="ViewModels\IMoveHistoryViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\MoveHistoryViewModel.cs" />
+    <Compile Include="ViewModels\NotificationViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\ChessTableView.xaml.cs">
       <DependentUpon>ChessTableView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\INotificationViewModel.cs" />
     <Compile Include="Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>

@@ -55,7 +55,7 @@ namespace FenService
             AppendCharacterIfTrue(sb, () => fenData.GameInfo.Bkca, "k");
             AppendCharacterIfTrue(sb, () => fenData.GameInfo.Bqca, "q");
             sb.Append(" ");
-            AppendCharacterIfTrue(sb, () => fenData.GameInfo.EnPassant != null, fenData.GameInfo.EnPassant.ToAlgebraic());
+            AppendCharacterIfTrue(sb, () => fenData.GameInfo.EnPassant != null, fenData.GameInfo.EnPassant != null ? fenData.GameInfo.EnPassant.ToAlgebraic() : "-");
             sb.Append(" ");
             AppendCharacterIfTrue(sb, () => true, fenData.GameInfo.HalfMoves.ToString());
             sb.Append(" ");
@@ -99,7 +99,7 @@ namespace FenService
 
         private void HandleEnPassantSquare(GameInfo gameInfo, string enPas)
         {
-            if(enPas!="-")
+            if (enPas != "-")
                 gameInfo.EnPassant = new Position(enPas);
         }
 

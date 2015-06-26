@@ -24,7 +24,7 @@ namespace Chess.Business.ImplementationA
                 _playerEnumerator.Reset();
                 _playerEnumerator.MoveNext();
             }
-            _eventAggregator.GetEvent<Chess.Infrastructure.Events.PlayerChangedEvent>().Publish(CurrentPlayer);
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(gameTable);
         }
 
 

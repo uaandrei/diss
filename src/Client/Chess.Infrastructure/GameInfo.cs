@@ -12,5 +12,17 @@ namespace Chess.Infrastructure
         public Position EnPassant { get; set; }
         public int HalfMoves { get; set; }
         public int FullMoves { get; set; }
+
+        public void CopyFrom(GameInfo gameInfo)
+        {
+            Wkca = gameInfo.Wkca;
+            Wqca = gameInfo.Wqca;
+            Bkca = gameInfo.Bkca;
+            Bqca = gameInfo.Bqca;
+            ColorToMove = gameInfo.ColorToMove;
+            EnPassant = gameInfo.EnPassant;
+            HalfMoves = gameInfo.HalfMoves;
+            FullMoves = gameInfo.FullMoves;
+        }
     }
 }

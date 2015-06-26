@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Chess.Game.ViewModels;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,16 @@ namespace Chess.Game.Views
         public MoveHistoryView()
         {
             InitializeComponent();
+        }
+
+
+        [Dependency]
+        public IMoveHistoryViewModel ViewModel
+        {
+            set
+            {
+                DataContext = value;
+            }
         }
     }
 }

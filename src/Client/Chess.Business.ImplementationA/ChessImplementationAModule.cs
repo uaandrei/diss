@@ -20,7 +20,7 @@ namespace Chess.Business.ImplementationA
 
         private void RegisterTypes()
         {
-            Container.RegisterType<IGameTable, GameTable>();
+            Container.RegisterType<IGameTable, GameTable>(new ContainerControlledLifetimeManager());
             Container.RegisterType<IRuleProvider, RuleProvider>();
             Container.RegisterType<IPieceFactory, PieceFactory>();
         }

@@ -34,13 +34,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Communication\Gateway.cs" />
-    <Compile Include="Events\MateEvent.cs" />
+    <Compile Include="Events\DrawMoveEvent.cs" />
     <Compile Include="Events\MessageEvent.cs" />
+    <Compile Include="Events\MovedPieceEvent.cs" />
+    <Compile Include="Events\MoveUndoEvent.cs" />
     <Compile Include="GameInfo.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Enums\MoveColor.cs" />
     <Compile Include="Enums\SquareState.cs" />
-    <Compile Include="Events\PlayerChangedEvent.cs" />
     <Compile Include="Events\RefreshTableEvent.cs" />
     <Compile Include="Events\SquareSelectedEvent.cs" />
     <Compile Include="Extensions.cs" />
@@ -51,7 +52,6 @@
     <Compile Include="Enums\PieceType.cs" />
     <Compile Include="Names\RuleNames.cs" />
     <Compile Include="PieceInfo.cs" />
-    <Compile Include="Ply.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -31,8 +31,9 @@ namespace Chess.Business.ImplementationA
         private IFenService _fenService;
         private IEventAggregator _eventAggregator;
         private IPieceFactory _pieceFactory;
-        private Stack<Ply> _moveStack;
+        private Stack<string> _fenStack;
         private Dictionary<string, IRule> _rules;
+        private GameInfo _gameInfo;
 
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
         public IEnumerable<IPlayer> Players { get { return _players; } }
@@ -50,8 +51,9 @@ namespace Chess.Business.ImplementationA
             _pieceFactory = pieceFactory;
             _fenService = fenService;
             _eventAggregator = evtAggr;
-            _moveStack = new Stack<Ply>();
+            _fenStack = new Stack<string>();
             _rules = new RuleProvider(this).Rules;
+            _gameInfo = new GameInfo();
         }
         #endregion
 
@@ -83,22 +85,12 @@ namespace Chess.Business.ImplementationA
 
         public void UndoLastMove()
         {
-            if (_moveStack.Count == 0)
+            if (_fenStack.Count == 0)
                 return;
 
-            var lastMove = _moveStack.Pop();
-            _playerSwitchSystem.NextTurn(this);
-            var toPiece = _pieces.First(p => p.CurrentPosition == lastMove.To);
-            toPiece.CurrentPosition = lastMove.From;
-            var takenPiece = lastMove.Capture as IPiece;
-            if (takenPiece != null)
-            {
-                // TODO: check if this actually works
-                _pieces.Add(takenPiece);
-                //_playerSwitchSystem.CurrentPlayer.Pieces
-            }
-            MovedTo = null;
-            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
+            var lastFen = _fenStack.Pop();
+            LoadFromFen(lastFen);
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.MoveUndoEvent>().Publish(null);
         }
 
         public IEnumerable<IPiece> GetPieces()
@@ -129,6 +121,9 @@ namespace Chess.Business.ImplementationA
 
         public void LoadFromFen(string fen)
         {
+            ClearAllMoves();
+            _selectedPiece = null;
+            MovedTo = null;
             var fenData = _fenService.GetData(fen);
             _pieces.Clear();
             // todo: maybe converters?
@@ -139,6 +134,7 @@ namespace Chess.Business.ImplementationA
                 _pieces.Add(piece);
             }
             _playerSwitchSystem.SwitchToPlayer(fenData.GameInfo.ColorToMove);
+            _gameInfo.CopyFrom(fenData.GameInfo);
             _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
         }
 
@@ -148,33 +144,30 @@ namespace Chess.Business.ImplementationA
             _pieces = _pieceFactory.GetAllPieces();
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
             var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
-            var blackPlayer = new SmartComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
+            var blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
             _players = new IPlayer[] { whitePlayer, blackPlayer };
         }
 
         private void PlayerMove(Position userInput)
         {
+            _fenStack.Push(GetFen());
+            var fromPos = new Position(_selectedPiece.CurrentPosition);
             _selectedPiece.Move(userInput);
 
             if (_rules[RuleNames.Chess].IsTrue())
             {
                 UndoLastMove();
-                _playerSwitchSystem.NextTurn(this);
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(1500, "Move illegal! King in check."));
             }
             else
             {
+                _eventAggregator.GetEvent<Chess.Infrastructure.Events.MovedPieceEvent>().Publish(new Move(fromPos, userInput));
                 _selectedPiece = null;
                 _playerSwitchSystem.NextTurn(this);
                 _playerSwitchSystem.CurrentPlayer.Act(this);
             }
             if (_rules[RuleNames.Mate].IsTrue())
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(0, "You lost! King in check-mate."));
-        }
-
-        private void PushMove(Position from, Position to, Infrastructure.Enums.PieceColor side, object capture)
-        {
-            _moveStack.Push(new Ply(new Position(from), new Position(to), side, capture));
         }
 
         private void ClearAllMoves()
@@ -204,7 +197,6 @@ namespace Chess.Business.ImplementationA
                 logMessage = string.Format("{0} attacked:{1}", logMessage, attackedPiece);
             }
             MovedTo = newPosition;
-            PushMove(_selectedPiece.CurrentPosition, newPosition, CurrentPlayer.Color, capturedPiece);
             Logger.Log(LogLevel.Info, logMessage);
         }
 

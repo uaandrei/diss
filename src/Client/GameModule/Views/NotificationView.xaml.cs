@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Chess.Game.ViewModels;
+using Microsoft.Practices.Unity;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Chess.Game.Views
 {
@@ -23,6 +12,15 @@ namespace Chess.Game.Views
         public NotificationView()
         {
             InitializeComponent();
+        }
+
+        [Dependency]
+        public INotificationViewModel ViewModel
+        {
+            set
+            {
+                DataContext = value;
+            }
         }
     }
 }

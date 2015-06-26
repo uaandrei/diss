@@ -1,5 +1,4 @@
 ﻿using Chess.Game.ViewModels;
-using Chess.Infrastructure.Behaviours;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Prism.Regions;
@@ -29,6 +28,9 @@ namespace Chess.Game
             Container.RegisterType<IEventAggregator, EventAggregator>();
             Container.RegisterType<IChessSquareViewModel, ChessSquareViewModel>();
             Container.RegisterType<IChessTableViewModel, ChessTableViewModel>();
+            Container.RegisterType<INotificationViewModel, NotificationViewModel>();
+            Container.RegisterType<IMenuViewModel, MenuViewModel>();
+            Container.RegisterType<IMoveHistoryViewModel, MoveHistoryViewModel>();
         }
     }
 }
