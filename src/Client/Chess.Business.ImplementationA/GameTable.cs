@@ -119,10 +119,11 @@ namespace Chess.Business.ImplementationA
                               }).ToArray();
             var fenData = new FenData
             {
-                PieceInfos = pieceInfos,
-                // todo: improve, add color to player so i know which player has to move
-                ColorToMove = _playerSwitchSystem.CurrentPlayer.Pieces.First().Color
+                PieceInfos = pieceInfos
             };
+
+            // todo: improve, add color to player so i know which player has to move
+            fenData.GameInfo.ColorToMove = _playerSwitchSystem.CurrentPlayer.Pieces.First().Color;
             return _fenService.GetFen(fenData);
         }
 
@@ -137,7 +138,7 @@ namespace Chess.Business.ImplementationA
                 piece.PieceMoving += OnPieceMoving;
                 _pieces.Add(piece);
             }
-            _playerSwitchSystem.SwitchToPlayer(fenData.ColorToMove);
+            _playerSwitchSystem.SwitchToPlayer(fenData.GameInfo.ColorToMove);
             _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
         }
 

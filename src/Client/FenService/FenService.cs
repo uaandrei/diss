@@ -12,6 +12,10 @@ namespace FenService
     {
         private const int FileSection = 0;
         private const int ColorToMoveSection = 1;
+        private const int CastlingSection = 2;
+        private const int EnPassantSection = 3;
+        private const int HalfMovesSection = 4;
+        private const int FullMovesSection = 5;
 
         public string GetFen(FenData fenData)
         {
@@ -44,11 +48,18 @@ namespace FenService
                 else
                     sb.Append(" ");
             }
-            sb.Append(GetPlayerToMoveRepresentation(fenData.ColorToMove));
-            sb.Append(" KQkq");//castling
-            sb.Append(" -");//en pessant
-            sb.Append(" 0");//half moves <<= relevant for fifty moves rule
-            sb.Append(" 1");//full moves <<= The number of the full move. It starts at 1, and is incremented after Black's move
+            sb.Append(GetPlayerToMoveRepresentation(fenData.GameInfo.ColorToMove));
+            sb.Append(" ");
+            AppendCharacterIfTrue(sb, () => fenData.GameInfo.Wkca, "K");
+            AppendCharacterIfTrue(sb, () => fenData.GameInfo.Wqca, "Q");
+            AppendCharacterIfTrue(sb, () => fenData.GameInfo.Bkca, "k");
+            AppendCharacterIfTrue(sb, () => fenData.GameInfo.Bqca, "q");
+            sb.Append(" ");
+            AppendCharacterIfTrue(sb, () => fenData.GameInfo.EnPassant != null, fenData.GameInfo.EnPassant.ToAlgebraic());
+            sb.Append(" ");
+            AppendCharacterIfTrue(sb, () => true, fenData.GameInfo.HalfMoves.ToString());
+            sb.Append(" ");
+            AppendCharacterIfTrue(sb, () => true, fenData.GameInfo.FullMoves.ToString());
             return sb.ToString();
         }
 
@@ -78,8 +89,38 @@ namespace FenService
                 }
             }
             fenData.PieceInfos = pieces.ToArray();
-            fenData.ColorToMove = GetColorToMove(fenSections[ColorToMoveSection][0]);
+            fenData.GameInfo.ColorToMove = GetColorToMove(fenSections[ColorToMoveSection][0]);
+            HandleCastlingPermissions(fenData.GameInfo, fenSections[CastlingSection]);
+            HandleEnPassantSquare(fenData.GameInfo, fenSections[EnPassantSection]);
+            fenData.GameInfo.HalfMoves = Convert.ToInt32(fenSections[HalfMovesSection]);
+            fenData.GameInfo.FullMoves = Convert.ToInt32(fenSections[FullMovesSection]);
             return fenData;
+        }
+
+        private void HandleEnPassantSquare(GameInfo gameInfo, string enPas)
+        {
+            if(enPas!="-")
+                gameInfo.EnPassant = new Position(enPas);
+        }
+
+        private void HandleCastlingPermissions(GameInfo gameInfo, string castlingPerm)
+        {
+            if (castlingPerm[0] == 'K')
+                gameInfo.Wkca = true;
+            if (castlingPerm[1] == 'Q')
+                gameInfo.Wqca = true;
+            if (castlingPerm[2] == 'k')
+                gameInfo.Bkca = true;
+            if (castlingPerm[3] == 'q')
+                gameInfo.Bqca = true;
+        }
+
+        private void AppendCharacterIfTrue(StringBuilder apendee, Func<bool> condition, string toApend)
+        {
+            if (condition())
+                apendee.Append(toApend);
+            else
+                apendee.Append("-");
         }
 
         private PieceInfo GetPiece(char filePiece, int rank, char file)

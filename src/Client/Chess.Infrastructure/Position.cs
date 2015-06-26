@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Chess.Infrastructure
 {
@@ -28,6 +29,11 @@ namespace Chess.Infrastructure
             : this(p.X, p.Y)
         {
 
+        }
+
+        public Position(string algebraic) :
+            this(Convert.ToInt32(algebraic[1].ToString()), algebraic[0])
+        {
         }
 
         public Position()
@@ -84,6 +90,11 @@ namespace Chess.Infrastructure
         private char GetFile()
         {
             return (char)(SmallLetterACode + X);
+        }
+
+        public string ToAlgebraic()
+        {
+            return string.Format("{0}{1}", File, Rank);
         }
     }
 
