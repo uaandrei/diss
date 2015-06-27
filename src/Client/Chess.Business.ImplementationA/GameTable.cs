@@ -16,6 +16,7 @@ using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Chess.Business.ImplementationA.Pieces;
 
 namespace Chess.Business.ImplementationA
 {
@@ -83,9 +84,8 @@ namespace Chess.Business.ImplementationA
             // TODO: set id
             var fenData = _fenService.GetData(fen);
             _pieces.Clear();
-            foreach (var pieceInfo in fenData.PieceInfos)
+            foreach (var piece in fenData.PieceInfos.Select(p => p.ToPiece()))
             {
-                var piece = new ChessPiece(pieceInfo.Rank, pieceInfo.File, pieceInfo.Color, pieceInfo.Type);
                 piece.PieceMoving += OnPieceMoving;
                 _pieces.Add(piece);
             }
@@ -132,17 +132,9 @@ namespace Chess.Business.ImplementationA
 
         public string GetFen()
         {
-            var pieceInfos = (from p in _pieces
-                              select new PieceInfo
-                              {
-                                  Color = p.Color,
-                                  File = p.File,
-                                  Rank = p.Rank,
-                                  Type = p.Type
-                              }).ToArray();
             var fenData = new FenData
             {
-                PieceInfos = pieceInfos
+                PieceInfos = _pieces.Select(p => p.GetInfo()).ToArray()
             };
 
             fenData.GameInfo.CopyFrom(_gameInfo);
@@ -196,7 +188,7 @@ namespace Chess.Business.ImplementationA
             var fromPos = new Position(_selectedPiece.CurrentPosition);
             _selectedPiece.Move(userInput);
 
-            if (_rules[RuleNames.Chess].IsTrue())
+            if (_rules[RuleNames.Chess].IsSatisfied())
             {
                 UndoLastMove();
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(1500, "Move illegal! King in check."));
@@ -210,7 +202,7 @@ namespace Chess.Business.ImplementationA
                 _playerSwitchSystem.NextTurn(this);
             }
             _gameInfo.ColorToMove = _playerSwitchSystem.CurrentPlayer.Color;
-            if (_rules[RuleNames.Mate].IsTrue())
+            if (_rules[RuleNames.Mate].IsSatisfied())
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(0, "You lost! King in check-mate."));
         }
 
@@ -250,6 +242,13 @@ namespace Chess.Business.ImplementationA
                 _gameInfo.HalfMoves = 0;
                 logMessage = string.Format("{0} attacked:{1}", logMessage, attackedPiece);
             }
+            HandleCastlingRights(piece, newPosition);
+
+            Logger.Log(LogLevel.Info, logMessage);
+        }
+
+        private void HandleCastlingRights(IPiece piece, Position newPosition)
+        {
             if (piece.Type == PieceType.King && !piece.HasMoved)
             {
                 if (piece.Color == PieceColor.White)
@@ -299,8 +298,6 @@ namespace Chess.Business.ImplementationA
             {
                 _gameInfo.Bkca = false;
             }
-
-            Logger.Log(LogLevel.Info, logMessage);
         }
 
         private void SetMovesForSelectedPiece()

@@ -13,7 +13,7 @@ namespace Chess.Business.ImplementationA.Rules
             _getFen = getFen;
         }
 
-        public bool IsTrue()
+        public bool IsSatisfied()
         {
             return Gateway.IsMate(_getFen());
         }

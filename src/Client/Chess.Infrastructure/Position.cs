@@ -5,9 +5,6 @@ namespace Chess.Infrastructure
 {
     public class Position
     {
-        // TODO: change from Convert.ToInt(x) - SmallLetterCode to x - 'a' :)
-        private const int SmallLetterACode = 97;
-
         public int X { get; set; }
         public int Y { get; set; }
         public char File { get { return GetFile(); } }
@@ -21,7 +18,7 @@ namespace Chess.Infrastructure
 
         public Position(int rank, char file)
         {
-            X = System.Convert.ToInt16(file) - SmallLetterACode;
+            X = file - 'a';
             Y = rank - 1;
         }
 
@@ -89,7 +86,7 @@ namespace Chess.Infrastructure
 
         private char GetFile()
         {
-            return (char)(SmallLetterACode + X);
+            return (char)(X + 'a');
         }
 
         public string ToAlgebraic()

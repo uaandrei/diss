@@ -2,6 +2,6 @@
 {
     public interface IRule
     {
-        bool IsTrue();
+        bool IsSatisfied();
     }
 }

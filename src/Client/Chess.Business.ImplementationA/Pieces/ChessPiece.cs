@@ -7,6 +7,7 @@ using Chess.Infrastructure.Enums;
 using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Prism.PubSubEvents;
+using FenService.Interfaces;
 
 namespace Chess.Business.ImplementationA.Pieces
 {
@@ -107,6 +108,24 @@ namespace Chess.Business.ImplementationA.Pieces
             _moveStrategies.Add(PieceType.Queen, new CompositeMove(new OrthogonalMove(), new DiagonalMove()));
             _moveStrategies.Add(PieceType.King, new SquareMove());
             _moveStrategies.Add(PieceType.Pawn, new PawnMove());
+        }
+    }
+
+    public static class ConvertExtensions
+    {
+        public static ChessPiece ToPiece(this PieceInfo pieceInfo)
+        {
+            return new ChessPiece(pieceInfo.Rank, pieceInfo.File, pieceInfo.Color, pieceInfo.Type);
+        }
+        public static PieceInfo GetInfo(this IPiece p)
+        {
+            return new PieceInfo
+                {
+                    Color = p.Color,
+                    File = p.File,
+                    Rank = p.Rank,
+                    Type = p.Type
+                };
         }
     }
 }

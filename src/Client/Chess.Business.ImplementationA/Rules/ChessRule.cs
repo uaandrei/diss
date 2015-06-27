@@ -14,7 +14,7 @@ namespace Chess.Business.ImplementationA.Rules
             _gameTable = gameTable;
         }
 
-        public bool IsTrue()
+        public bool IsSatisfied()
         {
             var king = _gameTable.CurrentPlayer.Pieces.First(p => p.Type == PieceType.King);
             var opponent = _gameTable.Players.First(p => p.Color != king.Color);
