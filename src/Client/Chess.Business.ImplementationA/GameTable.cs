@@ -41,7 +41,6 @@ namespace Chess.Business.ImplementationA
         public IEnumerable<Position> TableMoves { get { return _moves; } }
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
-        public Position MovedTo { get; private set; }
         public int Difficulty { get { return 6; } }
         #endregion
 
@@ -75,7 +74,6 @@ namespace Chess.Business.ImplementationA
             InitializePlayersAndPieces();
             _playerSwitchSystem = new PlayerSwitchSystem(_players.GetEnumerator());
             _playerSwitchSystem.NextTurn(this);
-            MovedTo = null;
             ClearFenStack();
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(_gameInfo);
         }
@@ -133,7 +131,6 @@ namespace Chess.Business.ImplementationA
         {
             ClearAllMoves();
             _selectedPiece = null;
-            MovedTo = null;
             var fenData = _fenService.GetData(fen);
             _pieces.Clear();
             foreach (var pieceInfo in fenData.PieceInfos)
@@ -288,7 +285,6 @@ namespace Chess.Business.ImplementationA
                 _gameInfo.Bkca = false;
             }
 
-            MovedTo = newPosition;
             Logger.Log(LogLevel.Info, logMessage);
         }
 

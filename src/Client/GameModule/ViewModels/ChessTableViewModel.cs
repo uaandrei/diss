@@ -107,7 +107,6 @@ namespace Chess.Game.ViewModels
             _gameTable.GetPieces().ForEach(piece =>
                 Squares.Single(s => s.Position == piece.CurrentPosition).Representation = string.Format("{0}{1}", piece.Color, piece.Type)
             );
-            SetSquareState(_gameTable.MovedTo, SquareState.LastMove);
             SelectSquare(_gameTable.SelectedSquare);
             if (_gameTable.CurrentPlayer.IsAutomatic)
                 return;

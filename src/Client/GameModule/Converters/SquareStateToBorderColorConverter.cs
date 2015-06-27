@@ -20,8 +20,6 @@ namespace Chess.Game.Converters
                         return System.Windows.Media.Brushes.Yellow;
                     case SquareState.Selected:
                         return System.Windows.Media.Brushes.Green;
-                    case SquareState.LastMove:
-                        return System.Windows.Media.Brushes.Aqua;
                     case SquareState.History:
                         return System.Windows.Media.Brushes.Magenta;
                     default:
