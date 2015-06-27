@@ -5,11 +5,14 @@ using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Enums;
 using System.Collections.Generic;
+using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Prism.PubSubEvents;
 
 namespace Chess.Business.ImplementationA.Pieces
 {
     public class ChessPiece : IPiece
     {
+        private IEventAggregator _eventAggregator;
         private Position _curPosition;
         private PieceColor _color;
         private PieceType _type;
@@ -27,6 +30,7 @@ namespace Chess.Business.ImplementationA.Pieces
             _curPosition = p;
             _color = color;
             _type = type;
+            _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
             SetupMoveStrategies();
         }
 
@@ -48,7 +52,6 @@ namespace Chess.Business.ImplementationA.Pieces
             HasMoved = true;
             return true;
         }
-
 
         public IList<Position> GetAvailableMoves(IEnumerable<IPiece> allPieces)
         {
@@ -74,17 +77,18 @@ namespace Chess.Business.ImplementationA.Pieces
             if (king.HasMoved)
                 return;
 
-            var isB1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "b1");
-            var isC1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "c1");
-            var isD1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "d1");
-            var isF1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "f1");
-            var isG1Empty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "g1");
-            var kRook = allPieces.FirstOrDefault(p => p.CurrentPosition.ToAlgebraic() == "a1");
-            var qRook = allPieces.FirstOrDefault(p => p.CurrentPosition.ToAlgebraic() == "h1");
-            if (isB1Empty && isC1Empty && isD1Empty && kRook != null && !kRook.HasMoved)
-                moves.Add(new Position("c1"));
-            if (isF1Empty && isG1Empty && qRook != null && !qRook.HasMoved)
-                moves.Add(new Position("g1"));
+            var kingRank = king.CurrentPosition.Rank;
+            var isBEmpty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "b" + kingRank);
+            var isCEmpty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "c" + kingRank);
+            var isDEmpty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "d" + kingRank);
+            var isFEmpty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "f" + kingRank);
+            var isGEmpty = !allPieces.Any(p => p.CurrentPosition.ToAlgebraic() == "g" + kingRank);
+            var kRook = allPieces.FirstOrDefault(p => p.CurrentPosition.ToAlgebraic() == "a" + kingRank);
+            var qRook = allPieces.FirstOrDefault(p => p.CurrentPosition.ToAlgebraic() == "h" + kingRank);
+            if (isBEmpty && isCEmpty && isDEmpty && kRook != null && !kRook.HasMoved)
+                moves.Add(new Position("c" + kingRank));
+            if (isFEmpty && isGEmpty && qRook != null && !qRook.HasMoved)
+                moves.Add(new Position("g" + kingRank));
         }
 
         private void RaisePieceMovingEvent(Position newPosition)

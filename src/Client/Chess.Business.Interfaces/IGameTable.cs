@@ -1,5 +1,6 @@
 ﻿using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
+using Chess.Infrastructure.Enums;
 using System.Collections.Generic;
 
 namespace Chess.Business.Interfaces
@@ -19,5 +20,6 @@ namespace Chess.Business.Interfaces
         void LoadFromFen(string fen);
         void UndoLastMove();
         void ParseInput(Position userInput);
+        void ChangePlayers(bool isBlackAI, bool isWhiteAI);
     }
 }

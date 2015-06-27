@@ -31,6 +31,7 @@ namespace Chess.Game
             Container.RegisterType<INotificationViewModel, NotificationViewModel>();
             Container.RegisterType<IMenuViewModel, MenuViewModel>();
             Container.RegisterType<IMoveHistoryViewModel, MoveHistoryViewModel>();
+            Container.RegisterType<IOptionsViewModel, OptionsViewModel>();
         }
     }
 }

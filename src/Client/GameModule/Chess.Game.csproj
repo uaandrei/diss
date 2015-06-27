@@ -94,14 +94,17 @@
     <Compile Include="ViewModels\IChessTableViewModel.cs" />
     <Compile Include="ViewModels\IMenuViewModel.cs" />
     <Compile Include="ViewModels\IMoveHistoryViewModel.cs" />
+    <Compile Include="ViewModels\IOptionsViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MoveHistoryViewModel.cs" />
     <Compile Include="ViewModels\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\ChessTableView.xaml.cs">
       <DependentUpon>ChessTableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\INotificationViewModel.cs" />
+    <Compile Include="Views\IOptionsView.cs" />
     <Compile Include="Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
@@ -110,6 +113,9 @@
     </Compile>
     <Compile Include="Views\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OptionsView.xaml.cs">
+      <DependentUpon>OptionsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

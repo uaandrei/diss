@@ -68,8 +68,9 @@ namespace Chess.Game.ViewModels
         #region Event Handlers
         private void OnDrawMove(Move obj)
         {
-            Squares.ForEach(s => { 
-                if(s.SquareState == SquareState.History)
+            Squares.ForEach(s =>
+            {
+                if (s.SquareState == SquareState.History)
                     s.SquareState = SquareState.Empty;
             });
             Squares.First(s => s.Position == obj.From).SquareState = SquareState.History;
@@ -82,6 +83,8 @@ namespace Chess.Game.ViewModels
             if (square == null)
                 return;
 
+            if (_gameTable.CurrentPlayer.IsAutomatic)
+                return;
             _gameTable.ParseInput(square.Position);
             RedrawTable();
         }
@@ -106,6 +109,8 @@ namespace Chess.Game.ViewModels
             );
             SetSquareState(_gameTable.MovedTo, SquareState.LastMove);
             SelectSquare(_gameTable.SelectedSquare);
+            if (_gameTable.CurrentPlayer.IsAutomatic)
+                return;
             _gameTable.TableAttacks.ForEach(a => SetSquareState(a, SquareState.PosibleAttack));
             _gameTable.TableMoves.ForEach(a => SetSquareState(a, SquareState.PosibleMove));
         }

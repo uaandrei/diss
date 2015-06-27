@@ -1,0 +1,27 @@
+﻿<Window x:Class="Chess.Game.Views.OptionsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize">
+    <StackPanel Margin="30">
+        <CheckBox IsChecked="{Binding IsBlackAI}"
+                  Content="Black AI?" />
+        <CheckBox IsChecked="{Binding IsWhiteAI}"
+                  Content="White AI?"
+                  Grid.Row="1"
+                  Grid.Column="1" />
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Cancel"
+                    HorizontalAlignment="Center"
+                    IsCancel="True" />
+            <Button Content="Save"
+                    Margin="30 0 0 0"
+                    HorizontalAlignment="Center"
+                    Click="Button_Click"
+                    IsDefault="True" />
+        </StackPanel>
+    </StackPanel>
+</Window>

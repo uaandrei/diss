@@ -74,7 +74,6 @@
         </Grid>
         <ListBox Grid.Row="0"
                  Grid.Column="1"
-                 IsEnabled="{Binding MoveAllowed}"
                  ItemsSource="{Binding Squares}"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Top">

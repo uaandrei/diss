@@ -24,9 +24,9 @@ namespace Chess.Business.ImplementationA
         private IEnumerable<IPlayer> _players;
         private IList<IPiece> _pieces;
         private IPiece _selectedPiece;
-        private List<Position> _allAvailableMoves;
-        private List<Position> _moves;
-        private List<Position> _attacks;
+        private List<Position> _allAvailableMoves = new List<Position>();
+        private List<Position> _moves = new List<Position>();
+        private List<Position> _attacks = new List<Position>();
         private PlayerSwitchSystem _playerSwitchSystem;
         private IFenService _fenService;
         private IEventAggregator _eventAggregator;
@@ -60,12 +60,24 @@ namespace Chess.Business.ImplementationA
         #region Methods
         public void StartNewGame()
         {
-            _allAvailableMoves = new List<Position>();
-            _moves = new List<Position>();
-            _attacks = new List<Position>();
+            _gameInfo = new GameInfo()
+            {
+                Bkca = true,
+                Wkca = true,
+                Bqca = true,
+                Wqca = true,
+                ColorToMove = PieceColor.White,
+                EnPassant = null,
+                FullMoves = 0,
+                HalfMoves = 0
+            };
+            ClearAllMoves();
             InitializePlayersAndPieces();
             _playerSwitchSystem = new PlayerSwitchSystem(_players.GetEnumerator());
             _playerSwitchSystem.NextTurn(this);
+            MovedTo = null;
+            ClearFenStack();
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(_gameInfo);
         }
 
         public void ParseInput(Position userInput)
@@ -100,7 +112,6 @@ namespace Chess.Business.ImplementationA
 
         public string GetFen()
         {
-            // todo: maybe converters?
             var pieceInfos = (from p in _pieces
                               select new PieceInfo
                               {
@@ -114,8 +125,7 @@ namespace Chess.Business.ImplementationA
                 PieceInfos = pieceInfos
             };
 
-            // todo: improve, add color to player so i know which player has to move
-            fenData.GameInfo.ColorToMove = _playerSwitchSystem.CurrentPlayer.Pieces.First().Color;
+            fenData.GameInfo.CopyFrom(_gameInfo);
             return _fenService.GetFen(fenData);
         }
 
@@ -126,7 +136,6 @@ namespace Chess.Business.ImplementationA
             MovedTo = null;
             var fenData = _fenService.GetData(fen);
             _pieces.Clear();
-            // todo: maybe converters?
             foreach (var pieceInfo in fenData.PieceInfos)
             {
                 var piece = new ChessPiece(pieceInfo.Rank, pieceInfo.File, pieceInfo.Color, pieceInfo.Type);
@@ -135,16 +144,36 @@ namespace Chess.Business.ImplementationA
             }
             _playerSwitchSystem.SwitchToPlayer(fenData.GameInfo.ColorToMove);
             _gameInfo.CopyFrom(fenData.GameInfo);
-            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(this);
+            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(_gameInfo);
         }
 
+        public void ChangePlayers(bool isBlackAI, bool isWhiteAI)
+        {
+            var currentPlayerColor = CurrentPlayer.Color;
+            var blackPlayer = _players.First(p => p.Color == PieceColor.Black);
+            var whitePlayer = _players.First(p => p.Color == PieceColor.White);
+            if (isBlackAI && !blackPlayer.IsAutomatic)
+                blackPlayer = new SmartComputerPlayer(_pieces.Where(p => p.Color == PieceColor.Black), blackPlayer.MoveOrder);
+            if (!isBlackAI && blackPlayer.IsAutomatic)
+                blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == PieceColor.Black), blackPlayer.MoveOrder);
+
+            if (isWhiteAI && !whitePlayer.IsAutomatic)
+                whitePlayer = new SmartComputerPlayer(_pieces.Where(p => p.Color == PieceColor.White), whitePlayer.MoveOrder);
+            if (!isWhiteAI && whitePlayer.IsAutomatic)
+                whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == PieceColor.White), whitePlayer.MoveOrder);
+
+            _players = new IPlayer[] { whitePlayer, blackPlayer };
+            _playerSwitchSystem = new PlayerSwitchSystem(_players.GetEnumerator());
+            _playerSwitchSystem.SwitchToPlayer(currentPlayerColor);
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(this);
+        }
         #region Private
         private void InitializePlayersAndPieces()
         {
             _pieces = _pieceFactory.GetAllPieces();
             _pieces.ForEach(p => p.PieceMoving += OnPieceMoving);
             var whitePlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.White), 1);
-            var blackPlayer = new HumanPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
+            var blackPlayer = new SmartComputerPlayer(_pieces.Where(p => p.Color == Infrastructure.Enums.PieceColor.Black), 2);
             _players = new IPlayer[] { whitePlayer, blackPlayer };
         }
 
@@ -162,12 +191,15 @@ namespace Chess.Business.ImplementationA
             else
             {
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MovedPieceEvent>().Publish(new Move(fromPos, userInput));
+                _gameInfo.HalfMoves++;
+                _gameInfo.FullMoves++;
                 _selectedPiece = null;
                 _playerSwitchSystem.NextTurn(this);
-                _playerSwitchSystem.CurrentPlayer.Act(this);
             }
+            _gameInfo.ColorToMove = _playerSwitchSystem.CurrentPlayer.Color;
             if (_rules[RuleNames.Mate].IsTrue())
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(0, "You lost! King in check-mate."));
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(_gameInfo);
         }
 
         private void ClearAllMoves()
@@ -185,6 +217,15 @@ namespace Chess.Business.ImplementationA
                 && CurrentPlayer.OwnsPiece(_selectedPiece);
         }
 
+        private void ClearFenStack()
+        {
+            while (_fenStack.Count > 0)
+            {
+                _fenStack.Pop();
+                _eventAggregator.GetEvent<Chess.Infrastructure.Events.MoveUndoEvent>().Publish(null);
+            }
+        }
+
         private void OnPieceMoving(IPiece piece, Position newPosition)
         {
             object capturedPiece = null;
@@ -194,8 +235,59 @@ namespace Chess.Business.ImplementationA
                 var attackedPiece = _pieces.Single(p => p.CurrentPosition == newPosition);
                 capturedPiece = attackedPiece;
                 _pieces.Remove(attackedPiece);
+                _gameInfo.HalfMoves = 0;
                 logMessage = string.Format("{0} attacked:{1}", logMessage, attackedPiece);
             }
+            if (piece.Type == PieceType.King && !piece.HasMoved)
+            {
+                if (piece.Color == PieceColor.White)
+                {
+                    _gameInfo.Wkca = false;
+                    _gameInfo.Wqca = false;
+                    if (newPosition.ToAlgebraic() == "c1")
+                    {
+                        var qRook = _pieces.First(p => p.CurrentPosition.ToAlgebraic() == "a1");
+                        qRook.Move(new Position("d1"));
+                    }
+                    if (newPosition.ToAlgebraic() == "g1")
+                    {
+                        var kRook = _pieces.First(p => p.CurrentPosition.ToAlgebraic() == "h1");
+                        kRook.Move(new Position("f1"));
+                    }
+                }
+                if (piece.Color == PieceColor.Black)
+                {
+                    _gameInfo.Bkca = false;
+                    _gameInfo.Bqca = false;
+                    if (newPosition.ToAlgebraic() == "c8")
+                    {
+                        var qRook = _pieces.First(p => p.CurrentPosition.ToAlgebraic() == "a8");
+                        qRook.Move(new Position("d8"));
+                    }
+                    if (newPosition.ToAlgebraic() == "g8")
+                    {
+                        var kRook = _pieces.First(p => p.CurrentPosition.ToAlgebraic() == "h8");
+                        kRook.Move(new Position("f8"));
+                    }
+                }
+            }
+            if (piece.Type == PieceType.Rook && piece.CurrentPosition.ToAlgebraic() == "a1")
+            {
+                _gameInfo.Wqca = false;
+            }
+            if (piece.Type == PieceType.Rook && piece.CurrentPosition.ToAlgebraic() == "h1")
+            {
+                _gameInfo.Wkca = false;
+            }
+            if (piece.Type == PieceType.Rook && piece.CurrentPosition.ToAlgebraic() == "a8")
+            {
+                _gameInfo.Bqca = false;
+            }
+            if (piece.Type == PieceType.Rook && piece.CurrentPosition.ToAlgebraic() == "h8")
+            {
+                _gameInfo.Bkca = false;
+            }
+
             MovedTo = newPosition;
             Logger.Log(LogLevel.Info, logMessage);
         }

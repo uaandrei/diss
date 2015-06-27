@@ -1,6 +1,8 @@
 ﻿using Chess.Business.Interfaces;
+using Chess.Infrastructure;
 using Chess.Infrastructure.Events;
 using Microsoft.Practices.Prism.PubSubEvents;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -49,7 +51,13 @@ namespace Chess.Game.ViewModels
 
         private void OnRefresh(object obj)
         {
-            InfoText = string.Format("Color to move: {0} - {1}\nUI: {1}\nWaiting...", _gameTable.CurrentPlayer.Color, _gameTable.CurrentPlayer.Name, _gameTable.CurrentPlayer.IsAutomatic);
+            var sb = new StringBuilder();
+            sb.Append(string.Format("{0} {1}", _gameTable.CurrentPlayer.Color, _gameTable.CurrentPlayer.Name));
+            sb.Append("\n");
+            sb.Append(_gameTable.GetFen());
+            sb.Append("\n");
+            sb.Append("Waiting...");
+            InfoText = sb.ToString();
         }
 
         private void OnMessageEvent(MessageInfo obj)

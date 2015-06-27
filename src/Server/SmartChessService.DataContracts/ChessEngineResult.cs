@@ -6,6 +6,7 @@ namespace SmartChessService.DataContracts
     [DataContract]
     public class ChessEngineResult
     {
+        public string Id { get; set; }
         [DataMember]
         public int Score { get; set; }
         [DataMember]
