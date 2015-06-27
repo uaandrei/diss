@@ -10,5 +10,6 @@ namespace Chess.Game.ViewModels
     {
         bool IsBlackAI { get; set; }
         bool IsWhiteAI { get; set; }
+        int Difficulty { get; set; }
     }
 }

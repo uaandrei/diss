@@ -42,11 +42,13 @@ namespace Chess.Game.ViewModels
             var optionsView = ServiceLocator.Current.GetInstance<IView<IOptionsViewModel>>();
             optionsView.ViewModel.IsWhiteAI = _gameTable.Players.First(p => p.Color == Infrastructure.Enums.PieceColor.White).IsAutomatic;
             optionsView.ViewModel.IsBlackAI = _gameTable.Players.First(p => p.Color == Infrastructure.Enums.PieceColor.Black).IsAutomatic;
+            optionsView.ViewModel.Difficulty = _gameTable.Difficulty;
             var res = optionsView.ShowView();
             if (res.HasValue && res.Value)
             {
                 var vm = optionsView.ViewModel;
                 _gameTable.ChangePlayers(vm.IsBlackAI, vm.IsWhiteAI);
+                _gameTable.Difficulty = optionsView.ViewModel.Difficulty;
             }
         }
 

@@ -12,7 +12,7 @@ namespace Chess.Business.Interfaces
         IEnumerable<Position> TableMoves { get; }
         IEnumerable<Position> TableAttacks { get; }
         Position SelectedSquare { get; }
-        int Difficulty { get; }
+        int Difficulty { get; set; }
         string Id { get; }
         IEnumerable<IPiece> GetPieces();
         void StartNewGame();

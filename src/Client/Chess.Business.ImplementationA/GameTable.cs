@@ -39,13 +39,14 @@ namespace Chess.Business.ImplementationA
         public IEnumerable<Position> TableMoves { get { return _moves; } }
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
-        public int Difficulty { get { return 6; } }
+        public int Difficulty { get; set; }
         public string Id { get; private set; }
         #endregion
 
         #region ctor
         public GameTable(IFenService fenService, IEventAggregator evtAggr, IPieceFactory pieceFactory)
         {
+            Difficulty = 5;
             _pieceFactory = pieceFactory;
             _fenService = fenService;
             _eventAggregator = evtAggr;

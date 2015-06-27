@@ -23,7 +23,7 @@ namespace Chess.Infrastructure.Communication
 
         public static bool IsMate(string fen)
         {
-            var result = GetResponse(fen, 5);
+            var result = GetResponse(fen, 1);
             return result.Score == MateScore;
         }
 
@@ -39,7 +39,7 @@ namespace Chess.Infrastructure.Communication
                     var result = client.GetAsync(request).Result.Content.ReadAsAsync<ChessEngineResult>().Result;
                     return result;
                 }
-                catch (System.Exception e)
+                catch (Exception)
                 {
                     Thread.Sleep(100);
                 }

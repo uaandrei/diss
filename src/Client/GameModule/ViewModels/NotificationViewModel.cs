@@ -55,8 +55,6 @@ namespace Chess.Game.ViewModels
             sb.Append(string.Format("{0} {1}", _gameTable.CurrentPlayer.Color, _gameTable.CurrentPlayer.Name));
             sb.Append("\n");
             sb.Append(_gameTable.GetFen());
-            sb.Append("\n");
-            sb.Append("Waiting...");
             InfoText = sb.ToString();
         }
 

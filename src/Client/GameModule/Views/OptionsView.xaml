@@ -17,6 +17,18 @@
         <CheckBox IsChecked="{Binding IsWhiteAI}"
                   Margin="5"
                   Content="White AI?" />
+        <TextBlock Text="Difficulty" />
+        <ComboBox SelectedValue="{Binding Difficulty}"
+                  SelectedValuePath="Content"
+                  Margin="5">
+            <ComboBoxItem Content="1" />
+            <ComboBoxItem Content="2" />
+            <ComboBoxItem Content="3" />
+            <ComboBoxItem Content="4" />
+            <ComboBoxItem Content="5" />
+            <ComboBoxItem Content="6" />
+            <ComboBoxItem Content="7" />
+        </ComboBox>
         <StackPanel Orientation="Horizontal">
             <Button Content="Cancel"
                     Padding="2"
