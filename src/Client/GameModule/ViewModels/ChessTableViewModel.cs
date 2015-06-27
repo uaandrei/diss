@@ -104,10 +104,10 @@ namespace Chess.Game.ViewModels
             _gameTable.GetPieces().ForEach(piece =>
                 Squares.Single(s => s.Position == piece.CurrentPosition).Representation = string.Format("{0}{1}", piece.Color, piece.Type)
             );
+            SetSquareState(_gameTable.MovedTo, SquareState.LastMove);
             SelectSquare(_gameTable.SelectedSquare);
             _gameTable.TableAttacks.ForEach(a => SetSquareState(a, SquareState.PosibleAttack));
             _gameTable.TableMoves.ForEach(a => SetSquareState(a, SquareState.PosibleMove));
-            SetSquareState(_gameTable.MovedTo, SquareState.LastMove);
         }
 
         private void SelectSquare(Position pos)

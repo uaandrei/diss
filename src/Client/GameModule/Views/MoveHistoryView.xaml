@@ -15,6 +15,7 @@
     <Grid>
         <ListView Name="Moves"
                   Width="150"
+                  Height="400"
                   ItemsSource="{Binding MovesMade}"
                   SelectionMode="Single">
             <i:Interaction.Triggers>
