@@ -13,6 +13,7 @@ using FenService.Interfaces;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,6 +43,7 @@ namespace Chess.Business.ImplementationA
         public IEnumerable<Position> TableAttacks { get { return _attacks; } }
         public Position SelectedSquare { get { return _selectedPiece == null ? null : _selectedPiece.CurrentPosition; } }
         public int Difficulty { get { return 6; } }
+        public string Id { get; private set; }
         #endregion
 
         #region ctor
@@ -70,12 +72,25 @@ namespace Chess.Business.ImplementationA
                 FullMoves = 0,
                 HalfMoves = 0
             };
-            ClearAllMoves();
+            Id = Guid.NewGuid().ToString();
             InitializePlayersAndPieces();
             _playerSwitchSystem = new PlayerSwitchSystem(_players.GetEnumerator());
-            _playerSwitchSystem.NextTurn(this);
-            ClearFenStack();
-            _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(_gameInfo);
+            ResetBoardState(true);
+        }
+
+        public void LoadFromFen(string fen, bool clearStack = true)
+        {
+            // TODO: set id
+            var fenData = _fenService.GetData(fen);
+            _pieces.Clear();
+            foreach (var pieceInfo in fenData.PieceInfos)
+            {
+                var piece = new ChessPiece(pieceInfo.Rank, pieceInfo.File, pieceInfo.Color, pieceInfo.Type);
+                piece.PieceMoving += OnPieceMoving;
+                _pieces.Add(piece);
+            }
+            _gameInfo.CopyFrom(fenData.GameInfo);
+            ResetBoardState(clearStack);
         }
 
         public void ParseInput(Position userInput)
@@ -91,6 +106,7 @@ namespace Chess.Business.ImplementationA
                 _selectedPiece = _pieces.GetPiece(userInput);
                 SetMovesForSelectedPiece();
             }
+            _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(_gameInfo);
         }
 
         public void UndoLastMove()
@@ -99,8 +115,14 @@ namespace Chess.Business.ImplementationA
                 return;
 
             var lastFen = _fenStack.Pop();
-            LoadFromFen(lastFen);
+            LoadFromFen(lastFen, false);
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.MoveUndoEvent>().Publish(null);
+        }
+
+        public void SetSelectedPiece(Position piecePosition)
+        {
+            _selectedPiece = _pieces.GetPiece(piecePosition);
+            SetMovesForSelectedPiece();
         }
 
         public IEnumerable<IPiece> GetPieces()
@@ -127,23 +149,6 @@ namespace Chess.Business.ImplementationA
             return _fenService.GetFen(fenData);
         }
 
-        public void LoadFromFen(string fen)
-        {
-            ClearAllMoves();
-            _selectedPiece = null;
-            var fenData = _fenService.GetData(fen);
-            _pieces.Clear();
-            foreach (var pieceInfo in fenData.PieceInfos)
-            {
-                var piece = new ChessPiece(pieceInfo.Rank, pieceInfo.File, pieceInfo.Color, pieceInfo.Type);
-                piece.PieceMoving += OnPieceMoving;
-                _pieces.Add(piece);
-            }
-            _playerSwitchSystem.SwitchToPlayer(fenData.GameInfo.ColorToMove);
-            _gameInfo.CopyFrom(fenData.GameInfo);
-            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(_gameInfo);
-        }
-
         public void ChangePlayers(bool isBlackAI, bool isWhiteAI)
         {
             var currentPlayerColor = CurrentPlayer.Color;
@@ -165,6 +170,17 @@ namespace Chess.Business.ImplementationA
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(this);
         }
         #region Private
+        private void ResetBoardState(bool clearStack = true)
+        {
+            ClearAllMoves();
+            _selectedPiece = null;
+            _playerSwitchSystem.SwitchToPlayer(_gameInfo.ColorToMove);
+            if (clearStack)
+                ClearFenStack();
+
+            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(_gameInfo);
+        }
+
         private void InitializePlayersAndPieces()
         {
             _pieces = _pieceFactory.GetAllPieces();
@@ -196,7 +212,6 @@ namespace Chess.Business.ImplementationA
             _gameInfo.ColorToMove = _playerSwitchSystem.CurrentPlayer.Color;
             if (_rules[RuleNames.Mate].IsTrue())
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(0, "You lost! King in check-mate."));
-            _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(_gameInfo);
         }
 
         private void ClearAllMoves()

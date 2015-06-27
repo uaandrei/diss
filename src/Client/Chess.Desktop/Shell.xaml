@@ -4,18 +4,19 @@
         xmlns:prism="http://www.codeplex.com/prism"
         xmlns:infr="clr-namespace:Chess.Infrastructure"
         Title="Chess"
-        SizeToContent="WidthAndHeight" ResizeMode="NoResize">
-<DockPanel LastChildFill="True">
-    <ItemsControl DockPanel.Dock="Top"
-                  Name="MenuRegion"
-                  prism:RegionManager.RegionName="MenuRegion" />
-    <ItemsControl DockPanel.Dock="Bottom"
-                  Name="NotificationRegion"
-                  prism:RegionManager.RegionName="NotificationRegion" />
-    <ItemsControl DockPanel.Dock="Right"
-                  Name="SideRegion"
-                  prism:RegionManager.RegionName="SideRegion" />
-    <ItemsControl Name="MainRegion"
-                  prism:RegionManager.RegionName="MainRegion" />
-</DockPanel>
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize">
+    <DockPanel LastChildFill="True">
+        <ItemsControl DockPanel.Dock="Top"
+                      Name="MenuRegion"
+                      prism:RegionManager.RegionName="MenuRegion" />
+        <ItemsControl DockPanel.Dock="Bottom"
+                      Name="NotificationRegion"
+                      prism:RegionManager.RegionName="NotificationRegion" />
+        <ItemsControl DockPanel.Dock="Right"
+                      Name="SideRegion"
+                      prism:RegionManager.RegionName="SideRegion" />
+        <ItemsControl Name="MainRegion"
+                      prism:RegionManager.RegionName="MainRegion" />
+    </DockPanel>
 </Window>

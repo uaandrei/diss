@@ -13,12 +13,14 @@ namespace Chess.Business.Interfaces
         IEnumerable<Position> TableAttacks { get; }
         Position SelectedSquare { get; }
         int Difficulty { get; }
+        string Id { get; }
         IEnumerable<IPiece> GetPieces();
         void StartNewGame();
         string GetFen();
-        void LoadFromFen(string fen);
+        void LoadFromFen(string fen, bool clearStack = true);
         void UndoLastMove();
         void ParseInput(Position userInput);
         void ChangePlayers(bool isBlackAI, bool isWhiteAI);
+        void SetSelectedPiece(Position piecePosition);
     }
 }

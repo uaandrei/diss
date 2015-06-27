@@ -5,6 +5,7 @@ using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.ServiceLocation;
 using System.IO;
 using System.Windows.Input;
+using Chess.Infrastructure;
 namespace Chess.Game.ViewModels
 {
     public class MenuViewModel : ViewModelBase, IMenuViewModel

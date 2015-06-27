@@ -25,6 +25,7 @@ namespace Chess.Game.Views
         public OptionsView()
         {
             InitializeComponent();
+            Owner = Application.Current.MainWindow;
         }
 
         [Dependency]
