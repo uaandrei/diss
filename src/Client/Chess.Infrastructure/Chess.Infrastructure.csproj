@@ -38,7 +38,9 @@
     <Compile Include="Events\MessageEvent.cs" />
     <Compile Include="Events\MovedPieceEvent.cs" />
     <Compile Include="Events\MoveUndoEvent.cs" />
+    <Compile Include="Events\PromotePieceEvent.cs" />
     <Compile Include="GameInfo.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Enums\MoveColor.cs" />
     <Compile Include="Enums\SquareState.cs" />

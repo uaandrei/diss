@@ -16,11 +16,10 @@ namespace Chess.Business.ImplementationA.Pieces
         private IEventAggregator _eventAggregator;
         private Position _curPosition;
         private PieceColor _color;
-        private PieceType _type;
         private IDictionary<PieceType, IMoveStrategy> _moveStrategies;
         public PieceColor Color { get { return _color; } }
         public Position CurrentPosition { get { return _curPosition; } set { _curPosition = value; } }
-        public PieceType Type { get { return _type; } }
+        public PieceType Type { get; set; }
         public int Rank { get { return _curPosition.Rank; } }
         public char File { get { return _curPosition.File; } }
         public bool HasMoved { get; set; }
@@ -30,7 +29,7 @@ namespace Chess.Business.ImplementationA.Pieces
         {
             _curPosition = p;
             _color = color;
-            _type = type;
+            Type = type;
             _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
             SetupMoveStrategies();
         }
@@ -56,20 +55,20 @@ namespace Chess.Business.ImplementationA.Pieces
 
         public IList<Position> GetAvailableMoves(IEnumerable<IPiece> allPieces)
         {
-            var moves = _moveStrategies[_type].GetMoves(this, allPieces);
-            if (_type == PieceType.King)
+            var moves = _moveStrategies[Type].GetMoves(this, allPieces);
+            if (Type == PieceType.King)
                 AddCastlingMoves(moves, allPieces);
             return moves;
         }
 
         public IList<Position> GetAvailableAttacks(IEnumerable<IPiece> allPieces)
         {
-            return _moveStrategies[_type].GetAttacks(this, allPieces);
+            return _moveStrategies[Type].GetAttacks(this, allPieces);
         }
 
         public override string ToString()
         {
-            return string.Format("{0}{1} {2}", _color, _type, _curPosition);
+            return string.Format("{0}{1} {2}", _color, Type, _curPosition);
         }
 
         private void AddCastlingMoves(IList<Position> moves, IEnumerable<IPiece> allPieces)

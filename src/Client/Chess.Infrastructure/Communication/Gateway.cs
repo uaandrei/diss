@@ -2,8 +2,10 @@
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
 using SmartChessService.DataContracts;
+using System;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 
 namespace Chess.Infrastructure.Communication
 {
@@ -27,11 +29,22 @@ namespace Chess.Infrastructure.Communication
 
         private static ChessEngineResult GetResponse(string fen, int depth)
         {
-
-            var client = new HttpClient();
-            var request = string.Format(requestFormat, requestUri, WebUtility.UrlEncode(fen), depth);
-            var result = client.GetAsync(request).Result.Content.ReadAsAsync<ChessEngineResult>().Result;
-            return result;
+            var retryCount = 5;
+            while (retryCount-- >= 0)
+            {
+                try
+                {
+                    var client = new HttpClient();
+                    var request = string.Format(requestFormat, requestUri, WebUtility.UrlEncode(fen), depth);
+                    var result = client.GetAsync(request).Result.Content.ReadAsAsync<ChessEngineResult>().Result;
+                    return result;
+                }
+                catch (System.Exception e)
+                {
+                    Thread.Sleep(100);
+                }
+            }
+            throw new Exception();
         }
     }
 }

@@ -52,10 +52,12 @@ namespace Chess.Business.ImplementationA.Players
             var result = Gateway.GenerateMove(gameTable.GetFen(), gameTable.Difficulty);
             var fromPosition = new Position(result.FromRank, result.FromFile);
             var toPosition = new Position(result.ToRank, result.ToFile);
+            var promotedTo = result.PromotedTo;
             _gameTable.SetSelectedPiece(fromPosition);
             _gameTable.ParseInput(toPosition);
-            //_gameTable.ParseInput(fromPosition);
-            //_gameTable.ParseInput(toPosition);
+            if (promotedTo != ' ')
+                _gameTable.GetPieces().First(p => p.CurrentPosition == toPosition).Type = Helper.GetType(promotedTo);
+            _eventAggregator.GetEvent<RefreshTableEvent>().Publish(gameTable);
         }
     }
 }

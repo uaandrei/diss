@@ -18,31 +18,31 @@ using System.Windows.Shapes;
 namespace Chess.Game.Views
 {
     /// <summary>
-    /// Interaction logic for OptionsView.xaml
+    /// Interaction logic for PromotionView.xaml
     /// </summary>
-    public partial class OptionsView : Window, IView<IOptionsViewModel>
+    public partial class PromotionView : Window, IView<IPromotionViewModel>
     {
-        public OptionsView()
+        public PromotionView()
         {
             InitializeComponent();
             Owner = Application.Current.MainWindow;
         }
 
-        [Dependency]
-        public IOptionsViewModel ViewModel
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            get { return DataContext as IOptionsViewModel; }
+            DialogResult = true;
+        }
+
+        [Dependency]
+        public IPromotionViewModel ViewModel
+        {
+            get { return DataContext as IPromotionViewModel; }
             set { DataContext = value; }
         }
 
         public bool? ShowView()
         {
             return ShowDialog();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
         }
     }
 }

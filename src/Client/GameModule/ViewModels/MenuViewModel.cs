@@ -39,13 +39,13 @@ namespace Chess.Game.ViewModels
 
         private void OptionsExecute()
         {
-            var window = ServiceLocator.Current.GetInstance<OptionsView>();
-            window.ViewModel.IsWhiteAI = _gameTable.Players.First(p => p.Color == Infrastructure.Enums.PieceColor.White).IsAutomatic;
-            window.ViewModel.IsBlackAI = _gameTable.Players.First(p => p.Color == Infrastructure.Enums.PieceColor.Black).IsAutomatic;
-            var res = window.ShowDialog();
+            var optionsView = ServiceLocator.Current.GetInstance<IView<IOptionsViewModel>>();
+            optionsView.ViewModel.IsWhiteAI = _gameTable.Players.First(p => p.Color == Infrastructure.Enums.PieceColor.White).IsAutomatic;
+            optionsView.ViewModel.IsBlackAI = _gameTable.Players.First(p => p.Color == Infrastructure.Enums.PieceColor.Black).IsAutomatic;
+            var res = optionsView.ShowView();
             if (res.HasValue && res.Value)
             {
-                var vm = window.ViewModel;
+                var vm = optionsView.ViewModel;
                 _gameTable.ChangePlayers(vm.IsBlackAI, vm.IsWhiteAI);
             }
         }

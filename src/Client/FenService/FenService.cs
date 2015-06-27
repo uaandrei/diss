@@ -130,28 +130,8 @@ namespace FenService
                 Rank = rank,
                 File = file,
                 Color = GetColor(filePiece),
-                Type = GetType(filePiece)
+                Type = Helper.GetType(filePiece)
             };
-        }
-
-        private PieceType GetType(char filePiece)
-        {
-            switch (char.ToLower(filePiece))
-            {
-                case 'p':
-                    return PieceType.Pawn;
-                case 'r':
-                    return PieceType.Rook;
-                case 'n':
-                    return PieceType.Knight;
-                case 'b':
-                    return PieceType.Bishop;
-                case 'q':
-                    return PieceType.Queen;
-                case 'k':
-                    return PieceType.King;
-            }
-            throw new FormatException();
         }
 
         private PieceColor GetColor(char filePiece)

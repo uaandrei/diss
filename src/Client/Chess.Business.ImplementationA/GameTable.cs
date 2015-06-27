@@ -4,19 +4,15 @@ using Chess.Business.ImplementationA.Rules;
 using Chess.Business.Interfaces;
 using Chess.Business.Interfaces.Piece;
 using Chess.Infrastructure;
-using Chess.Infrastructure.Communication;
 using Chess.Infrastructure.Enums;
 using Chess.Infrastructure.Events;
 using Chess.Infrastructure.Logging;
 using Chess.Infrastructure.Names;
 using FenService.Interfaces;
 using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Chess.Business.ImplementationA.Pieces;
 
 namespace Chess.Business.ImplementationA
 {
@@ -243,6 +239,8 @@ namespace Chess.Business.ImplementationA
                 logMessage = string.Format("{0} attacked:{1}", logMessage, attackedPiece);
             }
             HandleCastlingRights(piece, newPosition);
+            if (piece.Type == PieceType.Pawn)
+                HandlePromotion(piece, newPosition);
 
             Logger.Log(LogLevel.Info, logMessage);
         }
@@ -297,6 +295,15 @@ namespace Chess.Business.ImplementationA
             if (piece.Type == PieceType.Rook && piece.CurrentPosition.ToAlgebraic() == "h8")
             {
                 _gameInfo.Bkca = false;
+            }
+        }
+
+        private void HandlePromotion(IPiece piece, Position newPosition)
+        {
+            if ((piece.Color == PieceColor.White && newPosition.Rank == 8) ||
+                (piece.Color == PieceColor.Black && newPosition.Rank == 1))
+            {
+                _eventAggregator.GetEvent<PromotePieceEvent>().Publish(piece.CurrentPosition);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using Chess.Game.ViewModels;
+using Chess.Game.Views;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Prism.Regions;
@@ -32,6 +33,9 @@ namespace Chess.Game
             Container.RegisterType<IMenuViewModel, MenuViewModel>();
             Container.RegisterType<IMoveHistoryViewModel, MoveHistoryViewModel>();
             Container.RegisterType<IOptionsViewModel, OptionsViewModel>();
+            Container.RegisterType<IPromotionViewModel, PromotionViewModel>();
+            Container.RegisterType<IView<IOptionsViewModel>, OptionsView>();
+            Container.RegisterType<IView<IPromotionViewModel>, PromotionView>();
         }
     }
 }

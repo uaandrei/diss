@@ -1,9 +1,11 @@
 ﻿using Chess.Business.Interfaces;
+using Chess.Game.Views;
 using Chess.Infrastructure;
 using Chess.Infrastructure.Enums;
 using Chess.Infrastructure.Events;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.PubSubEvents;
+using Microsoft.Practices.ServiceLocation;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -50,6 +52,15 @@ namespace Chess.Game.ViewModels
             _eventAggregator.GetEvent<SquareSelectedEvent>().Subscribe(OnSquareSelected);
             _eventAggregator.GetEvent<RefreshTableEvent>().Subscribe(DoRefreshTable);
             _eventAggregator.GetEvent<DrawMoveEvent>().Subscribe(OnDrawMove);
+            _eventAggregator.GetEvent<PromotePieceEvent>().Subscribe(OnPiecePromotion);
+        }
+
+        private void OnPiecePromotion(Position obj)
+        {
+            var promotionView = ServiceLocator.Current.GetInstance<IView<IPromotionViewModel>>();
+            var result = promotionView.ShowView();
+            if (result.HasValue && result.Value)
+                _gameTable.GetPieces().First(p => p.CurrentPosition == obj).Type = promotionView.ViewModel.PieceType;
         }
 
         private void InitializeTableSquares()

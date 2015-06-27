@@ -9,7 +9,7 @@ namespace Chess.Business.Interfaces.Piece
         event PieceMove PieceMoving;
         bool HasMoved { get; set; }
         PieceColor Color { get; }
-        PieceType Type { get; }
+        PieceType Type { get; set; }
         Position CurrentPosition { get; set; }
         int Rank { get; }
         char File { get; }
