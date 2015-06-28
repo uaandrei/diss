@@ -240,7 +240,7 @@ namespace Chess.Business.ImplementationA
                 logMessage = string.Format("{0} attacked:{1}", logMessage, attackedPiece);
             }
             HandleCastlingRights(piece, newPosition);
-            if (piece.Type == PieceType.Pawn)
+            if (piece.Type == PieceType.Pawn && !CurrentPlayer.IsAutomatic)
                 HandlePromotion(piece, newPosition);
 
             Logger.Log(LogLevel.Info, logMessage);
