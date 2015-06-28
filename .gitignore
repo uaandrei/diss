@@ -185,5 +185,5 @@ FakesAssemblies/
 # Code Coverage
 /src/Client/coverage/coverage_results
 /src/Client/coverage/coverage.xml
-/dbconfig/mongo/data
-/dbconfig/mongo/log
+/db/mongo/data
+/db/mongo/log
