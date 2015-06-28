@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace Chess.Persistance
         {
             return new BsonDocument{
                 {"id", gameInfo.Id},
-                {"date", gameInfo.LastSaved.Value.ToString("dd-MM-yyyy HH:mm:ss")},
+                {"date", gameInfo.LastSaved.Value.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture)},
                 {"fen", gameInfo.Fen},
                 {"comment", gameInfo.Comment}
             };

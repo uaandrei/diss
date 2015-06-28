@@ -13,7 +13,6 @@ namespace Chess.Business.ImplementationA.Pieces
 {
     public class ChessPiece : IPiece
     {
-        private IEventAggregator _eventAggregator;
         private Position _curPosition;
         private PieceColor _color;
         private IDictionary<PieceType, IMoveStrategy> _moveStrategies;
@@ -30,7 +29,6 @@ namespace Chess.Business.ImplementationA.Pieces
             _curPosition = p;
             _color = color;
             Type = type;
-            _eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
             SetupMoveStrategies();
         }
 

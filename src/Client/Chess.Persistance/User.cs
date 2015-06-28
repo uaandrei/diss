@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Globalization;
 
 namespace Chess.Persistance
 {
@@ -110,7 +111,7 @@ namespace Chess.Persistance
                     Id = savedGameBson["id"].AsString,
                     Comment = savedGameBson["comment"].AsString,
                     Fen = savedGameBson["fen"].AsString,
-                    LastSaved = DateTime.Parse(savedGameBson["date"].AsString)
+                    LastSaved = DateTime.ParseExact(savedGameBson["date"].AsString, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture)
                 };
                 savedGames.Add(gameInfo);
             }

@@ -113,7 +113,8 @@ namespace Chess.Persistance.Tests
             // assert
             Assert.DoesNotContain(user.SavedGames,
                 p => p.LastSaved.Value.ToShortDateString() == oldSavedDate.Value.ToShortDateString() &&
-                     p.LastSaved.Value.ToShortTimeString() == oldSavedDate.Value.ToShortTimeString()
+                     p.LastSaved.Value.ToShortTimeString() == oldSavedDate.Value.ToShortTimeString() &&
+                     p.Id == gameInfo.Id
             );
             Assert.Equal(gameInfo.Id, updatedGame.Id);
             Assert.Equal(gameInfo.Fen, updatedGame.Fen);
