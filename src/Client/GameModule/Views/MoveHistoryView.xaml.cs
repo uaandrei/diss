@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,14 @@ namespace Chess.Game.Views
         public MoveHistoryView()
         {
             InitializeComponent();
+            (Moves.Items as INotifyCollectionChanged).CollectionChanged += MoveHistoryView_CollectionChanged;
         }
 
+        void MoveHistoryView_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (Moves.Items.Count > 0)
+                Moves.ScrollIntoView(Moves.Items[Moves.Items.Count - 1]);
+        }
 
         [Dependency]
         public IMoveHistoryViewModel ViewModel
