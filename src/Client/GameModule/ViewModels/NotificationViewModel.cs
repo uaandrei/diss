@@ -52,6 +52,10 @@ namespace Chess.Game.ViewModels
         private void OnRefresh(object obj)
         {
             var sb = new StringBuilder();
+            sb.Append("\n");
+            sb.Append(GameModule.LoggedUser != null ? GameModule.LoggedUser.Name : "Guest");
+            sb.Append("\n");
+            sb.Append("\n");
             sb.Append(string.Format("{0} {1}", _gameTable.CurrentPlayer.Color, _gameTable.CurrentPlayer.Name));
             sb.Append("\n");
             sb.Append(_gameTable.GetFen());

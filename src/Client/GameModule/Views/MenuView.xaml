@@ -22,6 +22,8 @@
             </MenuItem>
             <MenuItem Header="Move"
                       Command="{Binding MoveCommand}" />
+            <MenuItem Header="User"
+                      Command="{Binding UserCommand}" />
         </Menu>
     </StackPanel>
 </UserControl>

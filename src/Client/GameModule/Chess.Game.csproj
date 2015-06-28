@@ -70,6 +70,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -92,10 +94,14 @@
     <Compile Include="ViewModels\ChessTableViewModel.cs" />
     <Compile Include="ViewModels\IChessSquareViewModel.cs" />
     <Compile Include="ViewModels\IChessTableViewModel.cs" />
+    <Compile Include="ViewModels\ILoadSavedGameViewModel.cs" />
+    <Compile Include="ViewModels\ILoginViewModel.cs" />
     <Compile Include="ViewModels\IMenuViewModel.cs" />
     <Compile Include="ViewModels\IMoveHistoryViewModel.cs" />
     <Compile Include="ViewModels\IOptionsViewModel.cs" />
     <Compile Include="ViewModels\IPromotionViewModel.cs" />
+    <Compile Include="ViewModels\LoadSavedGameViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\MoveHistoryViewModel.cs" />
     <Compile Include="ViewModels\NotificationViewModel.cs" />
@@ -107,11 +113,20 @@
     </Compile>
     <Compile Include="ViewModels\INotificationViewModel.cs" />
     <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\LoadSavedGameView.xaml.cs">
+      <DependentUpon>LoadSavedGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MoveHistoryView.xaml.cs">
       <DependentUpon>MoveHistoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NameGameToSaveView.xaml.cs">
+      <DependentUpon>NameGameToSaveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NotificationView.xaml.cs">
       <DependentUpon>NotificationView.xaml</DependentUpon>
@@ -135,17 +150,33 @@
       <Project>{994CAF82-2F0A-44BF-AACF-EBC86D8CA9D6}</Project>
       <Name>Chess.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chess.Persistance\Chess.Persistance.csproj">
+      <Project>{096CCB02-39FE-4ECF-989F-E85C07C91321}</Project>
+      <Name>Chess.Persistance</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ChessTableView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\LoadSavedGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MoveHistoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NameGameToSaveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

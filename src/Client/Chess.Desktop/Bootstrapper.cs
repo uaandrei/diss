@@ -21,18 +21,8 @@ namespace Chess.Desktop
         {
             base.InitializeShell();
 
-            var loginWindow = new LoginWindow();
-            loginWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            var dialogResult = loginWindow.ShowDialog();
-            if (dialogResult.HasValue && dialogResult.Value)
-            {
-                App.Current.MainWindow = (Window)this.Shell;
-                App.Current.MainWindow.Show();
-            }
-            else
-            {
-                Application.Current.Shutdown(0);
-            }
+            App.Current.MainWindow = (Window)this.Shell;
+            App.Current.MainWindow.Show();
         }
     }
 }

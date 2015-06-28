@@ -10,21 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Chess.Desktop
+namespace Chess.Game.Views
 {
     /// <summary>
-    /// Interaction logic for LoginWindow.xaml
+    /// Interaction logic for NameGameToSaveView.xaml
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class NameGameToSaveView : Window
     {
-        public LoginWindow()
+        public NameGameToSaveView()
         {
             InitializeComponent();
+            Owner = Application.Current.MainWindow;
         }
 
-        private void Guest_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
         }
