@@ -186,7 +186,8 @@ namespace Chess.Business.ImplementationA
             var fromPos = new Position(_selectedPiece.CurrentPosition);
             _selectedPiece.Move(userInput);
 
-            if (_rules[RuleNames.Chess].IsSatisfied())
+            var isChess = _rules[RuleNames.Chess].IsSatisfied();
+            if (isChess)
             {
                 UndoLastMove(false);
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(1500, "Move illegal! King in check."));
@@ -200,7 +201,7 @@ namespace Chess.Business.ImplementationA
                 _playerSwitchSystem.NextTurn(this);
             }
             _gameInfo.ColorToMove = _playerSwitchSystem.CurrentPlayer.Color;
-            if (_rules[RuleNames.Mate].IsSatisfied())
+            if (isChess && _rules[RuleNames.Mate].IsSatisfied())
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(0, "You lost! King in check-mate."));
         }
 

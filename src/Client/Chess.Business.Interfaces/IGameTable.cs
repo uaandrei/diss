@@ -18,7 +18,7 @@ namespace Chess.Business.Interfaces
         void StartNewGame();
         string GetFen();
         void LoadFromFen(string fen, bool clearStack = true);
-        void UndoLastMove();
+        void UndoLastMove(bool publishEvent = true);
         void ParseInput(Position userInput);
         void ChangePlayers(bool isBlackAI, bool isWhiteAI);
         void SetSelectedPiece(Position piecePosition);
