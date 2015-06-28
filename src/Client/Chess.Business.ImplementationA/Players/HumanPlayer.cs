@@ -11,7 +11,6 @@ namespace Chess.Business.ImplementationA.Players
     public class HumanPlayer : IPlayer
     {
         public bool IsAutomatic { get { return false; } }
-        public string RequestURI { get { return null; } }
         private IEnumerable<IPiece> _pieces;
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
         private int _moveOrder;

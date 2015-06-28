@@ -102,6 +102,19 @@ namespace Chess.Infrastructure.Tests
         }
 
         [Fact]
+        public void ToAlgebraic_Test()
+        {
+            // arrange
+            var position = new Position(3, 'a');
+
+            // act
+            var alg = position.ToAlgebraic();
+
+            // assert
+            Assert.Equal("a3", alg);
+        }
+
+        [Fact]
         public void TestEqualsOperatorNull()
         {
             _sut = new Position();

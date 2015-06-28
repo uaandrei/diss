@@ -6,6 +6,6 @@
         PosibleAttack,
         PosibleMove,
         Selected,
-        LastMove
+        History
     }
 }

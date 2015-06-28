@@ -13,30 +13,70 @@
         <converters:SquareStateToBorderThicknessConverter x:Key="SquareStateToBorderThicknessConverter" />
         <converters:SquareStateToBorderColorConverter x:Key="SquareStateToBorderColorConverter" />
         <converters:PieceRepresentationToPieceImageConverter x:Key="PieceRepresentationToPieceImageConverter" />
+
+        <Style x:Key="rankStyle"
+               TargetType="TextBlock">
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+        </Style>
+        <Style x:Key="fileStyle"
+               TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+        </Style>
     </UserControl.Resources>
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="Open"
-                          Command="{Binding LoadGameCommand}" />
-                <MenuItem Header="Save"
-                          Command="{Binding SaveGameCommand}" />
-                <MenuItem Header="Undo"
-                          Command="{Binding UndoLastMoveCommand}" />
-            </MenuItem>
-        </Menu>
-        <StackPanel Name="infoBar"
-                    DockPanel.Dock="Top">
-            <TextBlock Text="{Binding Message}"
-                       Foreground="Red"
-                       TextAlignment="Center"/>
-            <TextBlock Text="{Binding InfoText}" />
-        </StackPanel>
-        <ListBox  DockPanel.Dock="Left"
-                  IsEnabled="{Binding MoveAllowed}"
-                  ItemsSource="{Binding Squares}"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Top">
+    <Grid Width="500">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Grid.Column="0"
+              Background="LightGray">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       Style="{StaticResource rankStyle}"
+                       Text="8" />
+            <TextBlock Grid.Row="1"
+                       Style="{StaticResource rankStyle}"
+                       Text="7" />
+            <TextBlock Grid.Row="2"
+                       Style="{StaticResource rankStyle}"
+                       Text="6" />
+            <TextBlock Grid.Row="3"
+                       Style="{StaticResource rankStyle}"
+                       Text="4" />
+            <TextBlock Grid.Row="4"
+                       Style="{StaticResource rankStyle}"
+                       Text="5" />
+            <TextBlock Grid.Row="5"
+                       Style="{StaticResource rankStyle}"
+                       Text="3" />
+            <TextBlock Grid.Row="6"
+                       Style="{StaticResource rankStyle}"
+                       Text="2" />
+            <TextBlock Grid.Row="7"
+                       Style="{StaticResource rankStyle}"
+                       Text="1" />
+        </Grid>
+        <ListBox Grid.Row="0"
+                 Grid.Column="1"
+                 ItemsSource="{Binding Squares}"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="8"
@@ -48,7 +88,7 @@
                     <Button Height="60"
                             Width="60"
                             Margin="-5"
-                            Background="{Binding Index, Converter={StaticResource IndexToBrushConverter} }"
+                            Background="{Binding Index, Converter={StaticResource IndexToBrushConverter}}"
                             BorderThickness="{Binding SquareState, Converter={StaticResource SquareStateToBorderThicknessConverter}}"
                             BorderBrush="{Binding SquareState, Converter={StaticResource SquareStateToBorderColorConverter}}"
                             Command="{Binding SquareSelectedCommand}">
@@ -62,5 +102,45 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-    </DockPanel>
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Background="LightGray"
+              Margin="10 0 0 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"
+                       Style="{StaticResource fileStyle}"
+                       Text="a" />
+            <TextBlock Grid.Column="1"
+                       Style="{StaticResource fileStyle}"
+                       Text="b" />
+            <TextBlock Grid.Column="2"
+                       Style="{StaticResource fileStyle}"
+                       Text="c" />
+            <TextBlock Grid.Column="3"
+                       Style="{StaticResource fileStyle}"
+                       Text="d" />
+            <TextBlock Grid.Column="4"
+                       Style="{StaticResource fileStyle}"
+                       Text="e" />
+            <TextBlock Grid.Column="5"
+                       Style="{StaticResource fileStyle}"
+                       Text="f" />
+            <TextBlock Grid.Column="6"
+                       Style="{StaticResource fileStyle}"
+                       Text="g" />
+            <TextBlock Grid.Column="7"
+                       Style="{StaticResource fileStyle}"
+                       Text="h" />
+        </Grid>
+    </Grid>
 </UserControl>

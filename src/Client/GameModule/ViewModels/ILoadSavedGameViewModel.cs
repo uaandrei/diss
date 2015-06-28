@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chess.Business.Interfaces
+namespace Chess.Game.ViewModels
 {
-    public interface IRuleSystem
+    public interface ILoadSavedGameViewModel
     {
+        string Fen { get; }
     }
 }

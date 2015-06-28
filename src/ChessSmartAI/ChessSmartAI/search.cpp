@@ -152,7 +152,7 @@ static int QuiescenceSearch(int alpha, int beta, S_BOARD *pos, S_SEARCHINFO *inf
 	return alpha;
 }
 
-static int AlphaBeta(int alpha, int beta, int depth, S_BOARD *pos, S_SEARCHINFO *info, int doNull) {
+static int NegaMax(int alpha, int beta, int depth, S_BOARD *pos, S_SEARCHINFO *info, int doNull) {
 	ASSERT(CheckBoard(pos));
 
 	if (depth == 0) {
@@ -201,7 +201,7 @@ static int AlphaBeta(int alpha, int beta, int depth, S_BOARD *pos, S_SEARCHINFO 
 		}
 
 		legal++;
-		score = -AlphaBeta(-beta, -alpha, depth - 1, pos, info, TRUE);
+		score = -NegaMax(-beta, -alpha, depth - 1, pos, info, TRUE);
 		TakeMove(pos);
 
 		if (info->stopped == TRUE) {
@@ -262,18 +262,19 @@ void SearchPositions(S_BOARD *pos, S_SEARCHINFO *info) {
 
 	// ... interative deepening, search initialization
 	for (currentDepth = 1; currentDepth <= info->depth; ++currentDepth) {
-		bestScore = AlphaBeta(-INFINITE, INFINITE, currentDepth, pos, info, TRUE);
+		bestScore = NegaMax(-INFINITE, INFINITE, currentDepth, pos, info, TRUE);
 
 		if (info->stopped == TRUE) {
 			break;
 		}
 
+		// number of pv moves
 		pvMoves = GetPvLine(currentDepth, pos);
 
 		// best one is at the top of pv moves array
 		bestMove = pos->PvArray[0];
 
-		pvMoves = GetPvLine(currentDepth, pos);
+		//pvMoves = GetPvLine(currentDepth, pos);
 #ifdef DEBUG
 		printf("Pv");
 		for (pvNum = 0; pvNum < pvMoves; ++pvNum) {

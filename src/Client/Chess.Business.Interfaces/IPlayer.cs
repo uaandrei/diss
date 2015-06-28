@@ -8,7 +8,6 @@ namespace Chess.Business.Interfaces
     public interface IPlayer
     {
         bool IsAutomatic { get; }
-        string RequestURI { get; }
         IEnumerable<IPiece> Pieces { get; }
         PieceColor Color { get; }
         int MoveOrder { get; }

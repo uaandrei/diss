@@ -1,2 +1,3 @@
 1. ar trebui sa adaug code coverage? da
 2. diagrame? da
+Lipsa integrală din text a trimiterilor la surse bibliografice. CUM? se foloseste indicele bibliografic

@@ -2,7 +2,7 @@
 
 namespace Chess.Infrastructure.Events
 {
-    public class PlayerChangedEvent : PubSubEvent<object>
+    public class PromotePieceEvent:PubSubEvent<Position>
     {
     }
 }

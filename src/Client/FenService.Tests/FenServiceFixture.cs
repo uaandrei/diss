@@ -26,20 +26,19 @@ namespace FenService.Tests
             var fenNotation = _sut.GetFen(fenData);
 
             // assert
-            Assert.Equal("rn1qkb2/1pp1pprp/5np1/p2pN1B1/P2P2bP/8/1PPQPPP1/R3KBNR b KQkq - 0 1", fenNotation);
+            Assert.Equal("rn1qkb2/1pp1pprp/5np1/p2pN1B1/P2P2bP/8/1PPQPPP1/R3KBNR b K--q a3 12 45", fenNotation);
         }
 
         [Fact]
         public void GetData_Should_ReturnCorrectFenData_BasedOnFenNotation()
         {
             // arrange
-            var fenNotation = "rnbqkbnr/ppp1pppp/8/3p4/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 0 1";
+            var fenNotation = "rnbqkbnr/ppp1pppp/8/3p4/8/5N2/PPPPPPPP/RNBQKB1R w -Qk- f6 11 30";
 
             // act
             var fenData = _sut.GetData(fenNotation);
 
             // assert
-            Assert.Equal(PieceColor.White, fenData.ColorToMove);
             for (char file = 'a'; file <= 'h'; file++)
             {
                 fenData.AssertSinglePiece(2, file, PieceType.Pawn, PieceColor.White);
@@ -64,6 +63,14 @@ namespace FenService.Tests
             fenData.AssertSinglePiece(8, 'f', PieceType.Bishop, PieceColor.Black);
             fenData.AssertSinglePiece(8, 'g', PieceType.Knight, PieceColor.Black);
             fenData.AssertSinglePiece(8, 'h', PieceType.Rook, PieceColor.Black);
+            Assert.Equal(PieceColor.White, fenData.GameInfo.ColorToMove);
+            Assert.False(fenData.GameInfo.Wkca);
+            Assert.True(fenData.GameInfo.Wqca);
+            Assert.True(fenData.GameInfo.Bkca);
+            Assert.False(fenData.GameInfo.Bqca);
+            Assert.Equal(new Position(6, 'f'), fenData.GameInfo.EnPassant);
+            Assert.Equal(11, fenData.GameInfo.HalfMoves);
+            Assert.Equal(30, fenData.GameInfo.FullMoves);
         }
 
         private FenData GetTestFenData()
@@ -105,7 +112,14 @@ namespace FenService.Tests
             pieces.Add(Helper.GetPieceInfo(PieceType.Pawn, PieceColor.Black, 7, 'h'));
 
             fenData.PieceInfos = pieces.ToArray();
-            fenData.ColorToMove = PieceColor.Black;
+            fenData.GameInfo.ColorToMove = PieceColor.Black;
+            fenData.GameInfo.Wkca = true;
+            fenData.GameInfo.Wqca = false;
+            fenData.GameInfo.Bkca = false;
+            fenData.GameInfo.Bqca = true;
+            fenData.GameInfo.EnPassant = new Position(3, 'a');
+            fenData.GameInfo.HalfMoves = 12;
+            fenData.GameInfo.FullMoves = 45;
             return fenData;
         }
     }

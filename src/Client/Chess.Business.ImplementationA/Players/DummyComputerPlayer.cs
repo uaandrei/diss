@@ -19,7 +19,6 @@ namespace Chess.Business.ImplementationA.Players
         private int _moveOrder;
         private IEventAggregator _eventAggregator;
         public bool IsAutomatic { get { return true; } }
-        public string RequestURI { get { return "Dummy API"; } }
         public IEnumerable<IPiece> Pieces { get { return _pieces; } }
         public int MoveOrder { get { return _moveOrder; } }
         public string Name { get { return string.Format("Dummy AI {0}", _moveOrder); } }

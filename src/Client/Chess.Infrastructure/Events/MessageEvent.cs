@@ -15,11 +15,13 @@ namespace Chess.Infrastructure.Events
     {
         public int MsgTimeMs;
         public string Message;
+        public bool IsPerm;
 
-        public MessageInfo(int ms, string msg)
+        public MessageInfo(int ms, string msg, bool isPerm = false)
         {
             MsgTimeMs = ms;
             Message = msg;
+            IsPerm = isPerm;
         }
     }
 }
