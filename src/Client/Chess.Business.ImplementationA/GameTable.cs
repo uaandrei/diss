@@ -106,14 +106,15 @@ namespace Chess.Business.ImplementationA
             _eventAggregator.GetEvent<Chess.Infrastructure.Events.RefreshTableEvent>().Publish(_gameInfo);
         }
 
-        public void UndoLastMove()
+        public void UndoLastMove(bool publishEvent = true)
         {
             if (_fenStack.Count == 0)
                 return;
 
             var lastFen = _fenStack.Pop();
             LoadFromFen(lastFen, false);
-            _eventAggregator.GetEvent<Chess.Infrastructure.Events.MoveUndoEvent>().Publish(null);
+            if (publishEvent)
+                _eventAggregator.GetEvent<Chess.Infrastructure.Events.MoveUndoEvent>().Publish(null);
         }
 
         public void SetSelectedPiece(Position piecePosition)
@@ -187,7 +188,7 @@ namespace Chess.Business.ImplementationA
 
             if (_rules[RuleNames.Chess].IsSatisfied())
             {
-                UndoLastMove();
+                UndoLastMove(false);
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(1500, "Move illegal! King in check."));
             }
             else
