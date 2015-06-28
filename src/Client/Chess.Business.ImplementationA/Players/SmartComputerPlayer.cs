@@ -55,7 +55,7 @@ namespace Chess.Business.ImplementationA.Players
             var promotedTo = result.PromotedTo;
             _gameTable.SetSelectedPiece(fromPosition);
             _gameTable.ParseInput(toPosition);
-            if (promotedTo != ' ')
+            if (promotedTo != ' ' && result.Score != -29000)
                 _gameTable.GetPieces().First(p => p.CurrentPosition == toPosition).Type = Helper.GetType(promotedTo);
             _eventAggregator.GetEvent<RefreshTableEvent>().Publish(gameTable);
         }
