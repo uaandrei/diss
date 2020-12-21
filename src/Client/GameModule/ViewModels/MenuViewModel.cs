@@ -37,7 +37,7 @@ namespace Chess.Game.ViewModels
             NewGameCommand = new DelegateCommand(NewGame);
             MoveCommand = new DelegateCommand(MoveExecute);
             UserCommand = new DelegateCommand(UserExecute);
-            UserExecute();
+            // UserExecute();
         }
 
         private void UserExecute()

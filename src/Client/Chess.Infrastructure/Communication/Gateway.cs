@@ -1,6 +1,7 @@
 ﻿using Chess.Infrastructure.Events;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.ServiceLocation;
+using Newtonsoft.Json;
 using SmartChessService.DataContracts;
 using System;
 using System.Net;
@@ -36,8 +37,9 @@ namespace Chess.Infrastructure.Communication
                 {
                     var client = new HttpClient();
                     var request = string.Format(requestFormat, requestUri, WebUtility.UrlEncode(fen), depth);
-                    var result = client.GetAsync(request).Result.Content.ReadAsAsync<ChessEngineResult>().Result;
-                    return result;
+                    var result = client.GetAsync(request).Result.Content.ReadAsStringAsync().Result;
+                    var engineResult = JsonConvert.DeserializeObject<ChessEngineResult>(result);
+                    return engineResult;
                 }
                 catch (Exception)
                 {

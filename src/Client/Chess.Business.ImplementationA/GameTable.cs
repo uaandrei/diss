@@ -201,6 +201,8 @@ namespace Chess.Business.ImplementationA
             _gameInfo.ColorToMove = _playerSwitchSystem.CurrentPlayer.Color;
             if (_rules[RuleNames.Mate].IsSatisfied())
                 _eventAggregator.GetEvent<Chess.Infrastructure.Events.MessageEvent>().Publish(new MessageInfo(0, "You lost! King in check-mate."));
+            if(CurrentPlayer.IsAutomatic)
+                CurrentPlayer.Act(this);
         }
 
         private void ClearAllMoves()
